@@ -6,7 +6,7 @@ Research preprint dated November 23, 2026. Repository maintained by [JMDJYS](htt
 
 ## 中文介绍
 
-本仓库公开研究预印本的 LaTeX 源码。研究对象为几何随机变量驱动的 3-adic Syracuse 随机模型：
+本仓库公开研究预印本的 LaTeX 源码和配套 Lean 4 形式化项目。研究对象为几何随机变量驱动的 3-adic Syracuse 随机模型：
 
 $$
 \mathbb P(a_i=a)=2^{-a}\quad(a\ge1),\qquad
@@ -42,11 +42,14 @@ The manuscript states a primitive-energy convergence theorem for the stationary 
 
 ## Lean 4 verification
 
-The author reports successful checking under **Lean 4.24.0 and Mathlib v4.24.0**, with zero `sorry` in the reported formalization.
+The author checked the companion project with **Lean 4.24.0 and Mathlib v4.24.0**. The supplied log records 34 axiom checks, each listing only `propext`, `Classical.choice`, and `Quot.sound`.
 
-The manuscript names `SyracuseEnergy.lean` and `PaperAudit.lean`. The author supplied a Lean project archive separately. Its source and build have yet to be verified for this repository.
+- [Lean project and reproduction commands](lean/README.md)
+- [Abstract measure-theoretic closure](lean/SyracuseEnergy.lean)
+- [Algebraic and spectral checks](lean/PaperAudit.lean)
+- [Author's verification log](lean/lean-check.log)
 
-The stated formalization covers an **abstract measure-theoretic closure theorem** and selected algebraic, congruence, valuation, and spectral calculations. The manuscript connects the concrete Syracuse model to the abstract hypotheses in its written proof. See [FORMAL_VERIFICATION.md](FORMAL_VERIFICATION.md) for the exact distinction.
+The paper provides the proof that connects the concrete Syracuse model to the abstract Lean hypotheses. For the correspondence between the paper and code, see [the formal verification scope](FORMAL_VERIFICATION.md).
 
 ## Build the paper
 

@@ -1,0 +1,32 @@
+name: Verify Lean proofs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lean/**'
+      - '.github/workflows/verify-lean.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: lean
+          auto-config: false
+          build: true
+          use-mathlib-cache: true
+      - name: Reproduce the recorded axiom checks
+        working-directory: lean
+        run: |
+          output="$(mktemp)"
+          lake env lean -DwarningAsError=true SyracuseEnergy.lean > "$output"
+          lake env lean -DwarningAsError=true PaperAudit.lean >> "$output"
+          diff -u lean-check.log "$output"
