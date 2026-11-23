@@ -46,7 +46,7 @@ $$\mathcal{I} := 2\sum_{r=1}^\infty 4^{-r} \int_{\mathbb{Z}_3} \rho(x)\,\rho\!\l
 
 1. **原初 Mackey 张量分解与一致 $L^2$ 谱隙（Theorem 1.4）**：在双线性频率坐标 $(x_1, x_2) = (\alpha' u, u)$ 下，原初壳层块算子精确分解为 $B_d^{(0)} \cong p^{-1/2}\overline{A_d} \otimes A_d$ 。对 $p=3$ Syracuse 半群，一维 Gram 算子 $H_d = A_d A_d^*$ 坍缩为绝对可和的酉单项式级数，满足 $\frac{5}{7}I \le H_d \le \frac{9}{7}I$ ，从而导出关于尺度 $d \ge 1$ 一致的谱隙 $\sup_{d \ge 1} \Vert B_d^{(0)} \Vert_{2\to 2}^2 \le \frac{27}{49} < 1$ 及高阶迹矩界 $\mathfrak{R}_{2q, d} \le (27/49)^q$ 。
 2. **淬火斜率条件截距收缩（Theorem 1.5）**：固定斜率比序列 $q_t = \lambda_2 / \lambda_1$ 后，利用模 $p$ 相容类正交分解将任意斜率实现下的算子乘积归约为 $(p-1)\times(p-1)$ 加权 Markov 矩阵 $M_{\mathrm{cond}}$ 。在 $p=3$ 下求得 Perron 谱半径 $\vartheta = \rho(M_{\mathrm{cond}}) = \frac{425 + 4\sqrt{5266}}{945} \approx 0.756898 < 1$ ，给出一致指数收缩。
-3. **顺从群 Følner 波包障碍与桥接障碍命题（Theorem 1.6 & Section 7）**：证明按单一相容类切片的算子范数满足 $\lim_{d\to\infty} \Vert \widetilde{\mathcal{K}}_{\alpha, q, \kappa}^{(3^d)} \Vert_{2\to 2} = 1$ ，并定量刻画了未切片路径 Cauchy–Schwarz 的 $9^L$ 发散损失、同胞陪集（sibling-coset）交叉项不可丢弃的初等指数矩下界，以及不动点陷阱族 $\mathcal{F}_{0,2}$ 产生的 $2\times 2$ Jordan 块共振级联。
+3. **顺从群 Følner 波包障碍与桥接障碍命题（Theorem 1.6 & Section 7）**：证明按单一相容类切片的算子范数满足 $`\lim_{d\to\infty} \Vert \widetilde{\mathcal{K}}_{\alpha, q, \kappa}^{(3^d)} \Vert_{2\to 2} = 1`$ ，并定量刻画了未切片路径 Cauchy–Schwarz 的 $9^L$ 发散损失、同胞陪集（sibling-coset）交叉项不可丢弃的初等指数矩下界，以及不动点陷阱族 $\mathcal{F}_{0,2}$ 产生的 $2\times 2$ Jordan 块共振级联。
 
 ### 3. Lean 4 形式化验证范围与研究边界声明
 
@@ -87,7 +87,7 @@ For 2D affine random walks on $\mathcal{G}_{p^d} = (\mathbb{Z}/p^d\mathbb{Z})^\t
 
 1. **Primitive Mackey tensor factorization and uniform $L^2$ spectral gap (Theorem 1.4)**: In the coordinate bijection $(x_1, x_2) = (\alpha' u, u)$, the primitive shell block factorizes as $B_d^{(0)} \cong p^{-1/2}\overline{A_d} \otimes A_d$. For the $p=3$ Syracuse semigroup, $H_d = A_d A_d^*$ collapses into an explicit 1D unitary monomial series satisfying $\frac{5}{7}I \le H_d \le \frac{9}{7}I$, $\sup_{d \ge 1} \Vert B_d^{(0)} \Vert_{2\to 2}^2 \le \frac{27}{49} < 1$, and $\mathfrak{R}_{2q, d} \le (27/49)^q$.
 2. **Quenched-slope conditional intercept contraction (Theorem 1.5)**: Conditioning on the slope-ratio sequence $q_t = \lambda_2/\lambda_1$, modulo $p$ compatibility orthogonality reduces operator products to a $(p-1)\times(p-1)$ weighted Markov matrix $M_{\mathrm{cond}}$. For $p=3$, $\vartheta = \rho(M_{\mathrm{cond}}) = \frac{425 + 4\sqrt{5266}}{945} \approx 0.756898 < 1$.
-3. **Amenable Følner barrier and structural bridge obstructions (Theorem 1.6 & Section 7)**: Slicing by a single compatibility class $\kappa \in \mathbb{Z}/3\mathbb{Z}$ forces $\lim_{d\to\infty} \Vert \widetilde{\mathcal{K}}_{\alpha, q, \kappa}^{(3^d)} \Vert_{2\to 2} = 1$, while Propositions 7.1–7.3 quantify the $9^L$ unsliced Cauchy–Schwarz loss, the necessity of sibling-coset cancellation, and the $\mathcal{F}_{0,2}$ Jordan-block trap cascade.
+3. **Amenable Følner barrier and structural bridge obstructions (Theorem 1.6 & Section 7)**: Slicing by a single compatibility class $\kappa \in \mathbb{Z}/3\mathbb{Z}$ forces $`\lim_{d\to\infty} \Vert \widetilde{\mathcal{K}}_{\alpha, q, \kappa}^{(3^d)} \Vert_{2\to 2} = 1`$, while Propositions 7.1–7.3 quantify the $9^L$ unsliced Cauchy–Schwarz loss, the necessity of sibling-coset cancellation, and the $\mathcal{F}_{0,2}$ Jordan-block trap cascade.
 
 ### 3. Scope of the Lean 4 Formal Verification & Repository Layout
 
