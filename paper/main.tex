@@ -1,0 +1,1129 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{localdensitylemma}{Local Density Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Open Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\prim}{\mathrm{prim}}
+\newcommand{\Unif}{\mathrm{Unif}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\HS}{\mathrm{HS}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\e}{\mathrm{e}}
+
+\title{\textbf{Convergence of Primitive Fourier Energy for the $3$-adic Syracuse Random Model and Contraction of Affine Transfer Operators}}
+\author{}
+\date{November 23, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let $a_1, a_2, \dots$ be independent and identically distributed geometric random variables with $\P(a_i = a) = 2^{-a}$ for $a \ge 1$, and define the Syracuse random offset modulo $3^m$ by $Z_0 = 0$ and $Z_m \equiv 2^{-a_m}(1 + 3 Z_{m-1}) \pmod{3^m}$. Writing $\phi_m(\xi) = \E[\exp(2\pi i \xi Z_m / 3^m)]$ for its characteristic function on $\Z/3^m\Z$, we study the total non-zero Fourier energy $E_m = \sum_{\xi \not\equiv 0 \bmod 3^m} |\phi_m(\xi)|^2$ and the primitive Fourier energy $E_m^{\prim} = \sum_{3 \nmid \xi} |\phi_m(\xi)|^2 = E_m - E_{m-1}$. We prove that $E_m^{\prim}$ is uniformly bounded across all $3$-adic scales and converges to a finite, strictly positive asymptotic collision constant $\cI \in (0, \infty)$, which in turn governs the linear asymptotic growth of the total Fourier energy:
+\[
+ \boxed{E_m^{\prim} = O(1), \qquad \lim_{m \to \infty} E_m^{\prim} = \cI \in (0, \infty), \qquad E_m = \cI m + o(m).}
+\]
+Here $\cI = 2 \sum_{r=1}^\infty 4^{-r} \int_{\Z_3} \rho(x)\rho(4^r x + \frac{4^r - 1}{3})\,dm_3(x)$ is the distinct-branch collision integral of the stationary $3$-adic Syracuse Haar density $\rho$. The proof combines the linear total-energy upper bound of Weaver with an exact parity-filtered collision identity, a uniform residue-class overlap inequality on ternary cylinders, and a conditional-expectation dominated Vitali convergence argument.
+
+To place this $1$D primitive-shell convergence within the broader setting of $2$D affine random walks on $\cG_{p^d} = (\Z/p^d\Z)^\times \ltimes (\Z/p^d\Z)$, we further establish three structural theorems on the primitive Mackey frequency shell $v_p(u) = 0$:
+\begin{enumerate}[label=(\arabic*),topsep=3pt,itemsep=2pt]
+\item \textbf{Primitive Mackey tensor factorization and uniform $L^2$ spectral gap}: In the bilinear frequency coordinates $(x_1, x_2) = (\alpha' u,\, u)$, the primitive shell block $B_d^{(0)}$ factorizes as $p^{-1/2}\overline{A_d}\otimes A_d$, where $H_d := A_d A_d^*$ collapses into a norm-summable $1$D unitary monomial series. For the $p=3$ Syracuse semigroup, $\frac{5}{7} I \le H_d \le \frac{9}{7} I$, yielding $\sup_{d \ge 1}\|B_d^{(0)}\|_{2\to 2}^2 \le \frac{27}{49} < 1$ and the trace-moment bound $\mathfrak{R}_{2q, d} \le (27/49)^q$ for all $d, q \ge 1$.
+\item \textbf{Quenched-slope conditional intercept contraction}: Conditioning on a fixed $p$-adic slope ratio sequence $q_t = \lambda_2/\lambda_1$, the conditional transfer operators $\cK_{\alpha, q}^{(p^d)}$ reduce via modulo-$p$ compatibility orthogonality to a $(p-1)\times(p-1)$ weighted Markov matrix $M_{\mathrm{cond}}$. For $p=3$, $M_{\mathrm{cond}} = \begin{pmatrix} 5/9 & 68/225 \\ 52/189 & 65/189 \end{pmatrix}$ yields $\E_{\boldsymbol{q}}[\|\cK_{\alpha_{L-1}, q_{L-1}}^{(3^d)}\cdots \cK_{\alpha_0, q_0}^{(3^{d+L-1})}\|_{2\to 2}^2] \le C_{\mathrm{cond}} \vartheta^L$ uniformly in $d \ge 1$ with $\vartheta = \frac{425 + 4\sqrt{5266}}{945} \approx 0.756898 < 1$.
+\item \textbf{Amenable F{\o}lner wave-packet barrier and bridge obstructions}: Slicing $\cK_{\alpha, q}^{(3^d)}$ by a single compatibility class $\kappa \in \Z/3\Z$ forces $\lim_{d\to\infty}\|\widetilde{\cK}_{\alpha, q, \kappa}^{(3^d)}\|_{2\to 2} = 1$, while complementary obstruction propositions quantify why unsliced pathwise Cauchy--Schwarz, discarding sibling-coset cross-terms, and fixed-point traps $\cF_{0,2}$ prevent a naive reduction of full annealed affine mixing to quenched contraction.
+\end{enumerate}
+The accompanying Lean~4 formalization (v4.24.0, Mathlib v4.24.0) verifies (i)~the abstract measure-theoretic closure (the Fatou--Vitali--conditional expectation pipeline) yielding $E_m^{\prim} \to \cI$ and $E_m/m \to \cI$, and (ii)~all key algebraic identities, parity-filtered congruence reductions, $3$-adic valuations, and spectral radius bounds. Connecting the concrete $3$-adic Syracuse Fourier energy to the abstract hypotheses is presented in Section~\ref{sec:primitive-energy}. Full annealed affine equidistribution and the deterministic Collatz conjecture remain open.
+
+\medskip
+\noindent\textbf{2020 Mathematics Subject Classification:} Primary 11B83, 60J05; Secondary 43A25, 11K70, 60B15.
+
+\noindent\textbf{Keywords:} Collatz conjecture, Syracuse random model, $3$-adic Fourier analysis, primitive Fourier energy, affine transfer operators, spectral gap, Lean~4 formalization.
+\end{abstract}
+
+\section{Introduction and Main Results}\label{sec:intro}
+
+\subsection{The Syracuse Random Model and Primitive Fourier Energy}\label{subsec:syracuse_model_intro}
+
+A central paradigm in the modern analytic study of the Collatz conjecture, pioneered by Terras~\cite{Terras1976} and developed at fine $3$-adic scales by Tao~\cite{Tao2019}, is to model multi-step iterations of the Syracuse map on odd integers via $3$-adic random affine transformations. Let $a_1, a_2, \dots$ be a sequence of independent and identically distributed geometric random variables taking values in $\Z_{\ge 1}$ with distribution
+\begin{equation}\label{eq:geom_law}
+\P(a_i = a) = 2^{-a}, \qquad a \ge 1.
+\end{equation}
+For each $3$-adic precision depth $m \ge 0$, define the random additive offset $Z_m \in \Z/3^m\Z$ recursively by
+\begin{equation}\label{eq:Zm_recursion}
+Z_0 = 0, \qquad Z_m \equiv 2^{-a_m}(1 + 3 Z_{m-1}) \pmod{3^m} \qquad (m \ge 1),
+\end{equation}
+where $2^{-a_m}$ denotes the multiplicative inverse of $2^{a_m}$ in the unit group $U_{3^m} := (\Z/3^m\Z)^\times$. Unrolling~\eqref{eq:Zm_recursion} gives $Z_m \equiv \sum_{j=1}^m 3^{j-1} 2^{-(a_m + a_{m-1} + \cdots + a_{m-j+1})} \pmod{3^m}$. By exchangeability of the i.i.d.\ tuple $(a_1, \dots, a_m) \stackrel{d}{=} (a_m, \dots, a_1)$, the random variable $Z_m$ has the exact same distribution on $\Z/3^m\Z$ as the modulo-$3^m$ reduction $Z \bmod 3^m$ of the stationary $3$-adic Syracuse random variable
+\begin{equation}\label{eq:Z_stationary_series}
+Z := \sum_{j=1}^\infty 3^{j-1} 2^{-(a_1 + \cdots + a_j)} \in \Z_3,
+\end{equation}
+which satisfies the distributional fixed-point equation $Z \stackrel{d}{=} F_{a_1}(Z)$ under the contractive $3$-adic affine branches $F_a(x) := (1 + 3x)/2^a$.
+
+To quantify the fine-scale uniformity and collision structure of $Z_m$ as the $3$-adic precision $m$ increases, define the discrete Fourier transform (characteristic function) of $Z_m$ at frequency $\xi \in \Z/3^m\Z$ by
+\begin{equation}\label{eq:phi_m_def}
+\phi_m(\xi) := \E\!\left[\e^{2\pi i \xi Z_m / 3^m}\right].
+\end{equation}
+The \emph{total Fourier energy} $E_m$ (with $E_0 := 0$) and the \emph{primitive Fourier energy} $E_m^{\prim}$ at depth $m \ge 1$ are defined respectively by
+\begin{equation}\label{eq:Em_def}
+E_m := \sum_{\substack{\xi \bmod 3^m \\ \xi \neq 0}} \bigl|\phi_m(\xi)\bigr|^2, \qquad
+E_m^{\prim} := \sum_{\substack{\xi \bmod 3^m \\ 3 \nmid \xi}} \bigl|\phi_m(\xi)\bigr|^2.
+\end{equation}
+Because the reduction $Z_m \bmod 3^{m-1}$ has the same distribution as $Z_{m-1}$, every non-primitive frequency $\xi = 3\xi'$ ($\xi' \in \Z/3^{m-1}\Z$) satisfies $\phi_m(3\xi') = \E[\e^{2\pi i \xi' Z_m / 3^{m-1}}] = \phi_{m-1}(\xi')$. Splitting the sum in $E_m$ into frequencies divisible by $3$ and primitive frequencies $3 \nmid \xi$ immediately yields the exact marginal consistency relation
+\begin{equation}\label{eq:Em_recursion}
+E_m = E_{m-1} + E_m^{\prim} \qquad (m \ge 1), \qquad\text{so that}\qquad E_m = \sum_{k=1}^m E_k^{\prim}.
+\end{equation}
+
+Our primary goal in this paper is to determine the asymptotic behavior of $E_m^{\prim}$ and $E_m$ as $m \to \infty$: specifically, whether the primitive Fourier energy $E_m^{\prim}$ remains uniformly bounded across all $3$-adic depths ($E_m^{\prim} = O(1)$), whether it converges to a finite positive limit $E_m^{\prim} \to \cI$, and whether the total Fourier collision energy exhibits the linear asymptotic $E_m = \cI m + o(m)$. Here we emphasize that $E_m$, $E_m^{\prim}$, and $\cI$ denote the specific Fourier energy functionals and asymptotic collision constant of the Syracuse random model defined in~\eqref{eq:Em_def} and Theorem~\ref{thm:primitive-energy} below, rather than standard notation from any pre-existing Erd\H{o}s conjecture; moreover, establishing this asymptotic law for the random offset model does not by itself resolve the deterministic Collatz conjecture.
+
+By Tao's fine-scale mixing theorem~\cite[Proposition~1.14]{Tao2019}, the law of $Z$ on $\Z_3$ is absolutely continuous with respect to the Haar probability measure $m_3$ on $\Z_3$, with density $\rho \in L^1(\Z_3, m_3)$. Let $\cF_m$ denote the finite $\sigma$-algebra generated by the cylinder residue classes $c + 3^m\Z_3$, and write $\rho_m := \E_{m_3}[\rho \mid \cF_m]$ for the conditional density at depth $m$. By Parseval's theorem on $\Z/3^m\Z$,
+\begin{equation}\label{eq:parseval_Em}
+E_m = \|\rho_m\|_{L^2(m_3)}^2 - 1 = 3^m \P(Z_m = Z_m') - 1, \qquad E_m^{\prim} = \|\rho_m\|_{L^2(m_3)}^2 - \|\rho_{m-1}\|_{L^2(m_3)}^2,
+\end{equation}
+where $Z_m'$ is an independent copy of $Z_m$. Our first main theorem resolves the uniform boundedness and convergence of $E_m^{\prim}$.
+
+\begin{theorem}[Uniform boundedness and convergence of primitive Syracuse Fourier energy]\label{thm:primitive-energy}
+Let $\rho \in L^1(\Z_3, m_3)$ be the stationary Haar density of the $3$-adic Syracuse random variable $Z$ in~\eqref{eq:Z_stationary_series}, and assume the linear total-energy estimate $E_m = O(m)$ of Weaver~\cite[\S 7]{Weaver2026}. For each integer $r \ge 1$, define the measure-preserving affine shift $\Theta_r : \Z_3 \to \Z_3$ and its limit collision integral by
+\begin{equation}\label{eq:Theta_r_def}
+\Theta_r(x) := 4^r x + \frac{4^r - 1}{3}, \qquad K_\infty(r) := \int_{\Z_3} \rho(x)\,\rho\bigl(\Theta_r(x)\bigr)\,dm_3(x).
+\end{equation}
+Then $K_\infty(r)$ is finite for every $r \ge 1$, and there exists a structural overlap constant $\eta > 0$ (given by Lemma~\ref{lem:residue-overlap}) such that
+\begin{equation}\label{eq:I_bounds}
+0 < \frac{2}{3}\eta \le \cI := 2\sum_{r=1}^\infty 4^{-r} K_\infty(r) < \infty, \qquad \sup_{m \ge 1} E_m^{\prim} \le \eta^{-1}\cI.
+\end{equation}
+Furthermore, $E_m^{\prim}$ converges to $\cI$ as $m \to \infty$, and Ces\`aro averaging via~\eqref{eq:Em_recursion} yields the exact linear asymptotic for the total Fourier energy:
+\begin{equation}\label{eq:primitive-energy-limit}
+ \boxed{E_m^{\prim} = O(1), \qquad \lim_{m \to \infty} E_m^{\prim} = \cI, \qquad \lim_{m \to \infty} \frac{E_m}{m} = \cI.}
+\end{equation}
+In addition, the finite-depth collision products converge to $\rho(\rho\circ\Theta_r)$ in $L^1(\Z_3, m_3)$ with summable weighted error:
+\begin{equation}\label{eq:weighted-collision-convergence}
+ \lim_{m \to \infty} \sum_{r=1}^\infty 2\,4^{-r} \bigl\|\rho_m(\rho_m \circ \Theta_r) - \rho(\rho \circ \Theta_r)\bigr\|_{L^1(m_3)} = 0.
+\end{equation}
+\end{theorem}
+
+\begin{corollary}[Identification with the density tail constant]\label{cor:energy-tail-constant}
+If $\kappa = \lim_{t \to \infty} t^2 m_3\{\rho > t\}$ denotes the tail constant of the stationary Syracuse density in~\cite[\S 8, (25)]{Weaver2026}, then the distinct-branch interaction integral $\cI$ in~\eqref{eq:I_bounds} satisfies $\cI = 2(\log 3 - \frac{4}{3}\log 2)\kappa$, and consequently
+\[
+ E_m = \bigl[2\bigl(\log 3 - \tfrac{4}{3}\log 2\bigr)\kappa\bigr]\,m + o(m).
+\]
+\end{corollary}
+
+\subsection{Affine Transfer Operators on Primitive Mackey Shells}\label{subsec:main_theorems}
+
+Theorem~\ref{thm:primitive-energy} controls the $1$D primitive Fourier shells $3 \nmid \xi$ of the stationary offset law $Z_m$. A natural companion question---arising from Remark~1.16 of Tao~\cite{Tao2019}---is how multi-step $p$-adic affine random walks flatten joint slope--intercept densities on the finite affine group
+\[
+\cG_M := U_M \ltimes (\Z/M\Z), \qquad U_M := (\Z/M\Z)^\times, \qquad M = p^d \quad (p \ge 3\text{ prime},\; d \ge 1),
+\]
+acting on $\Z/M\Z$ via $\tau(\ell) = \alpha \ell + \gamma \pmod M$, with $|\cG_M| = \varphi(M)M = (p-1)p^{2d-1}$.
+
+Two structural features distinguish $\cG_{p^d}$ from standard abelian random walks:
+\begin{itemize}[leftmargin=2em,topsep=3pt,itemsep=2pt]
+\item \textbf{Exact compatibility filtering}: Every $1$D affine branch $\psi_b(\ell) = (\lambda_b \ell + \beta_b)/p$ has a unique congruence domain mod $p$, so a branch pair $(b_1, b_2)$ conjugates $\tau \in \cG_{pM}$ to $\tau' = \psi_{b_2}\circ\tau\circ\psi_{b_1}^{-1} \in \cG_M$ only on a single residue fiber $\gamma \equiv \kappa_\omega(\alpha) \pmod p$.
+\item \textbf{Slope--intercept non-commutativity and $3$-adic trap families}: Because the multiplicative slope walk on $U_{p^d}$ mixes diffusively in $\Theta(p^{2d})$ steps and non-identity fixed-point lines (such as $\cF_{0,2}$ at $\ell_* = -1/2$ with self-loop weight $3/4$) trap mass along resonant directions, naive uncentered $\ell^2(\cG_{p^d})$ norms cannot contract uniformly in $d$ at linear step scales.
+\end{itemize}
+
+To analyze the primitive frequency shell $u \in U_M$, let $e_N(t) := \exp(2\pi i t / N)$. Because $|\cG_M| = \varphi(M)M > \varphi(M)^2 = |U_M \times U_M|$, the primitive Mackey Fourier transform $\cF_M^{(0)} : \ell^2(\cG_M) \to \ell^2(U_M \times U_M)$ defined by
+\[
+(\cF_M^{(0)} f)(\alpha, u) := M^{-1/2}\sum_{\gamma \in \Z/M\Z} f(\alpha, \gamma)\, e_M(-u\gamma) \qquad \bigl((\alpha, u) \in U_M \times U_M\bigr)
+\]
+is a \emph{partial isometry (co-isometry)} satisfying $\cF_M^{(0)}(\cF_M^{(0)})^* = I_{\ell^2(U_M\times U_M)}$, while $\Pi_M^{(0)} := (\cF_M^{(0)})^*\cF_M^{(0)}$ is the orthogonal projection in $\ell^2(\cG_M)$ onto the primitive shell subspace
+\[
+\cH_M^{(0)} := \operatorname{ran}\!\bigl((\cF_M^{(0)})^*\bigr) = \Bigl\{f \in \ell^2(\cG_M) : \sum_{c \in \Z/p\Z} f(\alpha, \gamma + c M/p) = 0 \;\;\forall (\alpha, \gamma) \in \cG_M\Bigr\}.
+\]
+Analogously, on $\ell^2(\Z/M\Z)$, let $\cF_M^{\mathrm{add}} : \ell^2(\Z/M\Z) \to \ell^2(\Z/M\Z)$ denote the unitary $1$D additive Fourier transform $(\cF_M^{\mathrm{add}} g)(u) := M^{-1/2}\sum_{\gamma \in \Z/M\Z} g(\gamma) e_M(-u\gamma)$, and let
+\[
+\cF_M^{\prim} : \ell^2(\Z/M\Z) \longrightarrow \ell^2(U_M), \qquad (\cF_M^{\prim} g)(u) := (\cF_M^{\mathrm{add}} g)(u) \quad (u \in U_M)
+\]
+denote its restriction to $U_M$, which is a $1$D partial isometry with $\cF_M^{\prim}(\cF_M^{\prim})^* = I_{\ell^2(U_M)}$, initial space $V_M^{\prim} := \operatorname{ran}((\cF_M^{\prim})^*)$, and orthogonal projection $\Pi_M^{\prim} := (\cF_M^{\prim})^*\cF_M^{\prim}$.
+
+\begin{definition}[Compatibility-filtered $p$-adic affine semigroup]\label{def:padic_semigroup}
+Let $p \ge 3$ be prime. A \emph{compatibility-filtered $p$-adic affine semigroup} $(p, I, \{\lambda_b, \beta_b, w_1(b)\}_{b \in I})$ consists of a countable branch set $I$ and branch data $\lambda_b \in \Z_p^\times$, $\beta_b \in \Z_p$, $w_1(b) > 0$ satisfying
+\[
+\sum_{b \in I} w_1(b) = p, \qquad \sum_{b \in I} w_1(b)^2 < \infty.
+\]
+For each $b \in I$, let $k_b \in \Z/p\Z$ be the unique residue satisfying $\lambda_b k_b + \beta_b \equiv 0 \pmod p$, and set $W_1[k] := \sum_{b \in I:\, k_b = k} w_1(b)$ ($\sum_{k \in \Z/p\Z} W_1[k] = p$). For branch pairs $\omega = (b_1, b_2) \in I^2$, define:
+\[
+w(\omega) := \frac{1}{p}\,w_1(b_1)\,w_1(b_2), \qquad q(\omega) := \frac{\lambda_{b_2}}{\lambda_{b_1}} \in \Z_p^\times, \qquad \kappa_\omega(\alpha) := (k_{b_2} - \alpha k_{b_1}) \bmod p \in \{0, \dots, p-1\},
+\]
+and the induced $p$-adic intercept kick
+\[
+c_\omega(\alpha) := \frac{\lambda_{b_2}\kappa_\omega(\alpha) + \beta_{b_2} - q(\omega)\alpha \beta_{b_1}}{p} \;\in\; \Z_p \qquad (\alpha \in \Z_p^\times).
+\]
+For $M = p^d$ ($d \ge 1$), the $1$-step transfer operator $\cT_M : \ell^2(\cG_{pM}) \to \ell^2(\cG_M)$ is given by
+\[
+(\cT_M f)(\tau') := \sum_{\omega \in I^2} w(\omega)\sum_{\substack{\tau = (\alpha, \gamma) \in \cG_{pM} \\ \alpha' \equiv q(\omega)\alpha \bmod M,\;\; \gamma \equiv \kappa_\omega(\alpha) \bmod p \\ \gamma' \equiv \lambda_{b_2}(\gamma - \kappa_\omega(\alpha))/p + c_\omega(\alpha) \bmod M}} f(\tau),
+\]
+with uniform-density normalization $\cP_M := p^{-2}\cT_M$ ($\cP_M\mathbf{1}_{\cG_{pM}} = \mathbf{1}_{\cG_M}$), $k$-step composition $\cP_M^{(k)} := \cP_M\cP_{pM}\cdots\cP_{p^{k-1}M} : L^2(\Unif(\cG_{p^k M})) \to L^2(\Unif(\cG_M))$, and primitive Mackey shell block
+\[
+B_d^{(0)} := \frac{1}{p}\,\cF_M^{(0)}\,\cT_M\,(\cF_{pM}^{(0)})^* = p\,\cF_M^{(0)}\,\cP_M\,(\cF_{pM}^{(0)})^* : \ell^2(U_{pM}\times U_{pM}) \longrightarrow \ell^2(U_M\times U_M).
+\]
+Since $|\cG_{pM}|/|\cG_M| = p^2$, the partial-isometry identity $\Pi_M^{(0)}\cP_M\Pi_{pM}^{(0)} = p^{-1}(\cF_M^{(0)})^* B_d^{(0)}\cF_{pM}^{(0)}$ and the invariance $\cP_M(\cH_{pM}^{(0)}) \subseteq \cH_M^{(0)}$ (Lemma~\ref{lem:prim_invariance}) give
+\[
+\|B_d^{(0)}\|_{2\to 2}^2 \;=\; \bigl\|\Pi_M^{(0)}\cP_M\big|_{\cH_{pM}^{(0)}}\bigr\|_{L^2(\Unif)}^2 \;=\; \bigl\|\cP_M\big|_{\cH_{pM}^{(0)}}\bigr\|_{L^2(\Unif)}^2.
+\]
+\end{definition}
+
+For the \textbf{Syracuse semigroup ($p = 3$)}, $I = \Z_{\ge 0}\times \{1, 2\}$, $c_{s+1} := (4^{s+1}-1)/3$, and
+\[
+\lambda(s, r) = \frac{4^{s+1}}{r}, \qquad \beta(s, r) = \frac{c_{s+1} - r}{r}, \qquad w_1(s, r) = \frac{3}{4}\,4^{-s}\,r, \qquad k(s, r) \equiv r - (s+1) \pmod 3,
+\]
+giving exact compatibility-class sums $W_1[0] = \frac{8}{7}$, $W_1[1] = \frac{11}{7}$, and $W_1[2] = \frac{2}{7}$.
+
+Define the normalized $1$D and $2$D trace-moment functionals for $H_d := A_d A_d^*$ and $G_d := B_d^{(0)}(B_d^{(0)})^*$ by
+\[
+\mathfrak{R}_{q, d}^{\mathrm{1D}} \;:=\; \frac{1}{\varphi(M)}\operatorname{Tr}(H_d^q), \qquad \mathfrak{R}_{2q, d} \;:=\; \frac{1}{\varphi(M)^2}\operatorname{Tr}(G_d^q) \qquad (M = p^d,\;\; q \ge 1).
+\]
+
+\begin{theorem}[Primitive Mackey tensor factorization and uniform $L^2$ gap]\label{thm:A1}
+Let $(p, I, \{\lambda_b, \beta_b, w_1(b)\})$ be a compatibility-filtered $p$-adic affine semigroup (Definition~\ref{def:padic_semigroup}), and let $U_M : \ell^2(U_M \times U_M) \to \ell^2(U_M)\otimes\ell^2(U_M)$ be the unitary coordinate bijection $(x_1, x_2) = (\alpha' u \bmod M,\; u \bmod M)$.
+\begin{enumerate}[label=(\arabic*)]
+\item For every $d \ge 1$ ($M = p^d$),
+\[
+U_M \, B_d^{(0)} \, U_{pM}^* \;=\; \frac{1}{\sqrt{p}}\; \overline{A_d} \otimes A_d, \qquad U_M \, B_d^{(0)} (B_d^{(0)})^* \, U_M^* \;=\; \frac{1}{p}\; \overline{H_d} \otimes H_d \quad (H_d := A_d A_d^*),
+\]
+where $(A_d)_{x, y} := \sum_{b \in I} \frac{w_1(b)}{p}\,\mathbf{1}_{y \equiv \lambda_b x \bmod M}\, e_{pM}\bigl((y - \lambda_b x)k_b - \beta_b x\bigr)$ acts $\ell^2(U_{pM}) \to \ell^2(U_M)$.
+\item Writing $(W_{q, c} f)(x) := e_M(cx)f(qx)$ for unitary monomial operators on $\ell^2(U_M)$, the $1$D Gram operator decomposes as
+\[
+H_d \;=\; \frac{1}{p}\sum_{k \in \Z/p\Z} \sum_{k_{b_1} = k_{b_2} = k} w_1(b_1)w_1(b_2)\, W_{q(b_1, b_2),\, c_{\mathrm{1D}}(b_1, b_2)}
+\]
+with $q(b_1, b_2) = \lambda_{b_1}/\lambda_{b_2}$ and $c_{\mathrm{1D}}(b_1, b_2) = \tau_{b_2} q - \tau_{b_1}$ ($\tau_b := (\lambda_b k_b + \beta_b)/p \in \Z_p$), implying uniformly in $d \ge 1$ and $k \ge 1$:
+\[
+\bigl\|B_d^{(0)}\bigr\|_{2\to 2}^2 \;=\; \frac{1}{p}\|H_d\|_{2\to 2}^2 \;\le\; \frac{1}{p^3}\left(\sum_{k \in \Z/p\Z} W_1[k]^2\right)^2, \qquad
+\bigl\|\cP_M^{(k)}\big|_{\cH_{p^k M}^{(0)}}\bigr\|_{L^2(\Unif)}^2 \;\le\; \left[\frac{1}{p^3}\left(\sum_k W_1[k]^2\right)^2\right]^k.
+\]
+\item \textbf{Syracuse specialization ($p = 3$)}: $H_d$ collapses to the closed-form unitary monomial series
+\[
+H_d \;=\; I \;+\; \sum_{\substack{(r_1, r_2) \in \{1, 2\}^2,\; \Delta s \in \Z \\ \Delta s \equiv r_1 - r_2 \bmod 3,\; (\Delta s, r_1, r_2) \neq (0, r, r)}} \frac{r_1 r_2}{5}\,4^{-|\Delta s|}\; W_{q(\Delta s, r_1, r_2),\, c(\Delta s, r_1, r_2)},
+\]
+with $q = 4^{\Delta s} r_2/r_1$ and $c = \frac{1}{9}\bigl(\frac{1+3r_1}{r_1} - q\frac{1+3r_2}{r_2}\bigr) \in \Z_3$. Consequently, for all $d \ge 1$ and $q \ge 1$,
+\[
+\frac{5}{7}\, I \;\le\; H_d \;\le\; \frac{9}{7}\, I, \qquad
+\sup_{d \ge 1}\bigl\|B_d^{(0)}\bigr\|_{2\to 2}^2 \;\le\; \frac{27}{49} \;\approx\; 0.5510204 < 1, \qquad
+\mathfrak{R}_{2q, d} \;\le\; \left(\frac{27}{49}\right)^q.
+\]
+\end{enumerate}
+\end{theorem}
+
+Next, we condition step-by-step on the $p$-adic slope ratio $q = \lambda_{b_2}/\lambda_{b_1} \in Q := \{q(\omega) : \omega \in I^2\} \subset \Z_p^\times$. Let $\Omega(q) := \{\omega \in I^2 : q(\omega) = q\}$, $W_{\Omega(q)} := \sum_{\omega \in \Omega(q)} w(\omega)$, and $P(q) := p^{-1} W_{\Omega(q)}$ ($\sum_{q \in Q} P(q) = 1$). Given $\alpha \in U_{pM}$, define the conditioned physical transfer $\cT_{\alpha, q} : \ell^2(\Z/(pM)\Z) \to \ell^2(\Z/M\Z)$ and normalized primitive $1$D Fourier operator $\cK_{\alpha, q}^{(M)} : \ell^2(U_{pM}) \to \ell^2(U_M)$ via $\cF_M^{\prim} \cT_{\alpha, q} (\cF_{pM}^{\prim})^* = W_{\Omega(q)}\,\cK_{\alpha, q}^{(M)}$, explicitly
+\[
+\bigl(\cK_{\alpha, q}^{(M)}\bigr)_{u, \tilde u} \;=\; \frac{1}{\sqrt{p}} \sum_{\omega \in \Omega(q)} p(\omega \mid q)\,\mathbf{1}_{\tilde u \equiv \lambda_{b_2}(\omega) u \bmod M}\, e_M\bigl(-u\,c_\omega(\alpha)\bigr)\, e_{pM}\bigl(\tilde u\,\kappa_\omega(\alpha)\bigr),
+\]
+where $p(\omega \mid q) := w(\omega)/W_{\Omega(q)}$. Define the compatibility-class weights $P_\kappa(a, q) := \sum_{\omega \in \Omega(q),\, \kappa_\omega(a) = \kappa} p(\omega \mid q)$ ($a \in U_p$, $\kappa \in \Z/p\Z$) and the $(p-1)\times(p-1)$ weighted transition matrix on $U_p$:
+\[
+(M_{\mathrm{cond}})_{a, a'} \;:=\; \sum_{q \in Q,\;\; a q \equiv a' \bmod p} P(q)\sum_{\kappa \in \Z/p\Z} P_\kappa(a, q)^2 \qquad (a, a' \in U_p).
+\]
+
+\begin{theorem}[Quenched-slope conditional Fourier contraction]\label{thm:cond_contraction}
+Let $(p, I, \{\lambda_b, \beta_b, w_1(b)\})$ satisfy Definition~\ref{def:padic_semigroup}, and evolve slopes along $\alpha_{t+1} \equiv q_t \alpha_t \pmod{p^{d+L-1-t}}$ for independent draws $q_0, \dots, q_{L-1} \sim P^{\otimes L}$ from any $\alpha_0 \in U_{p^{d+L}}$.
+\begin{enumerate}[label=(\arabic*)]
+\item For every $M = p^d$, $\alpha \in U_{pM}$, and $q \in Q$, $\|\cK_{\alpha, q}^{(M)}\|_{2\to 2}^2 \le \sum_{\kappa \in \Z/p\Z} P_\kappa(\alpha \bmod p,\, q)^2 \le 1$, and
+\[
+\E_{\boldsymbol{q} \sim P^{\otimes L}}\!\left[\bigl\|\cK_{\alpha_{L-1}, q_{L-1}}^{(p^d)} \cdots \cK_{\alpha_0, q_0}^{(p^{d+L-1})}\bigr\|_{2\to 2}^2\right] \;\le\; \bigl(M_{\mathrm{cond}}^L \mathbf{1}\bigr)_{\alpha_0 \bmod p}.
+\]
+In particular, if the slope Markov chain $P_{\mathrm{slope}}(a, a') := \sum_{q:\, aq \equiv a' \bmod p} P(q)$ on $U_p$ is irreducible and there exists $(a_*, q_*)$ with $P(q_*) > 0$ and $\max_\kappa P_\kappa(a_*, q_*) < 1$, then $\rho(M_{\mathrm{cond}}) < 1$ strictly, yielding exponential contraction in $L$ uniformly in $d \ge 1$.
+\item \textbf{Syracuse specialization ($p = 3$)}: $Q = \{2^e : e \in \Z\}$, $W_{\Omega(2^e)} = 2^{-|e|}$, $P(2^e) = \frac{1}{3} 2^{-|e|}$, and
+\[
+M_{\mathrm{cond}} \;=\; \begin{pmatrix} 5/9 & 68/225 \\[4pt] 52/189 & 65/189 \end{pmatrix}, \qquad \vartheta \;:=\; \rho(M_{\mathrm{cond}}) \;=\; \frac{425 + 4\sqrt{5266}}{945} \;\approx\; 0.7568982443 < 1.
+\]
+Hence uniformly over all $d \ge 1$, all $L \ge 1$, and all $\alpha_0 \in U_{3^{d+L}}$:
+\[
+\E_{\boldsymbol{q} \sim P^{\otimes L}}\!\left[\bigl\|\cK_{\alpha_{L-1}, q_{L-1}}^{(3^d)} \cdots \cK_{\alpha_0, q_0}^{(3^{d+L-1})}\bigr\|_{2\to 2}^2\right] \;\le\; C_{\mathrm{cond}}\,\vartheta^L \qquad (C_{\mathrm{cond}} = 1.1643).
+\]
+\end{enumerate}
+\end{theorem}
+
+Finally, let $\Pi_\kappa : \ell^2(\Z/(pM)\Z) \to \ell^2(\Z/(pM)\Z)$ denote the coordinate restriction $(\Pi_\kappa g)(\gamma) := \mathbf{1}_{\gamma \equiv \kappa \bmod p}\, g(\gamma)$, and let $J_\kappa : \ell^2(U_M) \to \ell^2(U_{pM})$ be the $p$-lift isometry $(J_\kappa \hat h)(\tilde u) := p^{-1/2} e_{pM}(-\tilde u \kappa)\hat h(\tilde u \bmod M)$, so that $Q_\kappa := \cF_{pM}^{\prim}\Pi_\kappa(\cF_{pM}^{\prim})^* = J_\kappa J_\kappa^*$ is an orthogonal projection in $\ell^2(U_{pM})$. Whenever $W_\kappa(\alpha, q) := \sum_{\omega \in \Omega_\kappa(\alpha, q)} w(\omega) > 0$, define the normalized compatibility-slice operator
+\[
+\widetilde{\cK}_{\alpha, q, \kappa}^{(M)} \;:=\; W_\kappa(\alpha, q)^{-1}\,\cF_M^{\prim}\,\cT_{\alpha, q}\,\Pi_\kappa\,(\cF_{pM}^{\prim})^*\, J_\kappa : \ell^2(U_M) \longrightarrow \ell^2(U_M),
+\]
+which acts as a convex combination of unitary $1$D monomial shifts $(U_{\omega, \alpha}^{(M)}\hat h)(u) = e_M(-u c_\omega(\alpha))\hat h(\lambda_{b_2}(\omega)u \bmod M)$ and satisfies $\|\cF_M^{\prim}\cT_{\alpha, q}\Pi_\kappa(\cF_{pM}^{\prim})^*\|_{2\to 2} = W_\kappa(\alpha, q)\|\widetilde{\cK}_{\alpha, q, \kappa}^{(M)}\|_{2\to 2}$.
+
+\begin{theorem}[Amenable F{\o}lner wave-packet barrier]\label{thm:folner}
+Suppose there exists an integer $g \ge 2$ coprime to $p$ such that $\lambda_b, \beta_b \in \Z[g^{-1}]$ for all $b \in I$, and $\lambda_{b_2}(\omega) \in g^\Z$ on a fixed compatibility slice $\Omega_\kappa(\alpha, q) := \{\omega \in \Omega(q) : \kappa_\omega(\alpha) = \kappa\}$ with $W_\kappa(\alpha, q) > 0$. Then for every fixed $\alpha \in \Z[g^{-1}] \cap \Z_p^\times$,
+\[
+\lim_{d \to \infty} \bigl\|\widetilde{\cK}_{\alpha, q, \kappa}^{(p^d)}\bigr\|_{2\to 2} \;=\; 1.
+\]
+In particular, this holds on every non-empty compatibility slice $(\alpha, 2^e, \kappa)$ of the $p=3$ Syracuse semigroup ($g = 2$) for every $\alpha \in \Z[1/2]\cap\Z_3^\times$.
+\end{theorem}
+
+\subsection{Relation to Literature and Lean 4 Formal Verification}\label{subsec:literature}
+
+Our results connect to several recent developments on the $3$-adic Syracuse random model:
+\begin{enumerate}[label=(\arabic*),topsep=3pt,itemsep=2pt]
+\item \textbf{Tao (2022)~\cite{Tao2019}}: Established fine-scale mixing of Syracuse $3$-adic offset variables (yielding almost-bounded Collatz orbits in logarithmic density), proved the existence of the stationary Haar density $\rho \in L^1(\Z_3, m_3)$ (Proposition~1.14), and in Remark~1.16 posed the problem of fine-scale equidistribution for the full random affine map $(\alpha, \gamma)$.
+\item \textbf{Weaver (2026)~\cite{Weaver2026,WeaverLocal2026}}: Established the weak-$L^2$ estimate and linear upper bound $\|\rho_m\|_2^2 = O(m+1)$ for the total cylinder collision energy, and identified the density tail constant $\kappa$ via a distinct-branch interaction integral. Theorem~\ref{thm:primitive-energy} combines Weaver's linear total-energy upper bound with a uniform ternary cylinder comparison (Lemma~\ref{lem:residue-overlap}) to prove that the primitive shell increments $E_m^{\prim} = E_m - E_{m-1}$ are uniformly bounded and converge to $\cI$.
+\item \textbf{Conditioned affine models~\cite{YuanSi2026,Allikvere2026}}: Recent preprints investigate microcanonical conditioning on the total $2$-adic valuation sum $S_n = s$, Bernoulli-bridge Rajchman transforms~\cite{Bremont2021}, and pair-switch averaging. Our operator-theoretic results in Theorems~\ref{thm:A1}--\ref{thm:folner} and Section~\ref{sec:bridge} complement these probabilistic analyses by isolating exact finite-$p^d$ compatibility-filtered $L^2$ operator factorizations, $1$D monomial series collapses, quenched-slope $(p-1)\times(p-1)$ Markov spectral radii, and explicit F{\o}lner and fixed-point trap barriers.
+\end{enumerate}
+
+\paragraph{Scope of the Lean~4 formal verification.}
+The accompanying Lean~4 formalization (\texttt{SyracuseEnergy.lean} and \texttt{PaperAudit.lean}, verified under Lean~4.24.0 and Mathlib~v4.24.0 with zero \texttt{sorry} axioms) adopts a modular verification architecture:
+\begin{enumerate}[label=(\roman*),topsep=2pt,itemsep=2pt]
+\item \emph{Abstract measure-theoretic closure (\texttt{SyracuseEnergy.lean})}: Formally verifies the measure-preserving preimage intersection bound, the countable convex mixture Tonelli lower bound, the late low-energy shell selection lemma, the subsequence Fatou integrability deduction (avoiding any \emph{a priori} $L^1$ assumption on $\rho(\rho\circ\Theta_r)$), the conditional-expectation dominated Vitali $L^1$ convergence theorem, and the resulting uniform bound $E_m^{\prim} \le \eta^{-1}\cI$, limit $E_m^{\prim} \to \cI$, and Ces\`aro limit $E_m/m \to \cI$ (\texttt{primitive\_energy\_from\_collision\_products}).
+\item \emph{Exact algebraic, congruence, $3$-adic valuation, and spectral audit (\texttt{PaperAudit.lean})}: Formally verifies the parity-filtered congruence reductions modulo $3^{m+1}$, the diagonal and off-diagonal geometric series collision weights, the $3$-adic valuation induction $v_3(4^{3^j}-1) = j+1$, the weak-$L^2$ level-set Markov bound, the modulo-$pM$ Mackey phase upgrade, the $1$D Gram monomial series collapse and uniform spectral gap $27/49 < 1$, the conditional Markov matrix $M_{\mathrm{cond}}$ and its Perron spectral radius enclosure $0.756898 < \vartheta < 0.756899 < 1$, and the $\cF_{0,2}$ Jordan-block cascade.
+\end{enumerate}
+Connecting the concrete $3$-adic Syracuse random offset law $Z_m \bmod 3^m$ and its Haar density $\rho \in L^1(\Z_3, m_3)$ to the four structural hypotheses (\texttt{hlinear}, \texttt{hidentity}, \texttt{hoverlap}, \texttt{hdom}) of the abstract Lean theorem is carried out rigorously in Section~\ref{sec:primitive-energy} (see Table~\ref{tab:lean_bridge} for the explicit hypothesis-to-lemma dictionary).
+
+\paragraph{Organization of the paper.}
+Section~\ref{sec:primitive-energy} proves Theorem~\ref{thm:primitive-energy} and Corollary~\ref{cor:energy-tail-constant} on the uniform boundedness and convergence of the primitive Fourier energy $E_m^{\prim} \to \cI$. Section~\ref{sec:semigroup} develops the $p$-adic compatibility algebra, defines the physical Syracuse seeds $T_r$ and $3$-adic trap family $\cF_{0,2}$, and establishes the $3$-adic intercept valuation dichotomy. Section~\ref{sec:tensor_A1} proves Theorem~\ref{thm:A1} and exact $1$D Hilbert--Schmidt duality (Proposition~\ref{prop:1d_hs}). Section~\ref{sec:cond_contraction} proves Theorem~\ref{thm:cond_contraction}. Section~\ref{sec:folner} proves Theorem~\ref{thm:folner} and presents exact numerical verifications up to $M = 3^7 = 2187$. Section~\ref{sec:bridge} proves the structural bridge obstruction propositions (Propositions~\ref{prop:two_stage_bound}--\ref{prop:atomic_jordan}) and discusses open problems.
+
+\section{Uniform Boundedness and Convergence of Primitive Syracuse Energy}\label{sec:primitive-energy}
+
+In this section we prove Theorem~\ref{thm:primitive-energy} and Corollary~\ref{cor:energy-tail-constant}. In doing so, we provide a complete, self-contained verification of how the concrete $3$-adic Syracuse offset law $Z_m \bmod 3^m$ satisfies the four structural bridge hypotheses (\texttt{hlinear}, \texttt{hidentity}, \texttt{hoverlap}, and \texttt{hdom}) of the Lean~4 theorem \texttt{primitive\_energy\_from\_collision\_products}.
+
+Let $m_3$ denote the Haar probability measure on $\Z_3$, and let $\cF_m$ ($m \ge 0$) be the finite $\sigma$-algebra generated by the $3^m$ clopen ternary residue cylinders $C_m(c) := c + 3^m\Z_3$ ($c \in \Z/3^m\Z$), each of Haar measure $m_3(C_m(c)) = 3^{-m}$. Recall from Section~\ref{subsec:syracuse_model_intro} that $a_1, a_2, \dots$ are i.i.d.\ geometric random variables with $\P(a_i = a) = 2^{-a}$ ($a \ge 1$), $F_a(x) = (1 + 3x)/2^a$, and
+\[
+ Z = \sum_{j=1}^\infty 3^{j-1} 2^{-(a_1 + \cdots + a_j)} \in \Z_3
+\]
+has stationary Haar density $\rho \in L^1(\Z_3, m_3)$~\cite[Proposition~1.14]{Tao2019}.
+
+\subsection{Distributional Equivalence, Parseval Bridge, and Weak-$L^2$ Input (\texttt{hlinear})}\label{subsec:local_density}
+
+We first verify the exact equivalence between the finite-step forward recurrence $Z_m$ in~\eqref{eq:Zm_recursion} and the cylinder filtration of the stationary $3$-adic random variable $Z$ in~\eqref{eq:Z_stationary_series}.
+
+\begin{lemma}[Distributional equivalence, Parseval energy identity, and linear total-energy bridge]\label{lem:parseval_linear_bridge}
+Let $\rho_m := \E_{m_3}[\rho \mid \cF_m]$ denote the conditional expectation of $\rho$ onto $\cF_m$. Then for every $m \ge 1$:
+\begin{enumerate}[label=(\arabic*),topsep=2pt,itemsep=2pt]
+\item The forward recursive offset $Z_m \in \Z/3^m\Z$ defined in~\eqref{eq:Zm_recursion} has the exact same probability distribution on $\Z/3^m\Z$ as the modulo-$3^m$ reduction $Z \bmod 3^m$ of~\eqref{eq:Z_stationary_series}. On each cylinder $C = c + 3^m\Z_3$, $\rho_m$ takes the constant value
+\[
+ \rho_m(c) = 3^m \int_C \rho\,dm_3 = 3^m \P(Z \in C) = 3^m \P(Z_m \equiv c \pmod{3^m}).
+\]
+\item The total and primitive Fourier energies~\eqref{eq:Em_def} satisfy the exact Parseval identities
+\begin{equation}\label{eq:parseval_detail}
+ 1 + E_m = \sum_{\xi \in \Z/3^m\Z} \bigl|\phi_m(\xi)\bigr|^2 = 3^{-m}\sum_{c \in \Z/3^m\Z} \rho_m(c)^2 = \|\rho_m\|_{L^2(m_3)}^2 = 3^m \P(Z_m = Z_m'),
+\end{equation}
+\begin{equation}\label{eq:Eprim_L2_increment}
+ E_m^{\prim} = E_m - E_{m-1} = \|\rho_m\|_{L^2(m_3)}^2 - \|\rho_{m-1}\|_{L^2(m_3)}^2,
+\end{equation}
+where $Z_m'$ is an independent copy of $Z_m$.
+\item \textbf{Linear total-energy hypothesis (\texttt{hlinear})}: Under the weak-$L^2$ estimate $\int_A \rho\,dm_3 \le C_0\,m_3(A)^{1/2}$ of Weaver~\cite[\S\S 2--7]{Weaver2026}, the level-set measure satisfies $m_3\{\rho_m > t\} \le C_0^2 t^{-2}$ uniformly in $m \ge 1$ and $t > 0$, and the total energy obeys the linear bound
+\begin{equation}\label{eq:linear_Em_bridge}
+ E_m = \sum_{k=1}^m E_k^{\prim} \;\le\; C m \qquad (\forall\, m \ge 1,\;\; C := 2 C_0^2 \log 3).
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+For~(1), induction on $m \ge 1$ from $Z_0 = 0$ and $Z_m \equiv 2^{-a_m}(1 + 3 Z_{m-1}) \pmod{3^m}$ gives
+\[
+ Z_m \equiv \sum_{j=1}^m 3^{j-1} 2^{-(a_m + a_{m-1} + \cdots + a_{m-j+1})} \pmod{3^m}.
+\]
+Because $(a_1, \dots, a_m)$ are i.i.d., the reversed tuple $(a_m, a_{m-1}, \dots, a_1)$ has the identical joint distribution as $(a_1, a_2, \dots, a_m)$. On the other hand, in the convergent $3$-adic series~\eqref{eq:Z_stationary_series}, every term with index $j \ge m + 1$ has $2^{-(a_1+\cdots+a_j)} \in \Z_3^\times$ and $3^{j-1} \in 3^m\Z_3$, so $Z \equiv \sum_{j=1}^m 3^{j-1} 2^{-(a_1 + \cdots + a_j)} \pmod{3^m}$. Thus $Z_m \stackrel{d}{=} (Z \bmod 3^m)$ on $\Z/3^m\Z$, and $\rho_m|_C = m_3(C)^{-1}\int_C \rho\,dm_3 = 3^m \P(Z \in C) = 3^m \P(Z_m = c)$.
+
+For~(2), writing $p_m(c) := \P(Z_m = c) = 3^{-m}\rho_m(c)$, orthogonality of additive characters on $\Z/3^m\Z$ gives
+\[
+ \sum_{\xi \in \Z/3^m\Z} \bigl|\phi_m(\xi)\bigr|^2 = \sum_{c, c' \in \Z/3^m\Z} p_m(c)p_m(c') \sum_{\xi \in \Z/3^m\Z} \e^{2\pi i \xi(c - c')/3^m} = 3^m \sum_{c \in \Z/3^m\Z} p_m(c)^2 = 3^{-m}\sum_{c \in \Z/3^m\Z} \rho_m(c)^2.
+\]
+Since $\phi_m(0) = 1$ and $\int_{\Z_3} \rho_m^2\,dm_3 = \sum_{c \in \Z/3^m\Z} m_3(C_m(c))\rho_m(c)^2 = 3^{-m}\sum_c \rho_m(c)^2$, subtracting $1$ proves~\eqref{eq:parseval_detail}. Moreover, by~(1), $(Z_{m+1} \bmod 3^m) \stackrel{d}{=} Z_m$, so $\phi_m(3\xi') = \phi_{m-1}(\xi')$ for all $\xi' \in \Z/3^{m-1}\Z$, which yields $E_m - E_{m-1} = \sum_{3 \nmid \xi} |\phi_m(\xi)|^2 = E_m^{\prim}$ and~\eqref{eq:Eprim_L2_increment}.
+
+For~(3), let $t > 0$. Because $\rho_m$ is $\cF_m$-measurable, the level set $A := \{x \in \Z_3 : \rho_m(x) > t\}$ belongs to $\cF_m$. By the definition of conditional expectation and the weak-$L^2$ estimate,
+\[
+ t\,m_3(A) \;\le\; \int_A \rho_m\,dm_3 \;=\; \int_A \rho\,dm_3 \;\le\; C_0\,m_3(A)^{1/2},
+\]
+which implies $m_3\{\rho_m > t\} \le C_0^2 t^{-2}$ (verified in Lean as \texttt{PaperAudit.weak\_L2\_level\_set\_bound}). Furthermore, since $\P(Z \in C) \le 1$ on every cylinder $C$ of depth $m$, we have $\rho_m(x) \le 3^m$ everywhere on $\Z_3$, so $m_3\{\rho_m > t\} = 0$ for all $t \ge 3^m$. Using the layer-cake identity and $m_3\{\rho_m > t\} \le 1$ on $[0, 1]$, we obtain
+\[
+ \|\rho_m\|_{L^2(m_3)}^2 = \int_0^{3^m} 2t\,m_3\{\rho_m > t\}\,dt \;\le\; \int_0^1 2t\,dt + \int_1^{3^m} 2t\bigl(C_0^2 t^{-2}\bigr)\,dt = 1 + (2 C_0^2 \log 3)m,
+\]
+and subtracting $1$ via~\eqref{eq:parseval_detail} yields~\eqref{eq:linear_Em_bridge}.
+\end{proof}
+
+\subsection{Exact Parity-Filtered Collision Identity (\texttt{hidentity}) and Local Density Structure}\label{subsec:collision_and_local_density}
+
+Next, we establish the exact finite-depth collision expansion for $E_{m+1}^{\prim}$ (corresponding to hypothesis \texttt{hidentity} in \texttt{SyracuseEnergy.lean}).
+
+\begin{lemma}[Exact parity-filtered primitive collision identity]\label{lem:collision_identity_bridge}
+For every $m \ge 0$ and $r \ge 1$, let $\Theta_r(x) = 4^r x + (4^r - 1)/3$ and $K_m(r) := \int_{\Z_3} \rho_m(x)\rho_m(\Theta_r(x))\,dm_3(x)$. Then
+\begin{equation}\label{eq:primitive-collision-identity}
+ E_{m+1}^{\prim} = 2\sum_{r=1}^\infty 4^{-r} K_m(r) \qquad (m \ge 0).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $Z = F_a(Z^{(1)})$ and $Z' = F_b(Z^{(2)})$ be two independent realizations of the stationary law~\eqref{eq:Z_stationary_series}, where $a, b \ge 1$ are independent geometric random variables ($\P(a = k) = 2^{-k}$) and $Z^{(1)}, Z^{(2)}$ are independent copies of $Z$ independent of $(a, b)$. By Lemma~\ref{lem:parseval_linear_bridge}(2) and conditioning on $(a, b)$ via Tonelli's theorem,
+\[
+ \|\rho_{m+1}\|_{L^2(m_3)}^2 = 3^{m+1}\P\bigl(Z \equiv Z' \pmod{3^{m+1}}\bigr) = 3^{m+1}\sum_{a=1}^\infty \sum_{b=1}^\infty 2^{-a-b}\,\P\bigl(F_a(Z^{(1)}) \equiv F_b(Z^{(2)}) \pmod{3^{m+1}}\bigr).
+\]
+Fix $(a, b) \in \Z_{\ge 1}^2$. Since $1 + 3 Z^{(i)} \equiv 1 \pmod 3$, reducing $2^{-a}(1 + 3 Z^{(1)}) \equiv 2^{-b}(1 + 3 Z^{(2)}) \pmod{3^{m+1}}$ modulo $3$ requires $2^{-a} \equiv 2^{-b} \pmod 3$, i.e., $2^a \equiv 2^b \pmod 3$. Since $2 \equiv -1 \pmod 3$ has multiplicative order $2$ in $(\Z/3\Z)^\times$, the collision probability vanishes identically whenever $a \not\equiv b \pmod 2$ (verified in Lean as \texttt{PaperAudit.mod\_three\_parity\_filter}). When $a \equiv b \pmod 2$, two disjoint cases arise:
+\begin{enumerate}[label=(\roman*),topsep=2pt,itemsep=2pt]
+\item \textbf{Diagonal pairs ($a = b$)}: Because $2^a \in \Z_3^\times$ is invertible modulo $3^{m+1}$,
+\[
+ 2^{-a}(1 + 3 Z^{(1)}) \equiv 2^{-a}(1 + 3 Z^{(2)}) \pmod{3^{m+1}} \iff 3\bigl(Z^{(1)} - Z^{(2)}\bigr) \equiv 0 \pmod{3^{m+1}} \iff Z^{(1)} \equiv Z^{(2)} \pmod{3^m}
+\]
+(verified in Lean as \texttt{PaperAudit.diagonal\_congruence\_reduction}). By Lemma~\ref{lem:parseval_linear_bridge}(2), $\P(Z^{(1)} \equiv Z^{(2)} \pmod{3^m}) = 3^{-m}\|\rho_m\|_{L^2(m_3)}^2$. Summing over $a \ge 1$ gives total diagonal contribution
+\[
+ 3^{m+1}\sum_{a=1}^\infty 2^{-2a} \cdot 3^{-m}\|\rho_m\|_{L^2(m_3)}^2 = \left(3\sum_{a=1}^\infty 4^{-a}\right)\|\rho_m\|_{L^2(m_3)}^2 = \|\rho_m\|_{L^2(m_3)}^2
+\]
+(\texttt{PaperAudit.diagonal\_collision\_weight\_sum}).
+\item \textbf{Off-diagonal same-parity pairs ($b = a + 2r$ or $a = b + 2r$ with $r \ge 1$)}: For $b = a + 2r$, multiplying $2^{-a}(1 + 3 Z^{(1)}) \equiv 2^{-(a+2r)}(1 + 3 Z^{(2)}) \pmod{3^{m+1}}$ by the unit $2^{a+2r}$ gives $4^r(1 + 3 Z^{(1)}) \equiv 1 + 3 Z^{(2)} \pmod{3^{m+1}}$. By the exact identity
+\[
+ 4^r(1 + 3x) - (1 + 3y) = 3\left(4^r x + \frac{4^r - 1}{3} - y\right) = 3\bigl(\Theta_r(x) - y\bigr)
+\]
+(\texttt{PaperAudit.collision\_shift\_algebraic\_identity} and \texttt{PaperAudit.shifted\_congruence\_reduction}), this congruence modulo $3^{m+1}$ holds if and only if $Z^{(2)} \equiv \Theta_r(Z^{(1)}) \pmod{3^m}$. Because $\Theta_r$ maps each residue cylinder $c + 3^m\Z_3$ onto $\Theta_r(c) + 3^m\Z_3$, the independence of $Z^{(1)}$ and $Z^{(2)}$ gives
+\[
+ \P\bigl(Z^{(2)} \equiv \Theta_r(Z^{(1)}) \pmod{3^m}\bigr) = \sum_{c \in \Z/3^m\Z} \bigl(3^{-m}\rho_m(c)\bigr)\bigl(3^{-m}\rho_m(\Theta_r(c))\bigr) = 3^{-m}\int_{\Z_3} \rho_m(x)\rho_m\bigl(\Theta_r(x)\bigr)\,dm_3(x) = 3^{-m} K_m(r).
+\]
+Summing the weight over $a \ge 1$ for fixed $r \ge 1$ and multiplying by $3^{m+1}\cdot 3^{-m} = 3$ yields
+\[
+ 3\sum_{a=1}^\infty 2^{-a}\,2^{-(a+2r)} = 4^{-r}\left(3\sum_{a=1}^\infty 4^{-a}\right) = 4^{-r}
+\]
+(\texttt{PaperAudit.off\_diagonal\_collision\_weight\_sum}). By symmetry between $b = a + 2r$ and $a = b + 2r$, off-diagonal pairs contribute $2\sum_{r=1}^\infty 4^{-r} K_m(r)$.
+\end{enumerate}
+Subtracting $\|\rho_m\|_{L^2(m_3)}^2$ from $\|\rho_{m+1}\|_{L^2(m_3)}^2$ via~\eqref{eq:Eprim_L2_increment} establishes~\eqref{eq:primitive-collision-identity}.
+\end{proof}
+
+\begin{localdensitylemma}[Conditional densities on a ternary residue class]
+Let $w = (a_1, \dots, a_m) \in \Z_{\ge 1}^m$ be a word of positive exponents and define
+\[
+ S_j(w) := \sum_{i=1}^j a_i, \qquad B_w := \sum_{j=1}^m 3^{j-1} 2^{-S_j(w)}, \qquad u_w := 2^{-S_m(w)} \in \Z_3^\times,
+\]
+with $S_0 = 0$, $B_\emptyset = 0$, and $u_\emptyset = 1$ for the empty word ($m = 0$). On a residue class $C = c + 3^m\Z_3$ with $p_C := \P(Z \in C) > 0$, write $x = c + 3^m v$ ($v \in \Z_3$). Then the conditional density of $v$ given $Z \in C$, relative to the Haar probability measure $m_3$, is the countable convex mixture
+\begin{equation}\label{eq:local-density-mixture}
+ \frac{\rho(c + 3^m v)}{\rho_m(c)} = \sum_{w \in \Z_{\ge 1}^m:\, B_w \in C} \frac{2^{-S_m(w)}}{p_C}\,\rho\!\left(u_w^{-1}\!\left(v - \frac{B_w - c}{3^m}\right)\right).
+\end{equation}
+More generally, if $\Theta(x) = a x + b$ is any Haar-preserving affine automorphism of $\Z_3$ ($a \in \Z_3^\times$, $b \in \Z_3$) and $\P(Z \in \Theta(C)) > 0$, then the normalized shifted density $\rho(\Theta(c + 3^m v)) / \rho_m(\Theta(c))$ is also a countable convex mixture of Haar-preserving affine pullbacks of $\rho$.
+\end{localdensitylemma}
+
+\begin{proof}
+Splitting the series~\eqref{eq:Z_stationary_series} after the first $m$ terms (verified algebraically in Lean as \texttt{SyracuseEnergy.prefix\_affine}) yields $Z = B_w + 3^m u_w Z'$ on the prefix event $(a_1, \dots, a_m) = w$, where $Z' := \sum_{j=1}^\infty 3^{j-1} 2^{-(a_{m+1} + \cdots + a_{m+j})}$ is independent of $w$ and has the same distribution as $Z$. Since $u_w Z' \in \Z_3$, membership $Z \in C = c + 3^m\Z_3$ depends solely on the prefix $w$ via the condition $B_w \in C$, and each prefix $w$ occurs with probability $2^{-S_m(w)}$. Conditional on a prefix $w$ with $B_w \in C$, the rescaled coordinate $v = (Z - c)/3^m$ satisfies
+\[
+ v = \frac{B_w - c}{3^m} + u_w Z',
+\]
+whose density with respect to $m_3$ is $\rho\bigl(u_w^{-1}(v - (B_w - c)/3^m)\bigr)$ because multiplication by $u_w \in \Z_3^\times$ and translation in $\Z_3$ preserve $m_3$. Summing over all prefixes $w$ with $B_w \in C$ and dividing by $p_C = \sum_{B_w \in C} 2^{-S_m(w)} = 3^{-m}\rho_m(c)$ yields~\eqref{eq:local-density-mixture} (see also~\cite{WeaverLocal2026}).
+
+For the second assertion, write the image cylinder as $\Theta(C) = c' + 3^m\Z_3$ and set $h(v) := a v + (\Theta(c) - c')/3^m$. Since $a \in \Z_3^\times$ and $\Theta(c) \equiv c' \pmod{3^m}$, $h$ is a Haar-preserving affine automorphism of $\Z_3$ satisfying $\Theta(c + 3^m v) = c' + 3^m h(v)$ and $\rho_m(\Theta(c)) = \rho_m(c')$. Applying~\eqref{eq:local-density-mixture} on $\Theta(C)$ and composing each term with $h$ expresses $\rho(\Theta(c + 3^m v))/\rho_m(\Theta(c))$ as a convex mixture of Haar-preserving affine transforms of $\rho$.
+\end{proof}
+
+\subsection{Residue-Class Overlap Comparison (\texttt{hoverlap}, \texttt{hdom}) and Proof of Theorem~\ref{thm:primitive-energy}}\label{subsec:proof_thm_primitive}
+
+\begin{lemma}[Uniform comparison on ternary residue classes]\label{lem:residue-overlap}
+There exists a constant $\eta > 0$ depending only on the law of $Z$ such that, for every Haar-preserving affine automorphism $\Theta$ of $\Z_3$ and every depth $m \ge 0$,
+\begin{equation}\label{eq:residue-overlap}
+ \eta\,\rho_m\bigl(\rho_m \circ \Theta\bigr) \;\le\; \E_{m_3}\!\bigl[\rho(\rho \circ \Theta) \;\big|\; \cF_m\bigr] \qquad \text{$m_3$-almost everywhere},
+\end{equation}
+where the conditional expectation of the nonnegative measurable function $\rho(\rho \circ \Theta)$ is taken in $[0, \infty]$. In particular, at $m = 0$, $\int_{\Z_3} \rho(\rho \circ \Theta)\,dm_3 \ge \eta > 0$.
+\end{lemma}
+
+\begin{proof}
+The distributional fixed-point relation $Z \stackrel{d}{=} F_a(Z)$ expresses the density $\rho$ almost everywhere as
+\[
+ \rho(x) = \sum_{a=1}^\infty 3\,2^{-a}\,\mathbf{1}_{F_a(\Z_3)}(x)\,\rho\bigl(F_a^{-1}(x)\bigr),
+\]
+where each term vanishes outside $F_a(\Z_3)$. Because $F_{a+2}(z) = F_a(z)/4$, comparing the $(a+2)$-nd term against the $a$-th term implies $\rho(x/4) \ge \frac{1}{4}\rho(x)$ for almost every $x \in \Z_3$. Consequently, the positivity support $S_+ := \{\rho > 0\}$ is invariant modulo $m_3$-null sets under multiplication by $4$.
+
+We verify by induction on $j \ge 0$ that $v_3(4^{3^j} - 1) = j + 1$ (verified in Lean as \texttt{PaperAudit.four\_pow\_three\_pow\_exact\_div}). For $j = 0$, $4^1 - 1 = 3$ has $v_3(3) = 1$. If $4^{3^j} = 1 + 3^{j+1} u_j$ with $3 \nmid u_j$, cubing gives
+\[
+ 4^{3^{j+1}} - 1 = (1 + 3^{j+1} u_j)^3 - 1 = 3^{j+2} u_j\bigl(1 + 3^j u_j + 3^{2j+1} u_j^2\bigr),
+\]
+where the parenthetical factor is congruent to $1 \pmod 3$, completing the induction. Thus $4$ has multiplicative order $3^{m-1}$ modulo $3^m$ for every $m \ge 1$, meaning that multiplication by $4$ acts transitively on the $3^{m-1}$ lifts of each non-zero residue class in $(\Z/3\Z)^\times$ to $(\Z/3^m\Z)^\times$. It follows that the conditional expectation $\E_{m_3}[\mathbf{1}_{S_+} \mid \cF_m]$ is constant on each of the two unit cylinders $1 + 3\Z_3$ and $2 + 3\Z_3$ at every depth $m \ge 1$. Since $Z \in \Z_3^\times$ with probability $1$ and both mod-$3$ unit classes carry positive mass ($\P(Z \equiv 1 \bmod 3) = \sum_{a \text{ even}} 2^{-a} = 1/3$ and $\P(Z \equiv 2 \bmod 3) = \sum_{a \text{ odd}} 2^{-a} = 2/3$), L\'evy's upward martingale convergence theorem implies $\mathbf{1}_{S_+} = 1$ almost everywhere on $\Z_3^\times$. Since $m_3(\Z_3^\times) = 2/3$, we have $m_3(\{\rho > 0\}) = 2/3 > 1/2$.
+
+By continuity of measure from below, we may choose $\delta > 0$ small enough that $G := \{\rho \ge \delta\}$ satisfies $m_3(G) > 1/2$, and define
+\[
+ \eta := \delta^2\bigl(2 m_3(G) - 1\bigr) > 0.
+\]
+For any two Haar-preserving affine automorphisms $g, h : \Z_3 \to \Z_3$, we have $m_3(g^{-1}G) = m_3(h^{-1}G) = m_3(G)$ and $m_3(g^{-1}G \cup h^{-1}G) \le 1$, so inclusion--exclusion gives $m_3(g^{-1}G \cap h^{-1}G) \ge 2 m_3(G) - 1$, whence
+\[
+ \int_{\Z_3} (\rho \circ g)(\rho \circ h)\,dm_3 \;\ge\; \delta^2\,m_3(g^{-1}G \cap h^{-1}G) \;\ge\; \eta
+\]
+(verified in Lean as \texttt{SyracuseEnergy.high\_set\_product\_lower\_bound}). By Tonelli's theorem for nonnegative series (\texttt{SyracuseEnergy.convex\_mixture\_product\_lower\_bound}), the exact same lower bound $\eta$ holds for the integral of the product of any two countable convex mixtures $\sum_i \alpha_i (\rho \circ g_i)$ and $\sum_j \beta_j (\rho \circ h_j)$ ($\alpha_i, \beta_j \ge 0$, $\sum_i \alpha_i = \sum_j \beta_j = 1$) of Haar-preserving affine pullbacks of $\rho$.
+
+Finally, on any residue class $C = c + 3^m\Z_3$ with $\rho_m(c) > 0$ and $\rho_m(\Theta(c)) > 0$, the Local Density Lemma expresses both $\rho(c + 3^m v)/\rho_m(c)$ and $\rho(\Theta(c + 3^m v))/\rho_m(\Theta(c))$ as countable convex mixtures of Haar-preserving affine pullbacks of $\rho$ in the variable $v \in (\Z_3, m_3)$. Integrating their product over $v \in \Z_3$ and multiplying by $\rho_m(c)\rho_m(\Theta(c))$ (\texttt{PaperAudit.cylinder\_rescaling\_domination}) gives
+\[
+ \eta\,\rho_m(c)\,\rho_m(\Theta(c)) \;\le\; \int_{\Z_3} \rho(c + 3^m v)\,\rho\bigl(\Theta(c + 3^m v)\bigr)\,dm_3(v) \;=\; \frac{1}{m_3(C)}\int_C \rho(x)\,\rho(\Theta(x))\,dm_3(x),
+\]
+which is precisely $\E_{m_3}[\rho(\rho \circ \Theta) \mid \cF_m]$ on $C$. If either $\rho_m(c) = 0$ or $\rho_m(\Theta(c)) = 0$, the left-hand side of~\eqref{eq:residue-overlap} vanishes and the inequality holds trivially by nonnegativity.
+\end{proof}
+
+\begin{table}[htbp]
+\centering
+\caption{Bridge dictionary between Section~\ref{sec:primitive-energy} lemmas and Lean~4 formal verification theorems}
+\label{tab:lean_bridge}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Analytical step / hypothesis in Theorem~\ref{thm:primitive-energy} & Paper reference & Lean~4 theorem (\texttt{SyracuseEnergy} / \texttt{PaperAudit}) \\
+\midrule
+Energy telescoping $E_m = \sum_{k=1}^m E_k^{\prim}$ & Eq.~\eqref{eq:Em_recursion}, Lemma~\ref{lem:parseval_linear_bridge} & \texttt{PaperAudit.total\_energy\_eq\_sum\_primitive} \\
+Weak-$L^2$ level-set bound $m_3\{\rho_m>t\}\le C_0^2 t^{-2}$ & Lemma~\ref{lem:parseval_linear_bridge}(3) (\texttt{hlinear}) & \texttt{PaperAudit.weak\_L2\_level\_set\_bound} \\
+Parity filter $2^a \equiv 2^b \pmod 3 \iff 2 \mid (a-b)$ & Lemma~\ref{lem:collision_identity_bridge} & \texttt{PaperAudit.mod\_three\_parity\_filter} \\
+Diagonal & shifted mod-$3^{m+1}$ reductions & Lemma~\ref{lem:collision_identity_bridge} & \texttt{PaperAudit.diagonal\_congruence\_reduction}, \\
+& & \texttt{PaperAudit.shifted\_congruence\_reduction} \\
+Collision weights $3\sum 4^{-a}=1$, $3\sum 2^{-2a-2r}=4^{-r}$ & Lemma~\ref{lem:collision_identity_bridge} (\texttt{hidentity}) & \texttt{PaperAudit.diagonal\_collision\_weight\_sum}, \\
+& & \texttt{PaperAudit.off\_diagonal\_collision\_weight\_sum} \\
+Prefix expansion $F_w(x) = B_w + 3^m 2^{-S_m(w)}x$ & Local Density Lemma & \texttt{SyracuseEnergy.prefix\_affine} \\
+$3$-adic order $v_3(4^{3^j}-1) = j+1$ & Lemma~\ref{lem:residue-overlap} & \texttt{PaperAudit.four\_pow\_three\_pow\_exact\_div} \\
+High-density overlap & convex mixture Tonelli & Lemma~\ref{lem:residue-overlap} (\texttt{hoverlap}, \texttt{hdom}) & \texttt{SyracuseEnergy.high\_set\_product\_lower\_bound}, \\
+& & \texttt{SyracuseEnergy.convex\_mixture\_product\_lower\_bound} \\
+Subsequence Fatou integrability ($q_r \in L^1$, $\cI \le C$) & Proof of Theorem~\ref{thm:primitive-energy} & \texttt{SyracuseEnergy.exists\_late\_shell\_le}, \\
+& & \texttt{SyracuseEnergy.weighted\_fatou\_of\_linear\_energy} \\
+Conditional-expectation Vitali & Ces\`aro closure & Proof of Theorem~\ref{thm:primitive-energy} & \texttt{SyracuseEnergy.vitali\_of\_condExp\_bound}, \\
+& & \texttt{SyracuseEnergy.primitive\_energy\_from\_collision\_products} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{proof}[Proof of Theorem~\ref{thm:primitive-energy}]
+Set $f_{m, r} := \rho_m(\rho_m \circ \Theta_r)$ and $g_r := \rho(\rho \circ \Theta_r)$ for $m \ge 0$ and $r \ge 1$, so that $K_m(r) = \int_{\Z_3} f_{m, r}\,dm_3$ and $K_\infty(r) = \int_{\Z_3} g_r\,dm_3$. By Lemma~\ref{lem:parseval_linear_bridge}(3), Lemma~\ref{lem:collision_identity_bridge}, and Lemma~\ref{lem:residue-overlap}, the sequence of primitive shell energies $\mathrm{shell}(m) := E_{m+1}^{\prim}$ and collision products $(f_{m, r}, g_r)$ satisfy all hypotheses (\texttt{hlinear}, \texttt{hidentity}, \texttt{hoverlap}, and \texttt{hdom}) of the verified closure theorem \texttt{SyracuseEnergy.primitive\_energy\_from\_collision\_products} (Table~\ref{tab:lean_bridge}):
+\begin{enumerate}[label=(\arabic*),topsep=2pt,itemsep=2pt]
+\item \textbf{Subsequence Fatou integrability and finiteness of $\cI$}: Because $E_{m+1}^{\prim} \ge 0$ and $\sum_{j=0}^{m-1} E_{j+1}^{\prim} = E_m \le C m$ (Lemma~\ref{lem:parseval_linear_bridge}(3)), for every $\varepsilon > 0$ and $N \ge 1$ there exists $m \ge N$ such that $E_{m+1}^{\prim} \le C + \varepsilon$ (\texttt{exists\_late\_shell\_le}). Choosing a subsequence $m_k \to \infty$ with $E_{m_k + 1}^{\prim} \le C + \frac{1}{k+1}$, notice that $\rho_{m_k} \to \rho$ and $\rho_{m_k} \circ \Theta_r \to \rho \circ \Theta_r$ almost everywhere by martingale convergence and measure preservation of $\Theta_r$. Applying Fatou's lemma to $\sum_{r=1}^R 2\cdot 4^{-r} f_{m_k, r}$ along $k \to \infty$ and letting $R \to \infty$ (\texttt{weighted\_fatou\_of\_linear\_energy}) gives
+\[
+ \cI = \sum_{r=1}^\infty 2\,4^{-r} \int_{\Z_3} \rho(x)\,\rho\bigl(\Theta_r(x)\bigr)\,dm_3(x) \;\le\; \liminf_{k \to \infty} E_{m_k + 1}^{\prim} \;\le\; C < \infty.
+\]
+In particular, $g_r = \rho(\rho \circ \Theta_r) \in L^1(\Z_3, m_3)$ for every $r \ge 1$.
+\item \textbf{Positivity of $\cI$ and uniform all-depth upper bound}: Lemma~\ref{lem:residue-overlap} at $m = 0$ gives $K_\infty(r) \ge \eta > 0$ for all $r \ge 1$, so $\cI \ge 2\eta \sum_{r=1}^\infty 4^{-r} = \frac{2}{3}\eta > 0$. Integrating~\eqref{eq:residue-overlap} over $\Z_3$ yields
+\begin{equation}\label{eq:Km_dominated}
+ K_m(r) \;\le\; \eta^{-1}\int_{\Z_3} \E_{m_3}[g_r \mid \cF_m]\,dm_3 \;=\; \eta^{-1} K_\infty(r) \qquad (\forall\, m \ge 0,\; r \ge 1),
+\end{equation}
+which upon summing over $r \ge 1$ via~\eqref{eq:primitive-collision-identity} proves $\sup_{m \ge 1} E_m^{\prim} \le \eta^{-1}\cI$.
+\item \textbf{Vitali $L^1$ convergence and Ces\`aro limit}: For each fixed $r \ge 1$, since $g_r \in L^1(\Z_3, m_3)$ and $\bigvee_{m \ge 0} \cF_m$ generates the Borel $\sigma$-algebra of $\Z_3$, the martingale $\E_{m_3}[\eta^{-1} g_r \mid \cF_m]$ converges in $L^1(m_3)$ and is uniformly integrable. By Lemma~\ref{lem:residue-overlap}, $0 \le f_{m, r} \le \E_{m_3}[\eta^{-1} g_r \mid \cF_m]$ almost everywhere, so $\{f_{m, r}\}_{m \ge 0}$ is uniformly integrable. Since $f_{m, r} \to g_r$ almost everywhere, Vitali's convergence theorem (\texttt{vitali\_of\_condExp\_bound}) implies $\|f_{m, r} - g_r\|_{L^1(m_3)} \to 0$ and $K_m(r) \to K_\infty(r)$ as $m \to \infty$. Since $\|f_{m, r} - g_r\|_{L^1} \le (1 + \eta^{-1})K_\infty(r)$ with $\sum_{r=1}^\infty 2\cdot 4^{-r}(1 + \eta^{-1})K_\infty(r) = (1 + \eta^{-1})\cI < \infty$, dominated convergence for series (\texttt{primitive\_energy\_convergence} and \texttt{weighted\_collision\_errors\_tendsto\_zero}) yields~\eqref{eq:weighted-collision-convergence} and $\lim_{m \to \infty} E_{m+1}^{\prim} = \cI$. Finally, $E_m = \sum_{k=1}^m E_k^{\prim}$ gives $\lim_{m \to \infty} E_m / m = \cI$ by Ces\`aro averaging.
+\end{enumerate}
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:energy-tail-constant}]
+In~\cite[\S 8, (25)]{Weaver2026}, the density tail constant $\kappa = \lim_{t \to \infty} t^2 m_3\{\rho > t\}$ is shown to satisfy $2(\log 3 - \frac{4}{3}\log 2)\kappa = 2\sum_{r=1}^\infty 4^{-r} \int_{\Z_3} \rho(x)\rho(\Theta_r x)\,dm_3(x)$, which equals $\cI$ by definition~\eqref{eq:I_bounds}. Substituting $\cI$ into $E_m = \cI m + o(m)$ from Theorem~\ref{thm:primitive-energy} gives the stated asymptotic.
+\end{proof}
+
+\section{$p$-adic Compatibility-Filtered Semigroups and $3$-adic Valuations}\label{sec:semigroup}
+
+\subsection{Exact Conjugation, Compatibility Fibers, and Normalization}\label{subsec:conjugation}
+
+Given $b \in I$ with $\psi_b(\ell) = (\lambda_b \ell + \beta_b)/p$, its inverse on $\Q_p$ is $\psi_b^{-1}(y) = \lambda_b^{-1}(p y - \beta_b)$. For $\tau(\ell) = \alpha \ell + \gamma$ and $\omega = (b_1, b_2) \in I^2$, direct expansion of $\tau'(\ell) = \psi_{b_2}(\tau(\psi_{b_1}^{-1}(\ell)))$ yields
+\begin{equation}\label{eq:conj}
+\alpha' = q(\omega)\alpha, \qquad \gamma' = \frac{\lambda_{b_2}\gamma + \beta_{b_2} - q(\omega)\alpha \beta_{b_1}}{p}, \qquad q(\omega) := \frac{\lambda_{b_2}}{\lambda_{b_1}} \in \Z_p^\times.
+\end{equation}
+
+\begin{lemma}[Exact compatibility equivalence and $p^2$ row sum]\label{lem:compat}
+Let $M = p^d$ and $\alpha \in U_{pM}$. Write $k_b \in \{0, \dots, p-1\}$ for the unique solution of $\lambda_b k_b + \beta_b \equiv 0 \pmod p$, and set $\kappa_\omega(\alpha) := (k_{b_2} - \alpha k_{b_1}) \bmod p$. Then:
+\begin{enumerate}[label=(\arabic*)]
+\item $\lambda_{b_2}\gamma + \beta_{b_2} - q(\omega)\alpha\beta_{b_1} \equiv 0 \pmod p$ if and only if $\gamma \equiv \kappa_\omega(\alpha) \pmod p$.
+\item Writing $\gamma = \kappa_\omega(\alpha) + p z$ ($z \in \Z/M\Z$), the reduced map reads $\gamma' \equiv \lambda_{b_2} z + c_\omega(\alpha) \pmod M$ with $c_\omega(\alpha) := (\lambda_{b_2}\kappa_\omega(\alpha) + \beta_{b_2} - q(\omega)\alpha\beta_{b_1})/p \in \Z_p$.
+\item Every $\tau' \in \cG_M$ has exactly $p$ preimages $\tau \in \cG_{pM}$ under each branch pair $\omega \in I^2$, so $\cT_M \mathbf{1}_{\cG_{pM}} = p^2 \mathbf{1}_{\cG_M}$ and $\cP_M := p^{-2}\cT_M$ satisfies $\cP_M \mathbf{1}_{\cG_{pM}} = \mathbf{1}_{\cG_M}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $\lambda_{b_i} k_{b_i} + \beta_{b_i} \equiv 0 \pmod p$ and $q(\omega) = \lambda_{b_2}/\lambda_{b_1}$,
+\[
+\lambda_{b_2}\kappa_\omega(\alpha) + \beta_{b_2} - q(\omega)\alpha\beta_{b_1} \;\equiv\; (\lambda_{b_2} k_{b_2} + \beta_{b_2}) - \frac{\lambda_{b_2}}{\lambda_{b_1}}\alpha(\lambda_{b_1} k_{b_1} + \beta_{b_1}) \;\equiv\; 0 \pmod p.
+\]
+Hence $\lambda_{b_2}(\gamma - \kappa_\omega(\alpha)) \equiv 0 \pmod p$, which holds iff $\gamma \equiv \kappa_\omega(\alpha) \pmod p$ because $\lambda_{b_2} \in \Z_p^\times$. Substituting $\gamma = \kappa_\omega(\alpha) + p z$ gives (2) with $c_\omega(\alpha) \in \Z_p$. For (3), given $(\alpha', \gamma') \in \cG_M$, $q(\omega)\alpha \equiv \alpha' \pmod M$ has $p$ lifts $\alpha \in U_{pM}$; for each lift, $\lambda_{b_2} z + c_\omega(\alpha) \equiv \gamma' \pmod M$ uniquely determines $z \in \Z/M\Z$ (and hence $\gamma \in \Z/(pM)\Z$). Summing weights yields $p \sum_{\omega \in I^2} \frac{1}{p} w_1(b_1)w_1(b_2) = (\sum_b w_1(b))^2 = p^2$.
+\end{proof}
+
+\subsection{Exact Slope-Ratio Weights, Physical Seeds $T_r$, and Fixed-Point Trap Families}\label{subsec:syracuse_weights}
+
+In the $p=3$ Syracuse semigroup (arising from the $2$-adic Syracuse branch density~\cite{Terras1976,Tao2019}), $4^{s+1} \equiv 1 \pmod 3$ and $c_{s+1} = (4^{s+1}-1)/3 \equiv s+1 \pmod 3$, so $\lambda(s,r)k + \beta(s,r) = \frac{4^{s+1}(k+1)-1-r}{r} \equiv 0 \pmod 3$ holds uniquely at $k(s,r) \equiv r - (s+1) \pmod 3$. Summing $w_1(s,r) = \frac{3}{4}4^{-s} r$ along each residue class $k \in \{0, 1, 2\}$ via $\sum_{m=0}^\infty 4^{-3m} = \frac{64}{63}$ yields:
+\begin{equation}\label{eq:W1_syracuse_exact}
+\begin{aligned}
+W_1[0] &= \frac{3}{4}\left(1\cdot 1 + 2\cdot\frac{1}{4}\right)\frac{64}{63} = \frac{8}{7},\\
+W_1[1] &= \frac{3}{4}\left(1\cdot\frac{1}{16} + 2\cdot 1\right)\frac{64}{63} = \frac{11}{7},\\
+W_1[2] &= \frac{3}{4}\left(1\cdot\frac{1}{4} + 2\cdot\frac{1}{16}\right)\frac{64}{63} = \frac{2}{7}.
+\end{aligned}
+\end{equation}
+
+In Tao's physical $3$-adic martingale coordinates $z = 3\ell + 1$, the $r$-step Collatz affine map $T_r$ takes the form $T_r(z) = 2^{2r-1}z + \frac{4^r-1}{6}$ ($r \equiv 1 \bmod 3$), $2^{2r+1}z + \frac{4^r-1}{3}$ ($r \equiv 2 \bmod 3$), and either $4^r z + \frac{4^r-1}{3}$ or $4^r z + \frac{4^r-1}{6}$ ($r \equiv 0 \bmod 3$). Passing to the reduced coordinates $\ell = (z-1)/3$ defines the physical seed maps $\tau_0 = T_r(\ell)$:
+\[
+T_r(\ell) \;=\;
+\begin{cases}
+2^{2r-1}\ell + \dfrac{2^{2r-1}-1 + (4^r-1)/6}{3}, & r \equiv 1 \pmod 3, \\[6pt]
+2^{2r+1}\ell + \dfrac{2^{2r+1}-1 + (4^r-1)/3}{3}, & r \equiv 2 \pmod 3, \\[6pt]
+4^r\ell + \dfrac{4(4^r-1)}{9} \;\;\text{or}\;\; 4^r\ell + \dfrac{7(4^r-1)}{18}, & r \equiv 0 \pmod 3.
+\end{cases}
+\]
+Explicitly, $T_1(\ell) = 2\ell + \frac{1}{2}$, $T_2(\ell) = 32\ell + 12$, $T_3^{(1)}(\ell) = 64\ell + 28$, $T_3^{(2)}(\ell) = 64\ell + \frac{49}{2}$, and $T_4(\ell) = 128\ell + \frac{113}{2}$.
+
+Notice that a diagonal branch pair $\omega = (s, r, s, r)$ satisfies $\psi_{s,r}(\ell_{s,r}) = \ell_{s,r}$ at the unique fixed point $\ell_{s,r} := \beta(s,r)/(3 - \lambda(s,r)) \in \Z_3$. Conjugating $\tau(\ell) = \alpha\ell + \gamma$ by a fixed point preserves the invariant line
+\[
+\cF_{s, r} \;:=\; \bigl\{(\alpha, \gamma) \in \cG_{\Z_3} : \tau(\ell_{s,r}) = \ell_{s,r}\bigr\} \;=\; \bigl\{(\alpha,\, (1 - \alpha)\ell_{s,r}) : \alpha \in \Z_3^\times\bigr\}.
+\]
+In particular, $(s, r) = (0, 2)$ has $\lambda(0,2) = 2$, $\beta(0,2) = -\frac{1}{2}$, and fixed point $\ell_{0,2} = -\frac{1}{2}$, so $\cF_{0,2} = \{(\alpha,\, (\alpha - 1)/2) : \alpha \in \Z_3^\times\}$, which contains $T_1 = (2, 1/2)$ and traps a self-loop weight of $w((0,2,0,2)) = \frac{3}{4}$ per step.
+
+Furthermore, $q(\omega) = 4^{s_2 - s_1}\frac{r_1}{r_2}$ always lies in $\{2^e : e \in \Z\}$, with closed-form slice mass:
+
+\begin{lemma}[Exact slope-ratio probability distribution]\label{lem:W_omega_2e}
+For every $e \in \Z$, $W_{\Omega(2^e)} := \sum_{\omega \in \Omega(2^e)} w(\omega) = 2^{-|e|}$. Consequently, $\sum_{e \in \Z} W_{\Omega(2^e)} = 3$ and $P(e) := \frac{1}{3} 2^{-|e|}$ is a probability measure on $\Z$.
+\end{lemma}
+
+\begin{proof}
+By symmetry swapping $(s_1, r_1) \leftrightarrow (s_2, r_2)$, $W_{\Omega(2^{-e})} = W_{\Omega(2^e)}$. Let $e \ge 0$. Notice $4^{s_2-s_1}(r_1/r_2) = 2^{2(s_2-s_1) + \mathbf{1}_{r_1=2} - \mathbf{1}_{r_2=2}}$.
+If $e = 2m \ge 0$, then $r_1 = r_2 \in \{1, 2\}$ and $s_2 = s_1 + m$ ($s_1 \ge 0$), so
+\[
+W_{\Omega(2^{2m})} = \sum_{s_1=0}^\infty \frac{3}{16}(1^2 + 2^2)\, 4^{-m}\, 16^{-s_1} = \frac{15}{16}\,4^{-m}\cdot\frac{16}{15} = 2^{-2m}.
+\]
+If $e = 2m + 1 \ge 1$, two disjoint families contribute: $(r_1, r_2) = (2, 1)$ with $s_2 = s_1 + m$, and $(r_1, r_2) = (1, 2)$ with $s_2 = s_1 + m + 1$. Summing gives
+\[
+W_{\Omega(2^{2m+1})} = \sum_{s_1=0}^\infty \frac{3}{16}\bigl(2\cdot 4^{-m} + 2\cdot 4^{-m-1}\bigr)16^{-s_1} = \frac{15}{16}\cdot\frac{2\cdot(5/4)}{5}\,4^{-m}\cdot\frac{16}{15} = \frac{1}{2}\,4^{-m} = 2^{-(2m+1)}. \qedhere
+\]
+\end{proof}
+
+\subsection{Exact $3$-adic Valuation Dichotomy of Conditional Intercept Kicks}\label{subsec:3adic_val}
+
+Because $\beta(s, r) = \frac{\lambda(s, r)}{3} - \frac{1+3r}{3r}$, substituting into $c_\omega(\alpha)$ produces explicit rational kicks. A key structural feature is that $r = 1$ and $r = 2$ branches fall into \emph{different} compatibility classes whenever $\alpha \equiv 2 \pmod 3$ or when $\alpha \equiv 1 \pmod 3$ with $e$ odd.
+
+\begin{proposition}[Exact $3$-adic valuation dichotomy for $c_\omega(\alpha)$]\label{prop:3adic_val}
+In the $p = 3$ Syracuse semigroup, for every $\omega \in I^2$ and $\alpha \in \Z_3^\times$, we have $c_\omega(\alpha) \in \Z_3$. More precisely:
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{Case $q = 1$, $\alpha \equiv 1 \pmod 3$}: Every $\omega = (s, r, s, r) \in \Omega(1)$ satisfies $\kappa_\omega(\alpha) = 0$. The two dominant branches $(0, 1, 0, 1)$ and $(0, 2, 0, 2)$ give
+\[
+c_{(0, 1, 0, 1)}(\alpha) = 0, \qquad c_{(0, 2, 0, 2)}(\alpha) = \frac{\alpha - 1}{6} \in \Z_3, \qquad v_3\!\left(\frac{\alpha - 1}{6}\right) = v_3(\alpha - 1) - 1 \ge 0.
+\]
+Hence their difference $\Delta c = \frac{\alpha-1}{6}$ is a $3$-adic unit if and only if $\alpha \equiv 4, 7 \pmod 9$ (for $\alpha \equiv 1 \pmod 9$, $v_3(\Delta c) \ge 1$).
+\item \textbf{Case $q = 1$, $\alpha \equiv 2 \pmod 3$}: The two branches $(0, 2, 0, 2)$ ($\kappa = 2$, $c = \frac{\alpha+7}{6}$) and $(0, 1, 0, 1)$ ($\kappa = 0$, $c = 0$) lie in \emph{disjoint} compatibility classes. Inside $\kappa = 0$, the two leading branches are $(0, 1, 0, 1)$ (relative weight $0.7998$) and $(1, 2, 1, 2)$ (relative weight $0.2000$, $c = \frac{1-\alpha}{2}$), whose difference $\Delta c = \frac{\alpha - 1}{2}$ satisfies $v_3(\Delta c) = 0$ (a $3$-adic unit) for \emph{all} $\alpha \equiv 2 \pmod 3$. Inside $\kappa = 2$, $(0, 2, 0, 2)$ carries $0.75000/0.75092 \approx 99.88\%$ of the slice weight.
+\item \textbf{Odd exponent $q = 2^{2m+1}$ ($e = 2m+1$, $\mathrm{I} = \{(s_1, 2, s_1+m, 1)\}$ with weight $4/5$ and $\mathrm{II} = \{(s_1, 1, s_1+m+1, 2)\}$ with weight $1/5$)}:
+\begin{itemize}[leftmargin=1.5em]
+\item When $\alpha \equiv 1 \pmod 3$, Family~$\mathrm{I}$ lies uniformly in the single compatibility fiber $\kappa \equiv -m - 1 \pmod 3$, whereas Family~$\mathrm{II}$ lies uniformly in $\kappa \equiv -m \pmod 3$; hence $\mathrm{I}$ and $\mathrm{II}$ are strictly disjoint across compatibility fibers, leaving the third fiber empty (weight $0$).
+\item When $\alpha \equiv 2 \pmod 3$, both $\kappa_{\mathrm{I}}(2; s_1) \equiv s_1 - m + 1 \pmod 3$ and $\kappa_{\mathrm{II}}(2; s_1) \equiv s_1 - m \pmod 3$ cycle through $\{0, 1, 2\}$ as $s_1$ varies, whereas the leading $s_1 = 0$ representatives $(0, 2, m, 1)$ and $(0, 1, m+1, 2)$ occupy distinct fibers ($1 - m$ vs.\ $-m \pmod 3$). Writing $u := (\kappa + m) \bmod 3$, the three compatibility fibers carry exact normalized weights $\frac{16}{21}$ ($u = 1$), $\frac{4}{21}$ ($u = 0$), and $\frac{1}{21}$ ($u = 2$).
+\end{itemize}
+By swap symmetry $e \mapsto -e$, the same fiberwise weights hold (with $m$ replaced by $-m-1$ upon conjugation) for negative odd $e$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For $\omega = (s, r, s, r) \in \Omega(1)$, we have $q = 1$, $\lambda_2 = 4^{s+1}/r$, $\beta_1 = \beta_2 = (c_{s+1}-r)/r$, and $k_1 = k_2 \equiv r - (s+1) \pmod 3$. When $\alpha \equiv 1 \pmod 3$, $\kappa_\omega(\alpha) \equiv (1-\alpha)k_1 \equiv 0 \pmod 3$ for all $s, r$. For $(0, 1, 0, 1)$, $c_{1} - 1 = 0$ gives $\beta_1 = 0$, so $c_{(0,1,0,1)}(\alpha) = 0$. For $(0, 2, 0, 2)$, $\lambda_2 = 2$ and $\beta_1 = -1/2$, so $c_{(0,2,0,2)}(\alpha) = \frac{-1/2 - \alpha(-1/2)}{3} = \frac{\alpha - 1}{6}$, proving (1) since $v_3(6) = 1$.
+
+When $\alpha \equiv 2 \pmod 3$, $(0, 2, 0, 2)$ has $k_1 = 1$, so $\kappa = 1 - 2\cdot 1 \equiv 2 \pmod 3$ and $c_{(0,2,0,2)}(\alpha) = \frac{2\cdot 2 - 1/2 + \alpha/2}{3} = \frac{\alpha + 7}{6}$. By contrast, $(0, 1, 0, 1)$ has $k_1 = 0$ ($\kappa = 0$, $c = 0$), and $(1, 2, 1, 2)$ has $k_1 = 2 - 2 = 0$ ($\kappa = 0$, $\lambda_2 = 8$, $\beta_1 = (5-2)/2 = 3/2$), yielding $c_{(1,2,1,2)}(\alpha) = \frac{3/2 - 3\alpha/2}{3} = \frac{1-\alpha}{2}$. Since $3 \nmid (\alpha - 1)$ when $\alpha \equiv 2 \pmod 3$, $v_3(\frac{\alpha-1}{2}) = 0$. Comparing $w((1,2,1,2)) = \frac{3}{64}$ and $w((0,1,0,1)) = \frac{3}{16}$ against the remaining $\kappa=0$ tail $(3,1,3,1), (4,2,4,2), \dots$ (summing via $16^{-3j}$ to total fiber weight $\frac{64}{273}$) yields exact relative weights on $\kappa = 0$ of $\frac{3/16}{64/273} = \frac{819}{1024} \approx 0.79980$ and $\frac{3/64}{64/273} = \frac{819}{4096} \approx 0.19995$, versus $(0,2,0,2)$'s $\frac{3}{4}$ out of $\frac{205}{273} \approx 0.75092$ on $\kappa = 2$.
+
+Finally, for $e = 2m + 1 \ge 1$, Family~$\mathrm{I} = \{(s_1, 2, s_1 + m, 1) : s_1 \ge 0\}$ has $k_1 \equiv 1 - s_1 \pmod 3$, $k_2 \equiv -s_1 - m \pmod 3$, and relative normalized weight $\frac{3}{4} 16^{-s_1}$ inside $\Omega(2^{2m+1})$ (summing to $\frac{4}{5}$), giving $\kappa_{\mathrm{I}}(\alpha; s_1) \equiv (\alpha - 1)s_1 - m - \alpha \pmod 3$. Family~$\mathrm{II} = \{(s_1, 1, s_1 + m + 1, 2) : s_1 \ge 0\}$ has $k_1' \equiv -s_1 \pmod 3$, $k_2' \equiv -s_1 - m \pmod 3$, and normalized weight $\frac{3}{16} 16^{-s_1}$ (summing to $\frac{1}{5}$), giving $\kappa_{\mathrm{II}}(\alpha; s_1) \equiv (\alpha - 1)s_1 - m \pmod 3$. Setting $\alpha \equiv 1 \pmod 3$ freezes $s_1$-dependence to $-m - 1$ vs.\ $-m \pmod 3$ (strictly disjoint fibers). Setting $\alpha \equiv 2 \pmod 3$ gives $\kappa_{\mathrm{I}} \equiv s_1 - m + 1 \pmod 3$ and $\kappa_{\mathrm{II}} \equiv s_1 - m \pmod 3$. With $u := (\kappa + m) \bmod 3$, summing $\sum_{j=0}^\infty 16^{-3j} = \frac{4096}{4095}$ over $s_1 \equiv u - 1 \pmod 3$ in $\mathrm{I}$ and $s_1 \equiv u \pmod 3$ in $\mathrm{II}$ yields:
+\[
+P_{\kappa}(2, 2^{2m+1}) = \frac{3}{4} 16^{-(u-1)\bmod 3}\frac{4096}{4095} + \frac{3}{16} 16^{-u\bmod 3}\frac{4096}{4095} =
+\begin{cases}
+\frac{1024+16}{1365} = \frac{16}{21}, & u = 1, \\[3pt]
+\frac{4+256}{1365} = \frac{4}{21}, & u = 0, \\[3pt]
+\frac{64+1}{1365} = \frac{1}{21}, & u = 2,
+\end{cases}
+\]
+which completes the proof.
+\end{proof}
+
+\section{Primitive Mackey Tensor Factorization and Uniform $L^2$ Gap}\label{sec:tensor_A1}
+
+We now prove Theorem~\ref{thm:A1} for any compatibility-filtered $p$-adic affine semigroup, and establish exact $1$D Hilbert--Schmidt duality for pushforward dispersions.
+
+\subsection{Primitive Subspace Invariance, Matrix Elements, and Decoupling}\label{subsec:tensor_proof}
+
+\begin{lemma}[Primitive invariance and partial-isometry $L^2(\Unif)$ identity]\label{lem:prim_invariance}
+Let $M = p^d$. Under Definition~\ref{def:padic_semigroup}:
+\begin{enumerate}[label=(\arabic*)]
+\item The $1$-step transfer operator $\cT_M : \ell^2(\cG_{pM}) \to \ell^2(\cG_M)$ maps $\cH_{pM}^{(0)}$ into $\cH_M^{(0)}$ and $(\cH_{pM}^{(0)})^\perp$ into $(\cH_M^{(0)})^\perp$, i.e., $\Pi_M^{(0)} \cT_M = \cT_M \Pi_{pM}^{(0)}$. Iterating gives $\cP_M^{(k)}(\cH_{p^k M}^{(0)}) \subseteq \cH_M^{(0)}$ for all $k \ge 1$.
+\item Consequently, $\|B_d^{(0)}\|_{2\to 2}^2 = \|\Pi_M^{(0)}\cP_M|_{\cH_{pM}^{(0)}}\|_{L^2(\Unif)}^2 = \|\cP_M|_{\cH_{pM}^{(0)}}\|_{L^2(\Unif)}^2$, and $\|B_d^{(0)}\cdots B_{d+k-1}^{(0)}\|_{2\to 2}^2 = \|\cP_M^{(k)}|_{\cH_{p^k M}^{(0)}}\|_{L^2(\Unif)}^2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Extend $\cF_M^{(0)}$ to the full (unitary) groupwise additive Fourier transform on $\ell^2(\cG_M)$ indexed by $(\alpha', u) \in U_M \times (\Z/M\Z)$ via $(\cF_M^{\mathrm{all}} f)(\alpha', u) := M^{-1/2}\sum_{\gamma \in \Z/M\Z} f(\alpha', \gamma) e_M(-u\gamma)$. Repeating the direct expansion along $\gamma = \kappa_\omega(\alpha) + p z$ ($0 \le z < M$) for arbitrary $(u, \tilde u) \in (\Z/M\Z) \times (\Z/(pM)\Z)$ shows that the $((\alpha', u), (\alpha, \tilde u))$ matrix element of $\cF_M^{\mathrm{all}} \cT_M (\cF_{pM}^{\mathrm{all}})^*$ carries the indicator $\mathbf{1}_{\tilde u \equiv \lambda_{b_2}(\omega)u \bmod M}$. Because $\lambda_{b_2}(\omega) \in \Z_p^\times$ and $p \mid M$, we have $p \nmid u \iff p \nmid \tilde u$. Thus $\cF_M^{\mathrm{all}} \cT_M (\cF_{pM}^{\mathrm{all}})^*$ is block-diagonal between $u \in U_M$ ($\cH_M^{(0)}$) and $p \mid u$ ($(\cH_M^{(0)})^\perp$), proving $\Pi_M^{(0)}\cT_M = \cT_M\Pi_{pM}^{(0)}$ and (1).
+
+For (2), since $\Pi_M^{(0)} = (\cF_M^{(0)})^*\cF_M^{(0)}$, $\Pi_{pM}^{(0)} = (\cF_{pM}^{(0)})^*\cF_{pM}^{(0)}$, and $B_d^{(0)} = p\,\cF_M^{(0)}\cP_M(\cF_{pM}^{(0)})^*$, we have $\cP_M\Pi_{pM}^{(0)} = \Pi_M^{(0)}\cP_M\Pi_{pM}^{(0)} = p^{-1}(\cF_M^{(0)})^* B_d^{(0)}\cF_{pM}^{(0)}$. Because $(\cF_M^{(0)})^*$ is an isometry and $\cF_{pM}^{(0)}$ restricts to an isometry on $\cH_{pM}^{(0)}$ in the unweighted $\ell^2$ norm, $\|\cP_M|_{\cH_{pM}^{(0)}}\|_{\ell^2 \to \ell^2} = p^{-1}\|B_d^{(0)}\|_{2\to 2}$. Rescaling to $\|g\|_{L^2(\Unif(\cG_N))} = |\cG_N|^{-1/2}\|g\|_{\ell^2(\cG_N)}$ with $(|\cG_{pM}|/|\cG_M|)^{1/2} = p$ cancels $p^{-1}$, giving $\|\cP_M|_{\cH_{pM}^{(0)}}\|_{L^2(\Unif)} = \|B_d^{(0)}\|_{2\to 2}$. Iterating $\Pi_{p^j M}^{(0)}$ across intermediate factors yields the $k$-step identity.
+\end{proof}
+
+\begin{lemma}[Exact closed-form matrix elements of $B_d^{(0)}$]\label{lem:B_matrix}
+Let $M = p^d$. Under Definition~\ref{def:padic_semigroup}, $B_d^{(0)} = \sum_{\omega \in I^2} B_{d,\omega}^{(0)}$, where for $(\alpha', u) \in U_M \times U_M$ and $(\alpha, \tilde u) \in U_{pM} \times U_{pM}$,
+\begin{equation}\label{eq:B_closed}
+B_{d,\omega}^{(0)}\bigl((\alpha', u),\, (\alpha, \tilde u)\bigr) \;=\; \frac{w(\omega)}{p\sqrt{p}}\,\mathbf{1}_{q(\omega)\alpha \equiv \alpha' \bmod M}\,\mathbf{1}_{\tilde u \equiv \lambda_2(\omega)u \bmod M}\, e_{pM}\!\Bigl((\tilde u - \lambda_2 u)(k_2 - \alpha k_1) - u\bigl(\beta_2 - q(\omega)\alpha\beta_1\bigr)\Bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Expanding $\cF_M^{(0)}\cT_M(\cF_{pM}^{(0)})^*$ along $\gamma = \kappa_\omega(\alpha) + p z$ ($0 \le z < M$) and $\gamma' \equiv (\lambda_2 \gamma + \beta_2 - q(\omega)\alpha\beta_1)/p \pmod M$ yields
+\[
+\frac{w(\omega)}{p\sqrt{M\cdot pM}}\,\mathbf{1}_{q(\omega)\alpha \equiv \alpha' \bmod M}\sum_{z=0}^{M-1} \exp\!\left(2\pi i \frac{(\tilde u - \lambda_2 u)(\kappa_\omega(\alpha) + p z) - u(\beta_2 - q(\omega)\alpha\beta_1)}{pM}\right).
+\]
+Notice $\frac{1}{M}\sum_{z=0}^{M-1} e_M((\tilde u - \lambda_2 u)z) = \mathbf{1}_{\tilde u \equiv \lambda_2 u \bmod M}$. Moreover, whenever $\tilde u \equiv \lambda_2 u \pmod M$, replacing $\kappa_\omega(\alpha) = (k_2 - \alpha k_1) \bmod p$ by $k_2 - \alpha k_1$ shifts the numerator by an integer multiple of $p(\tilde u - \lambda_2 u) \equiv 0 \pmod{pM}$. The prefactor is $\frac{w(\omega)}{p}\frac{M}{\sqrt{p M^2}} = \frac{w(\omega)}{p\sqrt{p}}$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:A1}(1)--(2)]
+Define the unitary coordinate bijections $U_M : \ell^2(U_M^2) \to \ell^2(U_M)\otimes\ell^2(U_M)$ via $(x_1, x_2) = (\alpha' u \bmod M,\; u \bmod M)$, and $U_{pM} : \ell^2(U_{pM}^2) \to \ell^2(U_{pM})\otimes\ell^2(U_{pM})$ via $(y_1, y_2) = (\alpha \tilde u \bmod pM,\; \tilde u \bmod pM)$. Under these coordinates:
+\begin{enumerate}[label=(\roman*)]
+\item $\tilde u \equiv \lambda_2 u \pmod M$ becomes $y_2 \equiv \lambda_2 x_2 \pmod M$;
+\item $q(\omega)\alpha \equiv \alpha' \pmod M$ coupled with $\tilde u \equiv \lambda_2 u \pmod M$ is equivalent to $y_1 = \alpha \tilde u \equiv (q(\omega)^{-1}\alpha')(\lambda_2 u) = \lambda_1 x_1 \pmod M$.
+\end{enumerate}
+Crucially, rewrite the exponent in~\eqref{eq:B_closed} using $\tilde u = y_2$, $u = x_2$, $\alpha \tilde u = y_1$:
+\[
+(\tilde u - \lambda_2 u)(k_2 - \alpha k_1) - u(\beta_2 - q(\omega)\alpha\beta_1) = \bigl[(y_2 - \lambda_2 x_2)k_2 - \beta_2 x_2\bigr] - y_1 k_1 + q(\omega)\alpha u(\lambda_1 k_1 + \beta_1).
+\]
+Because $p \mid (\lambda_1 k_1 + \beta_1)$ by definition of $k_1$, the congruence $q(\omega)\alpha \equiv \alpha' \pmod M$ \emph{upgrades automatically modulo $pM$}:
+\[
+q(\omega)\alpha u(\lambda_1 k_1 + \beta_1) \;\equiv\; (\alpha' u)(\lambda_1 k_1 + \beta_1) \;=\; x_1(\lambda_1 k_1 + \beta_1) \pmod{pM}.
+\]
+Thus the remaining terms equal $-\bigl[(y_1 - \lambda_1 x_1)k_1 - \beta_1 x_1\bigr] \pmod{pM}$, which is the exact complex conjugate phase for branch $b_1$. Splitting $\frac{w(\omega)}{p\sqrt{p}} = \frac{1}{\sqrt{p}}\cdot\frac{w_1(b_1)}{p}\cdot\frac{w_1(b_2)}{p}$ yields $U_M B_d^{(0)} U_{pM}^* = \frac{1}{\sqrt{p}}\overline{A_d}\otimes A_d$, and hence $U_M B_d^{(0)}(B_d^{(0)})^* U_M^* = \frac{1}{p}\overline{H_d}\otimes H_d$.
+
+Next, compute $(H_d)_{x, x'} = \sum_{y \in U_{pM}} (A_d)_{x, y}\overline{(A_d)_{x', y}}$ for $b_1, b_2 \in I$. Requiring $y \equiv \lambda_1 x \equiv \lambda_2 x' \pmod M$ forces $x' \equiv q x \pmod M$ with $q = \lambda_1/\lambda_2$, and $y$ ranges over the $p$ lifts $y_0 + mM$ ($m = 0, \dots, p-1$). Summing the $m$-dependent factor produces the exact $p$-lift selection rule:
+\begin{equation}\label{eq:p_lift_rule}
+\sum_{m=0}^{p-1} e_{pM}\bigl(mM(k_1 - k_2)\bigr) \;=\; \sum_{m=0}^{p-1} e_p\bigl(m(k_1 - k_2)\bigr) \;=\; p\,\mathbf{1}_{k_1 = k_2}.
+\end{equation}
+When $k_1 = k_2 = k$, the remaining phase exponent in $H_d$ divided by $pM$ is
+\[
+\frac{(y_0 - \lambda_1 x)k - \beta_1 x - (y_0 - \lambda_2 x')k + \beta_2 x'}{pM} \;=\; \frac{\tau_2 x' - \tau_1 x}{M} \;=\; \frac{(\tau_2 q - \tau_1)x}{M},
+\]
+where $\tau_i := (\lambda_i k + \beta_i)/p \in \Z_p$ is well-defined because $p \mid (\lambda_i k + \beta_i)$. Since $(W_{q, c} f)(x) = e_M(cx)f(qx)$ is unitary on $\ell^2(U_M)$ ($\|W_{q,c}\|_{2\to 2} = 1$), the triangle inequality yields
+\[
+\|H_d\|_{2\to 2} \;\le\; \frac{1}{p}\sum_{k \in \Z/p\Z} \sum_{k_1 = k_2 = k} w_1(b_1)w_1(b_2) \;=\; \frac{1}{p}\sum_{k \in \Z/p\Z} W_1[k]^2.
+\]
+Finally, by $G_d \cong \frac{1}{p}\overline{H_d}\otimes H_d$, $\|B_d^{(0)}\|_{2\to 2}^2 = \|G_d\|_{2\to 2} = \frac{1}{p}\|H_d\|_{2\to 2}^2$, and Lemma~\ref{lem:prim_invariance}(2) plus sub-multiplicativity gives the $k$-step bound on $\cH_{p^k M}^{(0)}$ because $U_{p^j M}$ cancels between adjacent factors $B_d^{(0)} \cdots B_{d+k-1}^{(0)}$.
+\end{proof}
+
+\begin{remark}[Why non-primitive shells $\ell \ge 1$ fail Theorem~\ref{thm:A1}]
+On non-primitive Mackey shells $\ell = v_p(u) \ge 1$, writing $u = p^\ell u_0$ replaces~\eqref{eq:p_lift_rule} by $\sum_{m=0}^{p-1} e_p(m\,p^\ell u_0(k_1 - k_2)) = p$ identically for \emph{all} $k_1, k_2 \in \Z/p\Z$. Cross-$k$ pairs survive without cancellation, raising the triangle bound from $\frac{1}{p}\sum_k W_1[k]^2$ to $\frac{1}{p}(\sum_k W_1[k])^2 = p$.
+\end{remark}
+
+\subsection{Syracuse Collapse, Resonance Classifier, and Exact $1$D Hilbert--Schmidt Duality}\label{subsec:syracuse_collapse}
+
+\begin{proof}[Proof of Theorem~\ref{thm:A1}(3)]
+In the $p = 3$ Syracuse semigroup, $\beta_i = \frac{\lambda_i}{3} - \frac{1+3r_i}{3r_i}$, so for $k_1 = k_2 = k$ and $q = \lambda_1/\lambda_2$, $\tau_i = \frac{\lambda_i(3k+1)}{9} - \frac{1+3r_i}{9r_i}$ and the $\lambda_1$ terms cancel identically:
+\[
+c_{\mathrm{1D}} = \tau_2 q - \tau_1 = \frac{1}{9}\left(\frac{1+3r_1}{r_1} - q\,\frac{1+3r_2}{r_2}\right) \in \Z_3.
+\]
+Note $c_{\mathrm{1D}}$ depends only on $(\Delta s, r_1, r_2)$ where $\Delta s := s_1 - s_2 \equiv r_1 - r_2 \pmod 3$. Summing $\frac{w_1(s_1, r_1)w_1(s_2, r_2)}{3}$ over $j := \min(s_1, s_2) \ge 0$ yields $\frac{3}{16}r_1 r_2\, 4^{-|\Delta s|}\sum_{j=0}^\infty 16^{-j} = \frac{r_1 r_2}{5}\,4^{-|\Delta s|}$. The diagonal $(\Delta s = 0, r_1 = r_2)$ gives $(W_{1,0} = I)$ with weight $\frac{1^2+2^2}{5} = 1$. Summing all off-diagonal coefficients gives:
+\begin{itemize}[leftmargin=2em]
+\item $r_1 = r_2$, $\Delta s = 3n \neq 0$: $\frac{1+4}{5}\cdot 2\sum_{n=1}^\infty 4^{-3n} = \frac{2}{63}$;
+\item $(r_1, r_2) \in \{(1,2), (2,1)\}$, $\Delta s \equiv r_1 - r_2 \pmod 3$: $2\cdot\frac{2}{5}\cdot\frac{4^{-1}+4^{-2}}{1 - 4^{-3}} = \frac{16}{63}$.
+\end{itemize}
+Since every off-diagonal term satisfies $\|W_{q,c}\|_{2\to 2} = 1$ and the total off-diagonal $\ell^1$ weight is $\frac{2}{63} + \frac{16}{63} = \frac{2}{7}$, the self-adjoint operator $H_d$ satisfies $(1 - \frac{2}{7})I \le H_d \le (1 + \frac{2}{7})I$, i.e., $\frac{5}{7} I \le H_d \le \frac{9}{7} I$. Thus $\|B_d^{(0)}\|^2 = \frac{1}{3}\|H_d\|^2 \le \frac{27}{49}$.
+
+For trace moments, because $U_M G_d^q U_M^* = 3^{-q}\overline{H_d^q}\otimes H_d^q$, taking normalized traces gives $\mathfrak{R}_{2q, d} = 3^{-q}|\mathfrak{R}_{q, d}^{\mathrm{1D}}|^2$. Every unitary monomial term $W_{q', c'}$ in the $q$-fold product expansion of $H_d^q$ satisfies $|\operatorname{Tr}(W_{q', c'})| \le |\{x \in U_{3^d} : q'x \equiv x \bmod 3^d\}| \le \varphi(3^d)$ (reducing at $q' \equiv 1 \pmod{3^d}$ to the Ramanujan sum $c_{3^d}(c')$ with $|c_{3^d}(c')| \le \varphi(3^d)$), so the triangle inequality with $\ell^1$ total monomial weight $\frac{9}{7}$ per factor yields $0 \le \mathfrak{R}_{q, d}^{\mathrm{1D}} \le (9/7)^q$, and hence $\mathfrak{R}_{2q, d} \le 3^{-q}(9/7)^{2q} = (27/49)^q$ unconditionally for all $d, q \ge 1$.
+\end{proof}
+
+\begin{remark}[Resonance classification of $\operatorname{Tr}(H_d^2)$]\label{rem:resonance_1dhs}
+In the explicit $q = 2$ trace expansion of $H_d^2$, besides diagonal self-loops (total weight $1$, split into $\frac{3}{4}$ on $\cF_{0,2}$ and $\frac{1}{4}$ elsewhere), pure off-diagonal backtracking contributes $\frac{2}{105} \approx 0.019048$, while shift-invariant $r$-matched non-backtracking cycles $((s_1+1,2),(s_1,1))\cdot((s_2,1),(s_2+1,2))$ ($s_1 \neq s_2$) add an exact rational resonance family of weight $\frac{4}{1575} \approx 0.002540$, yielding $\lim_{d\to\infty} \varphi(3^d)^{-1}\operatorname{Tr}(H_d^2) = 1 + \frac{34}{1575} = \frac{1609}{1575} \approx 1.021587$.
+\end{remark}
+
+\begin{definition}[Affine pushforward dispersions and rescaled variances]\label{def:pushforward_dispersions}
+For $M = 3^d$, $k \ge 1$, and any initial element $\tau_0 = (\alpha_0, \gamma_0) \in \cG_{3^k M}$, define the $k$-step transfer composition $\cT_M^{(k)} := \cT_M \cT_{3M}\cdots \cT_{3^{k-1}M} : \ell^2(\cG_{3^k M}) \to \ell^2(\cG_M)$ and the $k$-step forward pushforward weight function $\nu_k^{(M)} := \cT_M^{(k)}\delta_{\tau_0}$ on $\cG_M$, with total mass $W_k(\tau_0) := \sum_{\tau \in \cG_M} \nu_k^{(M)}(\tau)$. For each slope $\alpha \in U_M$, define the unnormalized intercept Fourier transform and slope marginal weight
+\[
+\widehat{\nu}_k^{(M)}(\alpha; u) := \sum_{\gamma \in \Z/M\Z} \nu_k^{(M)}(\alpha, \gamma)\, e_M(-u\gamma) = M^{1/2}(\cF_M^{(0)}\nu_k^{(M)})(\alpha, u) \quad (u \in U_M), \qquad
+p_k(\alpha) := \widehat{\nu}_k^{(M)}(\alpha; 0).
+\]
+The primitive and full non-zero intercept dispersions of $\nu_k^{(M)}$ are
+\[
+D_{k, M}^{\prim}(\tau_0) \;:=\; \frac{1}{M}\sum_{\alpha \in U_M}\sum_{u \in U_M} \bigl|\widehat{\nu}_k^{(M)}(\alpha; u)\bigr|^2 \;=\; \bigl\|\cF_M^{(0)}\nu_k^{(M)}\bigr\|_{\ell^2}^2, \qquad
+D_{k, M}^{\mathrm{full}}(\tau_0) \;:=\; \frac{1}{M}\sum_{\alpha \in U_M}\sum_{u \in (\Z/M\Z)\setminus\{0\}} \bigl|\widehat{\nu}_k^{(M)}(\alpha; u)\bigr|^2.
+\]
+When $\tau_0 = T_r \bmod 3^k M$ is a Syracuse seed from Subsection~\ref{subsec:syracuse_weights}, we write $W_k^{(r)}$, $D_{k, M}^{(r), \prim}$, and $D_{k, M}^{(r), \mathrm{full}}$, and define the rescaled primitive and perpendicular variances
+\[
+\mathcal{R}_2^{\prim}(\nu_k) \;:=\; |\cG_M|\, D_{k, M}^{(r), \prim}, \qquad \mathcal{R}_2^{\perp}(\nu_k) \;:=\; |\cG_M|\, D_{k, M}^{(r), \mathrm{full}},
+\]
+so that $D_{k, M}^{(r), \prim} \le D_{k, M}^{(r), \mathrm{full}}$ and $\mathcal{R}_2^{\prim}(\nu_k) \le \mathcal{R}_2^{\perp}(\nu_k)$ unconditionally.
+\end{definition}
+
+In physical $\ell$-coordinates for the $p=3$ Syracuse semigroup ($M = 3^d$), define the $1$D Syracuse martingale transfer operator $\cL_{d+2} : \ell^2(\Z/M\Z) \to \ell^2(\Z/(3M)\Z)$ and its Euclidean normalization $\cL_{d+2, \mathrm{eucl}} := 3^{-1/2}\cL_{d+2}$ by
+\[
+(\cL_{d+2} g)(\ell') \;:=\; \sum_{b \in I} w_1(b)\,\mathbf{1}_{\ell' \equiv k_b \bmod 3}\, g\bigl(\psi_b(\ell')\bigr), \qquad \psi_b(\ell') := \frac{\lambda_b \ell' + \beta_b}{3} \pmod M \quad (\ell' \in \Z/(3M)\Z),
+\]
+and set $\cP_{\mathrm{eucl}} := \cL_{d+k+1,\mathrm{eucl}}\cdots\cL_{d+2,\mathrm{eucl}} : \ell^2(\Z/M\Z) \to \ell^2(\Z/(3^k M)\Z)$. For any affine element $\tau(\ell) = \alpha_0\ell + \gamma_0$ ($\alpha_0 \in \Z_3^\times$, $\gamma_0 \in \Z_3$), let $(U_\tau f)(\ell) := f(\alpha_0\ell + \gamma_0)$ denote its unitary pullback on $\ell^2(\Z/(3^k M)\Z)$.
+
+\begin{proposition}[Exact $1$D Hilbert--Schmidt duality]\label{prop:1d_hs}
+Let $M = 3^d$ and $k \ge 1$. Then:
+\begin{enumerate}[label=(\arabic*)]
+\item The $1$D Syracuse block $A_d : \ell^2(U_{3M}) \to \ell^2(U_M)$ satisfies $A_d = \cF_M^{\prim}\,\cL_{d+2, \mathrm{eucl}}^*\,(\cF_{3M}^{\prim})^*$, and $\cL_{d+2,\mathrm{eucl}}$ commutes with primitive projection in the sense that
+\[
+(I - \Pi_{3M}^{\prim})\,\cL_{d+2,\mathrm{eucl}}\,\Pi_M^{\prim} \;=\; 0, \qquad \Pi_{3M}^{\prim}\,\cL_{d+2,\mathrm{eucl}}\,(I - \Pi_M^{\prim}) \;=\; 0.
+\]
+Hence $P := A_d A_{d+1}\cdots A_{d+k-1} : \ell^2(U_{3^k M}) \to \ell^2(U_M)$ satisfies $P = \cF_M^{\prim}\,\cP_{\mathrm{eucl}}^*\,(\cF_{3^k M}^{\prim})^*$.
+\item For every $\tau_0(\ell) = \alpha_0\ell + \gamma_0 \in \cG_{3^k M}$, $[U_{\tau_0}, \Pi_{3^k M}^{\prim}] = 0$, so its Fourier restriction $\widehat{U}_{\tau_0}^{(3^k M)} := \cF_{3^k M}^{\prim}\,U_{\tau_0}\,(\cF_{3^k M}^{\prim})^* : \ell^2(U_{3^k M}) \to \ell^2(U_{3^k M})$ is unitary with explicit action $(\widehat{U}_{\tau_0}^{(3^k M)}\hat g)(y) = e_{3^k M}(\alpha_0^{-1}\gamma_0 y)\,\hat g(\alpha_0^{-1}y)$. Moreover, the $k$-step primitive dispersion obeys the exact Hilbert--Schmidt identities
+\[
+D_{k, M}^{\prim}(\tau_0) \;=\; \frac{1}{M}\,\bigl\|P\,\widehat{U}_{\tau_0}^{(3^k M)}\,P^*\bigr\|_{\HS}^2 \;=\; \frac{1}{M}\,\bigl\|\Pi_M^{\prim}\,\cP_{\mathrm{eucl}}^*\,U_{\tau_0}\,\cP_{\mathrm{eucl}}\,\Pi_M^{\prim}\bigr\|_{\HS}^2,
+\]
+reducing $2$D affine collision evaluation from naive complexity $O(9^{d+k})$ to $O(3^{d+k})$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For (1), compute $\cF_{3M}^{\mathrm{add}}\cL_{d+2,\mathrm{eucl}}(\cF_M^{\mathrm{add}})^*$ at frequencies $(y, x) \in (\Z/(3M)\Z)\times(\Z/M\Z)$. Writing $\ell' = k_b + 3z$ ($0 \le z < M$), so $\psi_b(\ell') \equiv \lambda_b z + \tau_b \pmod M$ with $\tau_b = (\lambda_b k_b + \beta_b)/3 \in \Z_3$, gives
+\[
+\bigl(\cF_{3M}^{\mathrm{add}}\cL_{d+2,\mathrm{eucl}}(\cF_M^{\mathrm{add}})^*\bigr)_{y, x} = \sum_{b \in I} \frac{w_1(b)}{\sqrt{3}\sqrt{3M\cdot M}}\sum_{z=0}^{M-1} e_{3M}\bigl(-y(k_b + 3z)\bigr)\,e_M\bigl(x(\lambda_b z + \tau_b)\bigr).
+\]
+The $z$-sum equals $M\mathbf{1}_{y \equiv \lambda_b x \bmod M}$, and multiplying $3\tau_b x \equiv \lambda_b k_b x + \beta_b x \pmod{3M}$ matches $\overline{(A_d)_{x, y}}$ on $(x, y) \in U_M \times U_{3M}$. Moreover, $3 \nmid x \iff 3 \nmid y$ whenever $y \equiv \lambda_b x \pmod M$ ($\lambda_b \in \Z_3^\times$), so $\cF_{3M}^{\mathrm{add}}\cL_{d+2,\mathrm{eucl}}(\cF_M^{\mathrm{add}})^*$ is block-diagonal between $U_M \leftrightarrow U_{3M}$ and its complement, proving $(I - \Pi_{3M}^{\prim})\cL_{d+2,\mathrm{eucl}}\Pi_M^{\prim} = 0$ and $\Pi_{3M}^{\prim}\cL_{d+2,\mathrm{eucl}}(I - \Pi_M^{\prim}) = 0$. Taking adjoints gives $A_d = \cF_M^{\prim}\cL_{d+2,\mathrm{eucl}}^*(\cF_{3M}^{\prim})^*$, and because intermediate projections $\Pi_{3^j M}^{\prim}$ preserve $\cL^*$, multiplying gives $P = \cF_M^{\prim}\cP_{\mathrm{eucl}}^*(\cF_{3^k M}^{\prim})^*$.
+
+For (2), direct substitution in $(\cF_{3^k M}^{\mathrm{add}} U_{\tau_0} (\cF_{3^k M}^{\mathrm{add}})^*)_{y, y'} = (3^k M)^{-1}\sum_\ell e_{3^k M}(y'\alpha_0\ell + y'\gamma_0 - y\ell) = \mathbf{1}_{y' \equiv \alpha_0^{-1} y \bmod 3^k M}\,e_{3^k M}(\alpha_0^{-1}\gamma_0 y)$ shows $[U_{\tau_0}, \Pi_{3^k M}^{\prim}] = 0$ (since $3\nmid y \iff 3\nmid y'$) and yields both the unitarity and formula for $\widehat{U}_{\tau_0}^{(3^k M)}$. Passing from $\cP_{\mathrm{eucl}}\Pi_M^{\prim} = \Pi_{3^k M}^{\prim}\cP_{\mathrm{eucl}}\Pi_M^{\prim}$ gives $P\widehat{U}_{\tau_0}^{(3^k M)}P^* = \cF_M^{\prim}(\Pi_M^{\prim}\cP_{\mathrm{eucl}}^* U_{\tau_0}\cP_{\mathrm{eucl}}\Pi_M^{\prim})(\cF_M^{\prim})^*$, whose Hilbert--Schmidt norm agrees with $\Pi_M^{\prim}\cP_{\mathrm{eucl}}^* U_{\tau_0}\cP_{\mathrm{eucl}}\Pi_M^{\prim}$ since $\cF_M^{\prim}$ is a co-isometry on $V_M^{\prim}$. Finally, by Lemma~\ref{lem:prim_invariance}(1), $\cF_M^{(0)}\nu_k^{(M)} = \cF_M^{(0)}\cT_M^{(k)}\delta_{\tau_0} = 3^k(B_d^{(0)}\cdots B_{d+k-1}^{(0)})\cF_{3^k M}^{(0)}\delta_{\tau_0}$. In the Theorem~\ref{thm:A1}(1) coordinates $(y_1, y_2) = (\alpha\tilde u, \tilde u) \in U_{3^k M}^2$,
+\[
+\bigl(U_{3^k M}\cF_{3^k M}^{(0)}\delta_{\tau_0}\bigr)(y_1, y_2) \;=\; (3^k M)^{-1/2}\,\mathbf{1}_{y_1 \equiv \alpha_0 y_2 \bmod 3^k M}\,e_{3^k M}(-y_2\gamma_0) \;=\; (3^k M)^{-1/2}\,\bigl((\widehat{U}_{\tau_0}^{(3^k M)})^*\bigr)_{y_2, y_1}.
+\]
+Applying $3^k U_M(B_d^{(0)}\cdots B_{d+k-1}^{(0)})U_{3^k M}^* = 3^{k/2}\overline{P}\otimes P$ gives
+\[
+\bigl(U_M\cF_M^{(0)}\nu_k^{(M)}\bigr)(x_1, x_2) \;=\; \frac{3^{k/2}}{\sqrt{3^k M}}\sum_{y_1, y_2 \in U_{3^k M}} \overline{P_{x_1, y_1}}\, P_{x_2, y_2}\, \bigl((\widehat{U}_{\tau_0}^{(3^k M)})^*\bigr)_{y_2, y_1} \;=\; M^{-1/2}\bigl(P\,(\widehat{U}_{\tau_0}^{(3^k M)})^*\,P^*\bigr)_{x_2, x_1}.
+\]
+Taking the squared $\ell^2$ (= Hilbert--Schmidt) norm and using $\|X^*\|_{\HS} = \|X\|_{\HS}$ gives $D_{k, M}^{\prim}(\tau_0) = M^{-1}\|P\widehat{U}_{\tau_0}^{(3^k M)}P^*\|_{\HS}^2$.
+\end{proof}
+
+\section{Conditional Intercept Operators and Markov Contraction}\label{sec:cond_contraction}
+
+We now prove Theorem~\ref{thm:cond_contraction} via exact compatibility-class orthogonality over $p$-lifts.
+
+\begin{lemma}[Fourier representation of quenched-slope transfer]\label{lem:K_matrix}
+For every $M = p^d$, $\alpha \in U_{pM}$, and $q \in Q$, $\cF_M^{\prim}\cT_{\alpha, q}(\cF_{pM}^{\prim})^* = W_{\Omega(q)}\,\cK_{\alpha, q}^{(M)}$ (and $\cT_{\alpha, q}$ leaves the $1$D primitive subspace $V_{pM}^{\prim} \to V_M^{\prim}$ invariant: $(I - \Pi_M^{\prim})\cT_{\alpha, q}\Pi_{pM}^{\prim} = 0$, so no non-primitive frequency $\tilde u \notin U_{pM}$ couples to $u \in U_M$), with explicit matrix entries
+\[
+\bigl(\cK_{\alpha, q}^{(M)}\bigr)_{u, \tilde u} \;=\; \frac{1}{\sqrt{p}} \sum_{\omega \in \Omega(q)} p(\omega \mid q)\,\mathbf{1}_{\tilde u \equiv \lambda_{b_2}(\omega)u \bmod M}\, e_M\bigl(-u\,c_\omega(\alpha)\bigr)\, e_{pM}\bigl(\tilde u\,\kappa_\omega(\alpha)\bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+Because $\lambda_{b_2}(\omega) \in \Z_p^\times$ and $p \mid M$, we have $p \nmid u \iff p \nmid \tilde u$ whenever $\tilde u \equiv \lambda_{b_2}(\omega) u \pmod M$. Expanding $(\cF_M^{\prim}\cT_{\alpha, q}(\cF_{pM}^{\prim})^*)_{u, \tilde u}$ along $\gamma = \kappa_\omega(\alpha) + p z$ ($0 \le z < M$) with $\gamma' \equiv \lambda_{b_2} z + c_\omega(\alpha) \pmod M$ yields
+\[
+\sum_{\omega \in \Omega(q)} \frac{w(\omega)}{\sqrt{M\cdot pM}}\sum_{z=0}^{M-1} e_M\bigl(-u(\lambda_{b_2} z + c_\omega(\alpha))\bigr)\,e_{pM}\bigl(\tilde u(\kappa_\omega(\alpha) + p z)\bigr),
+\]
+which evaluates to $W_{\Omega(q)}\,\cK_{\alpha, q}^{(M)}$ upon summing over $z \bmod M$ and dividing by $W_{\Omega(q)}$.
+\end{proof}
+
+\begin{lemma}[Single-step $p$-lift orthogonality bound]\label{lem:K_single_step}
+For every $M = p^d$, $\alpha \in U_{pM}$, and $q \in Q$, setting $a := \alpha \bmod p \in U_p$,
+\[
+\bigl\|\cK_{\alpha, q}^{(M)}\bigr\|_{2 \to 2}^2 \;\le\; \sum_{\kappa \in \Z/p\Z} P_\kappa(a, q)^2 \;\le\; 1.
+\]
+\end{lemma}
+
+\begin{proof}
+Compute $\cG_{\alpha, q}^{(M)} := \cK_{\alpha, q}^{(M)}(\cK_{\alpha, q}^{(M)})^* : \ell^2(U_M) \to \ell^2(U_M)$. For fixed $\omega, \omega' \in \Omega(q)$, summing over the $p$ lifts $\tilde u = \tilde u_0 + mM$ ($m = 0, \dots, p-1$) produces
+\[
+\frac{1}{p}\sum_{m=0}^{p-1} e_{pM}\bigl(m M(\kappa_\omega(\alpha) - \kappa_{\omega'}(\alpha))\bigr) \;=\; \mathbf{1}_{\kappa_\omega(a) = \kappa_{\omega'}(a)}.
+\]
+Hence $\cG_{\alpha, q}^{(M)}$ splits orthogonally over compatibility classes $\kappa \in \Z/p\Z$:
+\[
+\cG_{\alpha, q}^{(M)} \;=\; \sum_{\kappa \in \Z/p\Z} \sum_{\substack{\omega, \omega' \in \Omega(q) \\ \kappa_\omega(a) = \kappa_{\omega'}(a) = \kappa}} p(\omega \mid q)\, p(\omega' \mid q)\, \zeta(\omega, \omega', \alpha)\, W_{q_{\omega, \omega'},\, c_{\omega, \omega'}},
+\]
+where $|\zeta(\omega, \omega', \alpha)| = 1$ and each $W_{q_{\omega, \omega'}, c_{\omega, \omega'}}$ is a unitary monomial operator on $\ell^2(U_M)$ (with multiplier $q_{\omega,\omega'} = \lambda_{b_2}(\omega)/\lambda_{b_2}(\omega') \bmod M$). By the triangle inequality, $\|\cG_{\alpha, q}^{(M)}\|_{2\to 2} \le \sum_{\kappa \in \Z/p\Z} P_\kappa(a, q)^2 \le (\sum_\kappa P_\kappa(a, q))^2 = 1$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:cond_contraction}]
+For any $\boldsymbol{q} = (q_0, \dots, q_{L-1}) \in Q^L$, sub-multiplicativity and Lemma~\ref{lem:K_single_step} yield
+\[
+\bigl\|\cK_{\alpha_{L-1}, q_{L-1}}^{(p^d)} \cdots \cK_{\alpha_0, q_0}^{(p^{d+L-1})}\bigr\|_{2\to 2}^2 \;\le\; \prod_{t=0}^{L-1} \sum_{\kappa \in \Z/p\Z} P_\kappa(a_t, q_t)^2, \qquad a_t := \alpha_t \bmod p.
+\]
+Taking expectation over $q_0, \dots, q_{L-1} \sim P^{\otimes L}$ sequentially from $t = L-1$ down to $t = 0$ immediately gives, by induction on $L$,
+\[
+\E_{\boldsymbol{q}}\!\left[\prod_{t=0}^{L-1} \sum_{\kappa \in \Z/p\Z} P_\kappa(a_t, q_t)^2 \,\middle|\, \alpha_0\right] \;=\; \bigl(M_{\mathrm{cond}}^L \mathbf{1}\bigr)_{a_0}.
+\]
+Clearly $\rho(M_{\mathrm{cond}}) \le \|M_{\mathrm{cond}}\|_\infty \le \|P_{\mathrm{slope}}\|_\infty = 1$. Suppose $\rho(M_{\mathrm{cond}}) = 1$. By the Perron--Frobenius theorem for nonnegative matrices, there exists a nonzero vector $v \in \R_{\ge 0}^{U_p}$ with $M_{\mathrm{cond}} v = v$; scale $v$ so that $\max_{a \in U_p} v_a = 1$, and set $S := \{a \in U_p : v_a = 1\} \neq \emptyset$. For every $a \in S$,
+\[
+1 = v_a = \sum_{a' \in U_p} (M_{\mathrm{cond}})_{a, a'} v_{a'} \le \sum_{a' \in U_p} (P_{\mathrm{slope}})_{a, a'} v_{a'} \le \sum_{a' \in U_p} (P_{\mathrm{slope}})_{a, a'} = 1.
+\]
+Equality forces $v_{a'} = 1$ (so $a' \in S$) and $\sum_\kappa P_\kappa(a, q)^2 = 1$ for every $a \in S$ and every $q \in \operatorname{supp}(P)$ with $aq \equiv a' \pmod p$. Since $P_{\mathrm{slope}}$ is irreducible on $U_p$, $S = U_p$, forcing $\sum_\kappa P_\kappa(a, q)^2 = 1$ for all $(a, q) \in U_p \times \operatorname{supp}(P)$, contradicting the hypothesis at $(a_*, q_*)$. Thus $\rho(M_{\mathrm{cond}}) < 1$.
+
+For part~(2) ($p = 3$), Lemma~\ref{lem:W_omega_2e} gives $P(2^e) = \frac{1}{3} 2^{-|e|}$, so $\P(e \text{ even}) = \frac{1}{3}(1 + 2\sum_{m=1}^\infty 4^{-m}) = \frac{5}{9}$ and $\P(e \text{ odd}) = \frac{4}{9}$. Exact summation along $s_1 \bmod 3$ (using $\sum_{m=0}^\infty 16^{-3m} = \frac{4096}{4095}$) determines $P_\kappa(a, 2^e)$ identically for all $e$:
+\begin{itemize}[leftmargin=2em]
+\item For $a \equiv 1 \pmod 3$ and $e$ even ($q \equiv 1 \pmod 3$), $r_1 = r_2$ gives $k_1 = k_2$, so $P_\kappa(1, 2^e) = 1$ on a single $\kappa$ (depending on $e \bmod 6$) and $\sum_\kappa P_\kappa^2 = 1$.
+\item For $a \equiv 1 \pmod 3$ and $e$ odd ($q \equiv 2 \pmod 3$), Proposition~\ref{prop:3adic_val}(3) gives two compatibility classes carrying weights $\frac{4}{5}$ and $\frac{1}{5}$ (and $0$ on the third), yielding $\sum_\kappa P_\kappa(1, 2^e)^2 = \left(\frac{4}{5}\right)^2 + \left(\frac{1}{5}\right)^2 = \frac{17}{25}$.
+\item For $a \equiv 2 \pmod 3$, even $e$ yields $(P_0, P_1, P_2) = (\frac{64}{273}, \frac{4}{273}, \frac{205}{273})$ up to cyclic permutation, while odd $e$ yields $(\frac{16}{21}, \frac{4}{21}, \frac{1}{21})$ up to permutation by Proposition~\ref{prop:3adic_val}(3). Both satisfy
+\[
+\frac{64^2 + 4^2 + 205^2}{273^2} = \frac{46137}{74529} = \frac{13}{21}, \qquad \frac{16^2 + 4^2 + 1^2}{21^2} = \frac{273}{441} = \frac{13}{21}.
+\]
+\end{itemize}
+Assembling $M_{\mathrm{cond}}$ gives $M_{\mathrm{cond}} = \begin{pmatrix} 5/9 & (4/9)(17/25) \\ (4/9)(13/21) & (5/9)(13/21) \end{pmatrix} = \begin{pmatrix} 5/9 & 68/225 \\ 52/189 & 65/189 \end{pmatrix}$, whose characteristic polynomial satisfies $\operatorname{tr}(M_{\mathrm{cond}}) = \frac{170}{189}$, $\det(M_{\mathrm{cond}}) = \frac{4589}{42525}$, and $(\frac{\operatorname{tr}}{2})^2 - \det = \frac{425^2 - 4589\cdot 21}{945^2} = \frac{16\cdot 5266}{945^2}$, giving $\vartheta = \rho(M_{\mathrm{cond}}) = \frac{425 + 4\sqrt{5266}}{945} \approx 0.7568982443 < 1$. Because $M_{\mathrm{cond}} > 0$ has positive Perron eigenvector $v \approx (0.83223, 0.55444)^T$ ($\frac{\max v_i}{\min v_i} = 1.501034$, exact $\sup_{L \ge 1}\|(M_{\mathrm{cond}}^L \mathbf{1})\|_\infty/\vartheta^L < 1.1643$), the stated uniform bound holds for all $d, L \ge 1$.
+\end{proof}
+
+\section{Compatibility-Sliced Operators, F{\o}lner Barrier, and Numerics}\label{sec:folner}
+
+\subsection{Amenable F{\o}lner Wave-Packet Proof of Theorem~\ref{thm:folner}}\label{subsec:folner_proof}
+
+Let $\Omega_\kappa(\alpha, q) := \{\omega \in \Omega(q) : \kappa_\omega(\alpha) = \kappa\}$ with total weight $W_\kappa(\alpha, q) > 0$, and relative probabilities $p_\kappa(\omega) := w(\omega)/W_\kappa(\alpha, q)$. Direct evaluation of $\widetilde{\cK}_{\alpha, q, \kappa}^{(M)} := W_\kappa(\alpha, q)^{-1}\cF_M^{\prim}\cT_{\alpha, q}\Pi_\kappa(\cF_{pM}^{\prim})^* J_\kappa : \ell^2(U_M) \to \ell^2(U_M)$ yields the isometric representation
+\[
+\bigl(\widetilde{\cK}_{\alpha, q, \kappa}^{(M)}\hat h\bigr)(u) \;=\; \sum_{\omega \in \Omega_\kappa(\alpha, q)} p_\kappa(\omega)\, e_M\bigl(-u\,c_\omega(\alpha)\bigr)\, \hat h\bigl(\lambda_{b_2}(\omega)u \bmod M\bigr) \qquad (\hat h \in \ell^2(U_M)),
+\]
+because each $(u, \tilde u)$ entry of $\cF_M^{\prim}\cT_{\alpha, q}\Pi_\kappa(\cF_{pM}^{\prim})^*$ carries $p^{-1/2}e_{pM}(\tilde u \kappa)\mathbf{1}_{\tilde u \equiv \lambda_{b_2} u \bmod M}$, while $J_\kappa(\hat h)(\tilde u) = p^{-1/2}e_{pM}(-\tilde u \kappa)\hat h(\tilde u \bmod M)$ cancels the phase and sums the $p$ congruent lifts $\tilde u \equiv \lambda_{b_2} u \pmod M$ to $1$. Notice also that $\cF_{pM}^{\prim}\Pi_\kappa(\cF_{pM}^{\prim})^* = J_\kappa J_\kappa^* = Q_\kappa$, so $\widetilde{\cK}_{\alpha, q, \kappa}^{(M)}$ acts as a convex combination of unitary monomial operators on $\ell^2(U_M)$, generated by the cyclic (hence amenable~\cite{Kesten1959}) action of $g^\Z$; at low frequencies $u \ll p^d$, the phase cocycle becomes asymptotically trivial, producing F{\o}lner near-invariant wave packets.
+
+\begin{proof}[Proof of Theorem~\ref{thm:folner}]
+Since $\|\widetilde{\cK}_{\alpha, q, \kappa}^{(p^d)}\|_{2\to 2} \le \sum_\omega p_\kappa(\omega) = 1$, it suffices to prove $\liminf_{d\to\infty}\|\widetilde{\cK}_{\alpha, q, \kappa}^{(p^d)}\|_{2\to 2} \ge 1 - 2\delta$ for arbitrary $\delta > 0$. Choose a finite subset $F \subset \Omega_\kappa(\alpha, q)$ with $\sum_{\omega \in F} p_\kappa(\omega) \ge 1 - \delta$. Because $F$ is finite, $\lambda_{b_2}(\omega) = g^{n_\omega}$ ($n_\omega \in \Z$), and $c_\omega(\alpha) \in \Z[g^{-1}]$ for $\omega \in F$, choose $M_0 \in \Z_{\ge 1}$ large enough that $g^{M_0} c_\omega(\alpha) \in \Z$ for all $\omega \in F$. Set $R := \max_{\omega \in F} |n_\omega|$ and $C_F := \max_{\omega \in F} |g^{M_0} c_\omega(\alpha)|$.
+
+For $d$ sufficiently large that $K(d) := \lfloor \frac{1}{2}\log_g(p^d) \rfloor > 2R$ and $g^{M_0 + 2R + K(d)} < p^d$, all integers $g^m$ ($0 \le m < M_0 + 2R + K(d)$) lie strictly inside $(0, p^d)$ and are distinct elements of $U_{p^d}$. Define the unit $\ell^2(U_{p^d})$ wave packet
+\[
+v_{K(d)}(u) \;:=\; K(d)^{-1/2}\,\mathbf{1}_{u \equiv g^m \bmod p^d,\;\; M_0 + R \le m < M_0 + R + K(d)}.
+\]
+Consider the core frequency set $J_{\mathrm{core}} := \{m' \in \Z : M_0 + 2R \le m' < M_0 + K(d)\}$ ($|J_{\mathrm{core}}| = K(d) - 2R$). For every $m' \in J_{\mathrm{core}}$ and every $\omega \in F$:
+\begin{enumerate}[label=(\roman*)]
+\item $m' + n_\omega \in [M_0 + R, M_0 + R + K(d))$, so $v_{K(d)}(g^{n_\omega} g^{m'}) = K(d)^{-1/2}$;
+\item Since $u_0 = g^{m'} \in (0, p^d)$ satisfies $r_\omega := g^{m'} c_\omega(\alpha) = g^{m' - M_0}(g^{M_0} c_\omega(\alpha)) \in \Z$ and $|r_\omega| \le C_F g^{K(d)} \le C_F p^{d/2}$, ring homomorphism reduction $\Z_{(p)} \to \Z/p^d\Z$ ensures $(g^{m'} \bmod p^d)\cdot(c_\omega(\alpha)\bmod p^d) \equiv r_\omega \pmod{p^d}$, hence
+\[
+\bigl|e_{p^d}\bigl(-g^{m'} c_\omega(\alpha)\bigr) - 1\bigr| \;=\; \bigl|e_{p^d}(-r_\omega) - 1\bigr| \;\le\; 2\pi C_F p^{-d/2}.
+\]
+\end{enumerate}
+By the triangle inequality, for each $u = g^{m'}$ ($m' \in J_{\mathrm{core}}$),
+\[
+\bigl|(\widetilde{\cK}_{\alpha, q, \kappa}^{(p^d)} v_{K(d)})(u)\bigr| \;\ge\; K(d)^{-1/2}\Bigl[(1 - \delta)\bigl(1 - 2\pi C_F p^{-d/2}\bigr) - \delta\Bigr].
+\]
+Summing squares over $m' \in J_{\mathrm{core}}$ gives
+\[
+\bigl\|\widetilde{\cK}_{\alpha, q, \kappa}^{(p^d)}\bigr\|_{2\to 2}^2 \;\ge\; \frac{K(d) - 2R}{K(d)}\,\Bigl(1 - 2\delta - 2\pi C_F p^{-d/2}\Bigr)^2 \;\longrightarrow\; (1 - 2\delta)^2 \quad (d \to \infty). \qedhere
+\]
+\end{proof}
+
+\subsection{Exact Spectral and F{\o}lner Numerical Verification}\label{subsec:tables_1_2}
+
+Table~\ref{tab:A1_spec} compares the exact eigenvalues of $H_d$ (for $d = 1 \dots 7$, $M \le 2187$) and exact $k$-step compositions via Theorem~\ref{thm:A1}(1),(3) against the proved uniform ceiling $27/49 = 0.551020$. Note that $\|B_7^{(0)}\|^2 = 0.525245$ already lies within $4.7\%$ of $27/49$. Table~\ref{tab:cond_folner} verifies Theorem~\ref{thm:cond_contraction}(2) on $N = 27, 3$ and documents the F{\o}lner saturation of Theorem~\ref{thm:folner} on $\widetilde{\cK}_{4, 1, 0}^{(3^d)}$ for $d = 1 \dots 7$.
+
+\begin{table}[htbp]
+\centering
+\caption{Exact primitive-shell norms $\|B_d^{(0)}\|^2 = \frac{1}{3}\lambda_{\max}(H_d)^2$ ($d=1\dots 7$) and multi-step norms ($M=3$)}
+\label{tab:A1_spec}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lcc|lcc@{}}
+\toprule
+Scale $d$ ($M = 3^d$) & $\lambda_{\max}(H_d)$ & \shortstack{Exact $\|B_d^{(0)}\|_{2\to 2}^2$\\(gap to $\frac{27}{49}$)} & \shortstack{Multi-step\\$(M=3)$} & $\|B_{k, 3}^{(0)}\|_{2\to 2}^2$ & Per-step $(\cdot)^{1/k}$ \\
+\midrule
+$d=1\;(M=3)$ & $1.16172810$ & $0.44987072$ ($-18.4\%$) & $k=1\;(A_1)$ & $0.44987072$ & $0.449871$ \\
+$d=2\;(M=9)$ & $1.20586164$ & $0.48470076$ ($-12.0\%$) & $k=2\;(A_1 A_2)$ & $0.18021793$ & $0.424521$ \\
+$d=3\;(M=27)$ & $1.23262314$ & $0.50645327$ ($-8.1\%$) & $k=3\;(A_1 A_2 A_3)$ & $0.06840474$ & $0.408974$ \\
+$d=4\;(M=81)$ & $1.23906157$ & $0.51175786$ ($-7.1\%$) & $k=4\;(A_1\cdots A_4)$ & $0.02466287$ & $0.396288$ \\
+$d=5\;(M=243)$ & $1.24692659$ & $0.51827531$ ($-5.9\%$) & $(M=9, k=2)$ & $0.20329399$ & $0.450881$ \\
+$d=6\;(M=729)$ & $1.24821002$ & $0.51934275$ ($-5.7\%$) & $(M=9, k=3)$ & $0.07876979$ & $0.428667$ \\
+$d=7\;(M=2187)$ & $1.25528307$ & $0.52524520$ ($-4.7\%$) & $(M=27, k=2)$ & $0.21259377$ & $0.461079$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Exact conditional operator norms (Theorem~\ref{thm:cond_contraction}) and F{\o}lner wave-packet saturation (Theorem~\ref{thm:folner})}
+\label{tab:cond_folner}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lccc|lcc@{}}
+\toprule
+$(N, \alpha_0)$ & $e=0$ / $e=\pm 1$ & \shortstack{$\E_e[\|\cK\|^2]$\\($\le$ w/ tail)} & \shortstack{$2$-step per-step\\($N=3$)} & $d$ ($M=3^d$) & $\|\widetilde{\cK}_{4, 1, 0}^{(3^d)}\|_{2\to 2}$ & \shortstack{Explicit F{\o}lner\\$\| \widetilde{\cK} v_K \|_2$} \\
+\midrule
+$(27, 1)$ & $1.0000$ / $0.6732$ & $0.8187$ ($\le 0.8396$) & $0.6966$ & $d=2\;(K=2)$ & $0.95147$ & $0.83907$ \\
+$(27, 4)$ & $0.9160$ / $0.6729$ & $0.7979$ ($\le 0.8188$) & $0.6749$ & $d=3\;(K=2)$ & $0.95710$ & $0.85349$ \\
+$(27, 7)$ & $0.9160$ / $0.6755$ & $0.7834$ ($\le 0.8042$) & -- & $d=4\;(K=3)$ & $0.97025$ & $0.89969$ \\
+$(27, 2)$ & $0.6178$ / $0.6177$ & $0.6049$ ($\le 0.6257$) & $0.6415$ & $d=5\;(K=4)$ & $0.97791$ & $0.92508$ \\
+$(27, 5)$ & $0.6178$ / $0.6177$ & $0.6049$ ($\le 0.6257$) & $0.6406$ & $d=6\text{--}7$ & -- & $0.92563 \to 0.94083$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Bridge to Full Affine Mixing, Structural Obstructions, and Open Problems}\label{sec:bridge}
+
+We finally analyze why quenched-slope operator contraction does not by itself imply full annealed affine mixing on $\cG_{3^d}$, separating three rigorous obstruction propositions (Subsection~\ref{subsec:obstruction_props}) from numerical commutator and ray diagnostics (Subsection~\ref{subsec:frozen_vs_commutator}) and open problems (Subsection~\ref{subsec:open_problems}).
+
+\subsection{Rigorous Structural Obstructions}\label{subsec:obstruction_props}
+
+\begin{proposition}[Two-stage primitive Mackey reduction and rank-compression loss]\label{prop:two_stage_bound}
+For $M = 3^d$, $N = 3^{k_2} M = 3^{d'}$ ($d' = d + k_2$), and $k = k_1 + k_2$, let $\nu_{k_1}^{(N)} = \cT_N^{(k_1)}\delta_{T_r}$ and $\nu_k^{(M)} = \cT_M^{(k_2)}\nu_{k_1}^{(N)}$ be as in Definition~\ref{def:pushforward_dispersions}. Then:
+\begin{enumerate}[label=(\arabic*)]
+\item On the initial primitive subspace $\cH_N^{(0)} \subset L^2(\Unif(\cG_N))$,
+\[
+D_{k, M}^{(r), \prim} \;\le\; \bigl\|\cP_M^{(k_2)}\big|_{\cH_N^{(0)}}\bigr\|_{L^2(\Unif)}^2 \cdot \frac{3}{2 M^2}\,\mathcal{R}_2^{\prim}(\nu_{k_1}) \;\le\; \left(\frac{243}{49}\right)^{k_2} D_{k_1, N}^{(r), \prim}.
+\]
+\item Writing $P_1 := A_d \cdots A_{d+k_2-1}$, $P_2 := A_{d+k_2}\cdots A_{d+k-1}$, and $X_{k_1, N} := P_2\,\widehat{U}_{T_r}^{(3^{k_1} N)}\,P_2^* \in \C^{\varphi(N)\times\varphi(N)}$ in Proposition~\ref{prop:1d_hs}(2), we have the exact identity $D_{k, M}^{(r), \prim} = M^{-1}\|P_1 X_{k_1, N} P_1^*\|_{\HS}^2$, whereas the two-stage inequality bounds it by $M^{-1}\|P_1\|_{\op}^4 \|X_{k_1, N}\|_{\HS}^2 = 3^{k_2}\|P_1\|_{\op}^4 D_{k_1, N}^{(r), \prim}$, forfeiting the $O(9^{k_2})$ Hilbert--Schmidt dimension compression from $\C^{\varphi(N)\times\varphi(N)}$ to $\C^{\varphi(M)\times\varphi(M)}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{lem:prim_invariance}(1), $\Pi_M^{(0)}\nu_k^{(M)} = \Pi_M^{(0)}\cT_M^{(k_2)}\nu_{k_1}^{(N)} = 9^{k_2}\cP_M^{(k_2)}(\Pi_N^{(0)}\nu_{k_1}^{(N)})$. Converting unweighted $\ell^2$ norms to $L^2(\Unif)$ via $|\cG_M| / |\cG_N| = 9^{-k_2}$ gives
+\[
+\begin{aligned}
+D_{k, M}^{(r), \prim} &=\bigl\|\Pi_M^{(0)}\nu_k^{(M)}\bigr\|_{\ell^2(\cG_M)}^2\\
+&\le 9^{k_2}\bigl\|\cP_M^{(k_2)}\big|_{\cH_N^{(0)}}\bigr\|_{L^2(\Unif)}^2 \bigl\|\Pi_N^{(0)}\nu_{k_1}^{(N)}\bigr\|_{\ell^2(\cG_N)}^2\\
+&= \bigl\|\cP_M^{(k_2)}\big|_{\cH_N^{(0)}}\bigr\|_{L^2(\Unif)}^2 \cdot \frac{|\cG_N|}{|\cG_M|}\, D_{k_1, N}^{(r), \prim}.
+\end{aligned}
+\]
+Since $|\cG_M| = \frac{2}{3}M^2$ and $|\cG_N| D_{k_1, N}^{(r),\prim} = \mathcal{R}_2^{\prim}(\nu_{k_1})$, this proves the first inequality in~(1); inserting $\|\cP_M^{(k_2)}|_{\cH_N^{(0)}}\|_{L^2(\Unif)}^2 \le (27/49)^{k_2}$ from Lemma~\ref{lem:prim_invariance}(2) and Theorem~\ref{thm:A1}(2)--(3) gives $9^{k_2}(27/49)^{k_2} = (243/49)^{k_2}$. For~(2), substituting $P = P_1 P_2$ into Proposition~\ref{prop:1d_hs}(2) gives $D_{k, M}^{(r), \prim} = M^{-1}\|P_1 X_{k_1, N} P_1^*\|_{\HS}^2 \le M^{-1}\|P_1\|_{\op}^4\|X_{k_1, N}\|_{\HS}^2$, while $D_{k_1, N}^{(r), \prim} = N^{-1}\|X_{k_1, N}\|_{\HS}^2 = (3^{k_2}M)^{-1}\|X_{k_1, N}\|_{\HS}^2$ and $\|P_1\|_{\op}^4 = 3^{k_2}\|B_d^{(0)}\cdots B_{d+k_2-1}^{(0)}\|_{2\to 2}^2$ by Theorem~\ref{thm:A1}(1)--(2).
+\end{proof}
+
+\begin{proposition}[Unsliced pathwise failure and sibling-coset cancellation necessity]\label{prop:unsliced_sibling}
+Let $N = 3^{d'}$ ($d' \ge 1$) and $k_1 = L \ge 1$.
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{Methodological failure of unsliced pathwise Cauchy--Schwarz ($9^L$ loss)}: Decomposing $\nu_L^{(N)}(\alpha, \cdot) = \sum_{\boldsymbol{q}\in Q^L:\, q_0\cdots q_{L-1}\alpha_0 \equiv \alpha \bmod N} \nu_{\boldsymbol{q}}$ into quenched-slope components, Lemma~\ref{lem:K_matrix} gives $\cF_N^{\prim}\nu_{\boldsymbol{q}} = 3^L(\prod_{t=0}^{L-1} P(q_t))\,\cK_{\boldsymbol{q}} v_0$ ($\|v_0\|_2^2 = \frac{2}{3}$). Because $\sum_{q \in Q} 3 P(q) = \sum_{e \in \Z} W_{\Omega(2^e)} = 3$, applying Cauchy--Schwarz directly across paths $\boldsymbol{q}$ reaching each $\alpha$ incurs a total weight factor $(\sum_{\boldsymbol{q}} \prod_t W_{\Omega(q_t)})^2 = 9^L$; combined with Theorem~\ref{thm:cond_contraction}(2), the resulting naive upper bound $\frac{2}{3} C_{\mathrm{cond}}(9\vartheta)^L \approx \frac{2}{3} C_{\mathrm{cond}}(6.812)^L \to +\infty$ fails methodologically even when $D_{L, N}^{(r), \prim}$ remains bounded. Slicing by compatibility class $\kappa \in \Z/3\Z$ removes the $3^L$ step multiplier, but triggers the F{\o}lner ceiling of Theorem~\ref{thm:folner}.
+\item \textbf{Sibling-coset cancellation identity and elementary $3^{-d'}$ uncentered $\ell^2$ lower bound}: The primitive dispersion obeys the exact $3$-adic identity
+\[
+D_{k_1, N}^{(r), \prim} \;=\; \frac{2}{3}\sum_{\tau \in \cG_N} \nu_{k_1}^{(N)}(\tau)^2 \;-\; \frac{1}{3}\sum_{\alpha \in U_N}\sum_{\substack{\gamma_1 \equiv \gamma_2 \bmod N/3 \\ \gamma_1 \not\equiv \gamma_2 \bmod N}} \nu_{k_1}^{(N)}(\alpha, \gamma_1)\,\nu_{k_1}^{(N)}(\alpha, \gamma_2),
+\]
+and the uncentered $\ell^2$ term satisfies the unconditional elementary lower bound
+\[
+\frac{2}{3}\bigl\|\nu_{k_1}^{(N)}\bigr\|_2^2 \;\ge\; \frac{\bigl(W_{k_1}^{(r)}\bigr)^2}{6\,(16 k_1 + 1)\, 3^{d'}} \qquad (\forall\, d' \ge 1,\;\; k_1 \ge 1).
+\]
+Consequently, in any non-vanishing mass regime where $(W_{k_1}^{(r)})^2 \gg k_1 (49/81)^{k_2} 3^{-d}$ (for instance $W_{k_1}^{(r)} \ge k_1^{-O(1)}$), $\frac{2}{3}\|\nu_{k_1}^{(N)}\|_2^2 \gg (49/243)^{k_2} 9^{-d}$, so discarding the negative sibling-coset cross-term fails Proposition~\ref{prop:two_stage_bound}(1).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For part~(1), apply Cauchy--Schwarz on the paths with endpoint slope $\alpha$:
+\[
+\Bigl|\sum_{\boldsymbol{q}\to\alpha} (\cF_N^{\prim}\nu_{\boldsymbol{q}})(u)\Bigr|^2
+\le \left(\sum_{\boldsymbol{q}\to\alpha} 3^L\prod_t P(q_t)\right)\!\left(\sum_{\boldsymbol{q}\to\alpha} 3^L\prod_t P(q_t)\bigl|(\cK_{\boldsymbol{q}}v_0)(u)\bigr|^2\right).
+\]
+Sum over $u \in U_N$ and $\alpha \in U_N$, bounding each $\sum_{\boldsymbol{q}\to\alpha} 3^L\prod_t P(q_t) \le \sum_{\boldsymbol{q}\in Q^L} 3^L\prod_t P(q_t) = 3^L$, and take the $P^{\otimes L}$ expectation from Theorem~\ref{thm:cond_contraction}(2) to get $9^L \E_{\boldsymbol{q}}[\|\cK_{\boldsymbol{q}}\|_{2\to 2}^2] \|v_0\|_2^2 \le \frac{2}{3} C_{\mathrm{cond}} (9\vartheta)^L$.
+
+For~(2), orthogonality of additive characters gives $\sum_{u \in U_N} e_N(u(\gamma_1 - \gamma_2)) = \frac{2}{3}N$ when $\gamma_1 \equiv \gamma_2 \pmod N$, $-\frac{1}{3}N$ when $\gamma_1 \equiv \gamma_2 \pmod{N/3}$ with $\gamma_1 \not\equiv \gamma_2 \pmod N$, and $0$ otherwise; inserting this into $D_{k_1, N}^{(r), \prim} = \frac{1}{N}\sum_{\alpha \in U_N}\sum_{u \in U_N} |\widehat{\nu}_{k_1}^{(N)}(\alpha; u)|^2$ proves the sibling-coset identity.
+
+To prove the elementary $3^{-d'}$ lower bound without any diffusive or central-limit heuristic, note first that from every $(a, g) \in U_3 \times \Z/3\Z$, the sum of compatible step weights satisfies
+\[
+W_{\mathrm{out}}(a, g) := \sum_{\omega \in I^2:\, \kappa_\omega(a)=g} w(\omega) = \frac{1}{3}\sum_{\substack{k_1, k_2 \in \Z/3\Z \\ k_2 - a k_1 \equiv g \bmod 3}} W_1[k_1]\,W_1[k_2] \;\ge\; W_{\mathrm{out}}(2, 0) = \frac{1}{3}\left(\frac{64}{49} + 2\cdot\frac{22}{49}\right) = \frac{36}{49},
+\]
+whence $W_{k_1}^{(r)} \ge (36/49)^{k_1}$ unconditionally. On the other hand, writing $E(\boldsymbol{\omega}) := \sum_{t=0}^{k_1 - 1} e(\omega_t)$ for the net $2$-adic slope exponent along a $k_1$-step path $\boldsymbol{\omega} = (\omega_0, \dots, \omega_{k_1-1})$, evaluating Lemma~\ref{lem:W_omega_2e} at $\eta = \frac{1}{2}\ln 2$ yields $\sum_{\omega \in I^2} w(\omega)\, e^{\eta |e(\omega)|} = \sum_{e \in \Z} 2^{-|e|} 2^{|e|/2} = 1 + \frac{2}{\sqrt{2}-1} = 3 + 2\sqrt{2}$. Since $|E(\boldsymbol{\omega})| \le \sum_{t=0}^{k_1-1} |e(\omega_t)|$ and compatible paths form a subset of $I^{2k_1}$, exponential Markov's inequality at threshold $8 k_1$ gives
+\[
+\sum_{\boldsymbol{\omega}\text{ compat}:\, |E(\boldsymbol{\omega})| > 8 k_1} w(\boldsymbol{\omega}) \;\le\; 2^{-4 k_1}(3 + 2\sqrt{2})^{k_1} \;=\; \left(\frac{3 + 2\sqrt{2}}{16}\right)^{k_1} \;\le\; \left(\frac{18}{49}\right)^{k_1} \;\le\; \frac{1}{2}\, W_{k_1}^{(r)},
+\]
+because $\frac{3 + 2\sqrt{2}}{16} \approx 0.36428 < \frac{18}{49} = \frac{1}{2}\cdot\frac{36}{49}$. Thus at least $\frac{1}{2}W_{k_1}^{(r)}$ of the mass of $\nu_{k_1}^{(N)}$ is supported on the slope subset $S := \{\alpha_0 2^E \bmod N : |E| \le 8 k_1\}$ of cardinality $|S| \le 16 k_1 + 1$. Applying Cauchy--Schwarz over $\gamma \in \Z/N\Z$ and then over $\alpha \in S$ yields
+\[
+\frac{2}{3}\bigl\|\nu_{k_1}^{(N)}\bigr\|_2^2 \;\ge\; \frac{2}{3 N}\sum_{\alpha \in S} p_{k_1}(\alpha)^2 \;\ge\; \frac{2}{3 N |S|}\left(\sum_{\alpha \in S} p_{k_1}(\alpha)\right)^2 \;\ge\; \frac{(W_{k_1}^{(r)})^2}{6(16 k_1 + 1)\,3^{d'}},
+\]
+completing the proof.
+\end{proof}
+
+\begin{proposition}[Atomic lower bound and $\cF_{0,2}$ Jordan-block cascade]\label{prop:atomic_jordan}
+Let $M = 3^d$, $N = 3^{d'} = 3^{d + k_2}$, and evolve $\nu_{k_1}^{(N)} = \cT_N^{(k_1)}\delta_{T_1}$ from $T_1 = (2, 1/2) \in \cF_{0, 2}$. Set $a := \nu_{k_1}^{(N)}(2, 1/2)$ and $b := \sum_{\gamma \neq 1/2} \nu_{k_1}^{(N)}(2, \gamma) \le W_{k_1}^{(1)}$. Then for every $k_1 \ge 1$:
+\begin{enumerate}[label=(\arabic*)]
+\item $a \ge (3/4)^{k_1}$, and Cauchy--Schwarz across the $N - 1$ non-atom intercepts at $\alpha \equiv 2 \pmod N$ gives the error-free bound
+\[
+D_{k_1, N}^{(1), \mathrm{full}} \;\ge\; a^2 + \frac{b^2}{N - 1} - \frac{(a + b)^2}{N} \;=\; \left(1 - \frac{1}{N}\right)\left(a - \frac{b}{N - 1}\right)^2,
+\]
+implying $\mathcal{R}_2^{\perp}(\nu_{k_1}) = \frac{2}{3}9^{d'} D_{k_1, N}^{(1), \mathrm{full}} \ge (\frac{2}{3} - o(1))9^{d'}(9/16)^{k_1}$ unconditionally for $k_1 < \frac{\ln 3}{\ln(12/7)}d' \approx 2.038\,d'$ (via $b \le (9/7)^{k_1}$), and for $k_1 < \frac{\ln 9}{\ln(16/9)}d' - O(\log k_1)$ whenever $W_{k_1}^{(1)} = O(\mathrm{poly}(k_1))$.
+\item Consequently, any upper bound $\mathcal{R}_2^{\perp}(\nu_{k_1}) \le C M^\varepsilon \rho^{k_2}$ ($0 < \rho < 49/27$, $0 \le \varepsilon < 2$, with $b/(N-1) \le \frac{1}{2}a$) forces the asymmetric step allocation
+\[
+\begin{aligned}
+k_1&\;\ge\; \left(\frac{\ln 9}{\ln(16/9)} - \frac{\ln 3}{\ln(16/9)}\varepsilon\right) d \;+\; \frac{\ln 9 - \ln\rho}{\ln(16/9)}\, k_2 \;-\; O(1)\\
+&\;\approx\; (3.818842 - 1.909421\,\varepsilon)\, d \;+\; \frac{\ln 9 - \ln\rho}{\ln(16/9)}\, k_2 \;-\; O(1),
+\end{aligned}
+\]
+where $\frac{\ln 9 - \ln\rho}{\ln(16/9)} > \frac{\ln(243/49)}{\ln(16/9)} \approx 2.783005$ for every $\rho < 49/27$.
+\item \textbf{Purely algebraic $\cF_{0,2}$ Jordan-block cascade}: For every $k_1 \ge 3$,
+\[
+\nu_{k_1}^{(N)}\!\left(\frac{1}{4},\, -\frac{3}{8}\right) \;\ge\; \frac{1}{128}\,(k_1 - 2)\left(\frac{3}{4}\right)^{k_1},
+\]
+generating a $2\times 2$ Jordan-block resonance along $\cF_{0,2}$ at eigenvalue $3/4$ with a non-resonant tail proportional to $(k_1 - 2)^2(9/16)^{k_1}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Because $\kappa_{(0,2,0,2)}(2) \equiv 2 \equiv 1/2 \pmod 3$, $c_{(0,2,0,2)}(2) = \frac{2+7}{6} = \frac{3}{2}$, and $\gamma' = 2\frac{1/2 - 2}{3} + \frac{3}{2} = \frac{1}{2}$, the fixed-point self-loop $(0,2,0,2)$ preserves $(2, 1/2) \in \cF_{0,2}$ with step weight $w((0,2,0,2)) = \frac{3}{4}$, proving $a \ge (3/4)^{k_1}$. Expanding $D_{k_1, N}^{(1), \mathrm{full}} \ge \sum_{\gamma \in \Z/N\Z} \nu_{k_1}^{(N)}(2, \gamma)^2 - \frac{1}{N}\bigl(\sum_\gamma \nu_{k_1}^{(N)}(2, \gamma)\bigr)^2$ and minimizing $\sum_{\gamma \neq 1/2} \nu_{k_1}^{(N)}(2, \gamma)^2 \ge b^2/(N-1)$ gives the exact identity in~(1). Every step has compatible row sum $\le \max_{a,g} W_{\mathrm{out}}(a,g) = 9/7$, so $b \le W_{k_1}^{(1)} \le (9/7)^{k_1}$; hence $b/(N-1) = o(a)$ whenever $(9/7)^{k_1}3^{-d'} = o((3/4)^{k_1})$, i.e.\ $k_1 < \frac{\ln 3}{\ln(12/7)}d'$, or up to $k_1 < \frac{\ln 9}{\ln(16/9)}d' - O(\log k_1)$ when $W_{k_1}^{(1)} = O(\mathrm{poly}(k_1))$.
+
+For~(2), combining $b/(N-1) \le \frac{1}{2}a$ with~(1) yields $\mathcal{R}_2^\perp(\nu_{k_1}) \ge \frac{1}{6}(1 - N^{-1})9^{d+k_2}(9/16)^{k_1}$. Comparing against $C\,3^{\varepsilon d}\rho^{k_2}$ and taking logarithms gives
+\[
+k_1 \ln(16/9) \;\ge\; (\ln 9 - \varepsilon\ln 3) d + (\ln 9 - \ln\rho) k_2 - O(1),
+\]
+and dividing by $\ln(16/9)$ evaluates $\frac{\ln 9}{\ln(16/9)} \approx 3.818842$, $\frac{\ln 3}{\ln(16/9)} \approx 1.909421$, and $\frac{\ln 9 - \ln(49/27)}{\ln(16/9)} = \frac{\ln(243/49)}{\ln(16/9)} \approx 2.783005$.
+
+For~(3), direct substitution into~\eqref{eq:conj} gives the admissible $3$-step word
+\[
+\bigl(2, \tfrac{1}{2}\bigr) \xrightarrow{(2,1,0,2),\;\frac{3}{128}} \bigl(\tfrac{1}{16}, -\tfrac{1}{4}\bigr) \xrightarrow{(0,2,0,1),\;\frac{3}{8}} \bigl(\tfrac{1}{8}, -\tfrac{5}{16}\bigr) \xrightarrow{(0,2,0,1),\;\frac{3}{8}} \bigl(\tfrac{1}{4}, -\tfrac{3}{8}\bigr) \in \cF_{0,2},
+\]
+with $3$-step product weight $\frac{27}{8192}$. Both endpoints $(2, 1/2)$ and $(1/4, -3/8)$ lie on $\cF_{0,2}$ and share the self-loop $(0,2,0,2)$ of exact weight $\frac{3}{4}$. Summing the $k_1 - 2$ disjoint path placements consisting of $j$ self-loops at $(2, 1/2)$ ($0 \le j \le k_1 - 3$), the $3$-step jump word, and $k_1 - 3 - j$ self-loops at $(1/4, -3/8)$ gives $\nu_{k_1}^{(N)}(1/4, -3/8) \ge (k_1 - 2)\frac{27}{8192}(3/4)^{k_1 - 3} = \frac{1}{128}(k_1 - 2)(3/4)^{k_1}$. Applying the same $(N-1)$-intercept Cauchy--Schwarz bound at $\alpha \equiv 4^{-1} \pmod N$ yields a $(k_1 - 2)^2(9/16)^{k_1}$ contribution.
+\end{proof}
+
+\subsection{Numerical Diagnostics: Frozen Paths vs.\ Path-Order Commutators and Ray Checks}\label{subsec:frozen_vs_commutator}
+
+To test numerically whether the F{\o}lner barrier of Theorem~\ref{thm:folner} merely reflects adversarial worst-case inputs, we enumerated all exact slope paths $\boldsymbol{e} \in [-2, 2]^L$ starting from the physical Dirac input $\delta_{\gamma_0}$ at $N = 9$ ($L = 1 \dots 4$). Table~\ref{tab:frozen_vs_comm} compares:
+(i) the true $D_{L, 9}^{(r), \prim}$;
+(ii) the pathwise Cauchy--Schwarz upper bound $\sum_{\alpha_L} (\sum_{\boldsymbol{e}\to\alpha_L} W(\boldsymbol{e})) \sum_{\boldsymbol{e}\to\alpha_L} W(\boldsymbol{e})^{-1}\|\cF_9^{\prim}\nu_{\boldsymbol{e}}\|_2^2$; and
+(iii) the weighted average single-path conditional intercept collision energy $\E_{\boldsymbol{e}}[D_{\prim}(\gamma \mid \boldsymbol{e})]$ (which equals $2/3 \approx 0.6667$ for a pure Dirac delta).
+
+\begin{table}[htbp]
+\centering
+\caption{Exact frozen-slope-path enumeration ($N=9$, $e_t \in [-2, 2]$): true $D^{\prim}$ vs.\ pathwise Cauchy--Schwarz}
+\label{tab:frozen_vs_comm}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Map ($N=9$) & Step $L$ & Total mass $W$ & True $D_{L, 9}^{\prim}$ & \shortstack{Pathwise CS bound\\(ratio)} & \shortstack{$\E_{\boldsymbol{e}}$\\$[D_{\prim}(\gamma \mid \boldsymbol{e})]$} & $\sum p_{\alpha_L}^2$ \\
+\midrule
+$T_2$ & $1$ & $0.4322$ & $3.654\times 10^{-2}$ & $3.654\times 10^{-2}$ ($1.00\times$) & $0.5351$ & $0.3914$ \\
+$T_2$ & $2$ & $0.3664$ & $9.161\times 10^{-3}$ & $1.658\times 10^{-2}$ ($1.81\times$) & $0.5471$ & $0.2317$ \\
+$T_2$ & $3$ & $0.3243$ & $5.610\times 10^{-3}$ & $1.239\times 10^{-2}$ ($2.21\times$) & $0.5368$ & $0.2188$ \\
+$T_2$ & $4$ & $0.2615$ & $6.396\times 10^{-4}$ & $5.550\times 10^{-3}$ ($8.68\times$) & $0.4656$ ($70\%$ Dirac) & $0.1764$ \\
+$T_1$ & $1$ & $0.9158$ & $3.788\times 10^{-1}$ & $3.788\times 10^{-1}$ ($1.00\times$) & $0.6367$ & $0.6819$ \\
+$T_1$ & $2$ & $0.8115$ & $2.149\times 10^{-1}$ & $2.318\times 10^{-1}$ ($1.08\times$) & $0.6198$ & $0.5353$ \\
+$T_1$ & $3$ & $0.6976$ & $1.208\times 10^{-1}$ & $1.427\times 10^{-1}$ ($1.18\times$) & $0.5995$ & $0.4539$ \\
+$T_1$ & $4$ & $0.5920$ & $6.775\times 10^{-2}$ & $8.762\times 10^{-2}$ ($1.29\times$) & $0.5821$ ($87\%$ Dirac) & $0.3947$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:frozen_vs_comm} illuminates both the strength and limitation of quenched-slope conditioning: inside each individual compatibility slice $(\alpha, 2^e, \kappa)$, a single branch dominates ($75\%\text{--}99.88\%$ weight), so freezing the entire sequence $(e_0, \dots, e_{L-1})$ barely flattens the conditional intercept even starting from $\delta_{\gamma_0}$ ($0.4656$ vs.\ $0.6667$). Yet $T_2$'s true $D_{4,9}^{\prim}$ plunges to $6.396\times 10^{-4}$ ($8.68\times$ below the pathwise CS bound) strictly via coherent interference between distinct step permutations (such as $(+1, -1), (-1, +1), (0, 0)$) that produce the same terminal slope $\alpha_L$ while kicking $\gamma_L$ into cancelling sibling cosets via non-abelian affine commutators.
+
+In addition, using the exact $1$D Hilbert--Schmidt engine of Proposition~\ref{prop:1d_hs}(2) up to $N_{\mathrm{big}} = 3^{12} = 531{,}441$, numerical ray diagnostics for $\mathcal{R}_2^{\prim}(\nu_{k_1}) = |\cG_N| D_{k_1, N}^{(r), \prim}$ and growth base $\rho_{\mathrm{eff}} := (\mathcal{R}_2^{\prim})^{1/d'}$ relative to the threshold $49/27 \approx 1.8148$ from Proposition~\ref{prop:two_stage_bound}(1) confirm the asymmetric-ray behavior suggested by Proposition~\ref{prop:atomic_jordan}:
+\begin{itemize}[leftmargin=2em]
+\item Along $k_1 = 3 d'$ ($d' = 1, 2, 3$): $T_1$ gives $\mathcal{R}_2^{\prim} = 0.5425 \to 1.1373 \to 2.1650$ ($\rho_{\mathrm{eff}} = 1.2937 < 1.8148$, consistent with $9(9/16)^3 = 6561/4096 \approx 1.6018 < 49/27$, though asymptotic growth along this slow ray still leaves $M^{\log_3(1.6018)} \approx M^{0.429}$ to be absorbed by large $k_2/d$); $T_2, T_3^{(1)}, T_4$ stay below $0.015$.
+\item Along $k_1 = 2 d'$ ($d' = 2, 3$): $T_1$ exceeds the threshold ($3.665 \to 11.207$, $\rho_{\mathrm{eff}} = 1.914 \to 2.238 > 1.8148$, consistent with Proposition~\ref{prop:atomic_jordan}), whereas $T_2, T_3^{(1)}, T_4$ remain $\le 0.287$.
+\end{itemize}
+
+\subsection{Open Problems}\label{subsec:open_problems}
+
+While Theorem~\ref{thm:primitive-energy} settles the uniform boundedness and convergence of the stationary $1$D primitive Fourier energy $E_m^{\prim} \to \cI$, the following operator-theoretic problems on $\cG_{3^d}$ remain open.
+
+\begin{problem}[Coherent multi-step fixed-net-slope blocks]
+Group $B$-step paths ($B = 2, 3$) sharing a common net slope ratio $Q = q_0 \cdots q_{B-1}$ into a single coherent block operator $\cK_{\alpha, Q}^{(B)}$. Can non-abelian commutator cancellation between $(+1, -1)$ and $(-1, +1)$ break the F{\o}lner ceiling or contract $\delta_{\gamma_0}$-type high-frequency states uniformly in $d$?
+\end{problem}
+
+\begin{problem}[Direct $1$D centered quantum channel recursion]
+Proposition~\ref{prop:1d_hs}(2) expresses $D_{k, M}^{(r), \prim}$ via $\widehat{U}_{T_r}^{(3^k M)}$ and the channel recursion $X_{t+1} = A_{d'+t} X_t A_{d'+t}^*$. Because $A_d^* A_d \neq I$ means $\mathcal{E}_d(X) := A_d X A_d^*$ does not preserve the traceless subspace and $\|\mathcal{E}_d\|_{\HS\to\HS} = \|H_d\|_{\op} \le 9/7 > 1$, construct a properly centered invariant decomposition controlling scalar--traceless coupling directly, bypassing the $O(9^{k_2})$ rank loss of Proposition~\ref{prop:two_stage_bound}.
+\end{problem}
+
+\begin{problem}[Asymptotic operator norm of $H_d$]
+Theorem~\ref{thm:A1}(3) proves $\frac{5}{7} I \le H_d \le \frac{9}{7} I$ ($\|B_d^{(0)}\|^2 \le 27/49 = 0.55102$), and Table~\ref{tab:A1_spec} reaches $0.52525$ at $d = 7$. Determine the exact limit $\lim_{d\to\infty} \|H_d\|_{2\to 2}$ (is it strictly below $9/7$, or equal to $9/7$ as unitary phases align?).
+\end{problem}
+
+\begin{problem}[Classification of contractive compatibility-filtered $p$-adic semigroups]
+Identify broader families of compatibility-filtered $p$-adic affine semigroups (beyond Syracuse at $p=3$) satisfying $\sum_{k\in\Z/p\Z} W_1[k]^2 < p^{3/2}$ and $\rho(M_{\mathrm{cond}}) < 1$ via Theorems~\ref{thm:A1} and~\ref{thm:cond_contraction}, and analyze their mixing transitions on $\cG_{p^d}$.
+\end{problem}
+
+\section{Conclusion}\label{sec:conclusion}
+
+For the stationary $3$-adic Syracuse random offset law $Z_m \bmod 3^m$, combining the parity-filtered collision identity~\eqref{eq:primitive-collision-identity} with the uniform residue-class overlap inequality (Lemma~\ref{lem:residue-overlap}) and Weaver's linear total-energy estimate proves Theorem~\ref{thm:primitive-energy}: the primitive Fourier energy $E_m^{\prim}$ is uniformly bounded across all $3$-adic scales and converges to a strictly positive distinct-branch collision constant $\cI \in (0, \infty)$, which also governs the linear asymptotic of the total Fourier energy:
+\[
+ \boxed{E_m^{\prim} = O(1), \qquad \lim_{m \to \infty} E_m^{\prim} = \cI, \qquad E_m = \cI m + o(m).}
+\]
+On the $2$D finite affine groups $\cG_{3^d}$, Theorems~\ref{thm:A1}--\ref{thm:folner} and Propositions~\ref{prop:two_stage_bound}--\ref{prop:atomic_jordan} establish unconditional primitive Mackey shell contraction ($\sup_{d \ge 1}\|B_d^{(0)}\|_{2\to 2}^2 \le 27/49 < 1$) and quenched-slope conditional contraction ($\vartheta = \frac{425 + 4\sqrt{5266}}{945} < 1$), while pinpointing the amenable F{\o}lner wave-packet and $\cF_{0,2}$ trap barriers that separate quenched contraction from full annealed affine mixing.
+
+\begin{thebibliography}{9}
+\bibitem{Tao2019}
+T.~Tao, \textit{Almost all orbits of the Collatz map attain almost bounded values}, Forum Math. Pi \textbf{10} (2022), e12, \texttt{arXiv:1909.03562}.
+
+\bibitem{Bremont2021}
+J.~Br\'emont, \textit{Self-similar measures and the Rajchman property}, Ann. H. Lebesgue \textbf{4} (2021), 973--1004.
+
+\bibitem{Terras1976}
+R.~Terras, \textit{A stopping time problem on the positive integers}, Acta Arith. \textbf{30} (1976), 241--252.
+
+\bibitem{Kesten1959}
+H.~Kesten, \textit{Symmetric random walks on groups}, Trans. Amer. Math. Soc. \textbf{92} (1959), 336--354.
+
+\bibitem{YuanSi2026}
+Y.~Si, \textit{A microcanonical phase transition for the Collatz affine random model}, preprint, Zenodo, May~4, 2026, \texttt{DOI:~10.5281/zenodo.20027097}.
+
+\bibitem{Allikvere2026}
+J.~Allikvere, \textit{Almost all Collatz orbits attain almost bounded values in natural density}, Version~2, Zenodo, July~22, 2026, \texttt{DOI:~10.5281/zenodo.21499244}.
+
+\bibitem{Weaver2026}
+L.~Weaver, \textit{Exact critical tail and linear collision energy for the ternary Syracuse law},
+preprint, Version~1, November~14, 2026,
+\url{https://rstation.ai/problems/collatz/papers/146}.
+
+\bibitem{WeaverLocal2026}
+L.~Weaver, \textit{Local-law representation and critical entropy endpoint of geometric Syracuse laws},
+preprint, 2026, \url{https://rstation.ai/r/collatz/posts/67}.
+\end{thebibliography}
+
+\end{document}
