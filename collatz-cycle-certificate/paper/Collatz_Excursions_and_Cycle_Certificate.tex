@@ -1,0 +1,910 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{booktabs,listings}
+\usepackage[hidelinks]{hyperref}
+\allowdisplaybreaks[2]
+\urlstyle{same}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+
+\title{Odd-Step Budgets for Collatz Excursions and\\
+An Exact Certificate for 108 Local Minima}
+\hypersetup{pdftitle={Odd-Step Budgets for Collatz Excursions and
+An Exact Certificate for 108 Local Minima}}
+% Supply the confirmed author names, affiliations, and email before submission.
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let \(c\) be a fixed positive odd integer, and iterate the map
+\(n\mapsto n/2\) for even \(n\) and \(n\mapsto(3n+c)/2\) for odd \(n\).
+For each fixed \(J\) and \(\eta>0\), the first \(J\) maximal odd runs
+from an odd seed \(n\) contain at most
+\((1+\eta)\log_2(n+c)+O_{c,J,\eta}(1)\) odd steps. The proof applies
+the \(S\)-adic Subspace Theorem to a telescoping identity. A projection
+on the same coordinates at all three places handles the exceptional
+subspaces. It follows that the optimal power for the maximal height
+of these excursions is \(\log_2 3\). For the classical map the budget
+also yields \(M/\ln s\to\infty\) along hypothetical cycles with \(s\)
+odd terms and \(M\) local minima. The same run identities give an
+effective two-run height test using a binary window and its incoming
+borrow. The test also exhibits a finite-scale instance of the
+logarithmic excess in the height bound. Combined with unimodular
+brackets, it proves that every nontrivial positive Collatz cycle
+has at least \(108\) local minima, using the published verification
+below \(2^{71}\) and the explicit logarithmic-form bound of Rhin.
+The complete verifier uses integer and rational arithmetic.
+\end{abstract}
+
+\noindent\textit{2020 Mathematics Subject Classification.}
+11J61, 11B83, 37P05, 11Y16.
+
+\section{Introduction}
+
+Fix a positive odd integer \(c\) and define the shortcut map on positive
+integers by
+\[
+ S_c(x)=
+ \begin{cases}
+ x/2,& 2\mid x,\\
+ (3x+c)/2,& 2\nmid x .
+ \end{cases}
+\]
+Write \(S=S_1\) and \(\lambda=\log_2 3\). Starting at an odd seed \(n\),
+an \emph{odd run} consists of consecutive odd inputs, up to the last
+odd input before an even output. Between runs, at least one even step
+occurs. Denote by \(A_{J,c}(n)\) the total number of odd steps in the
+first \(J\) runs, and by \(H_{J,c}(n)\) the largest state from the seed
+through the even output at the end of run \(J\). Each odd step increases
+the state and each even step decreases it. Section~\ref{sec:budget}
+shows that every run is finite, so these quantities are defined for
+every \(J\ge 1\).
+
+The elementary bound for \(H_{J,c}(n)+c\) has power \(\lambda^J\).
+Theorem~\ref{thm:budget} replaces all \(J\) separate length bounds by
+a single odd-step budget of slope \(1+\eta\). In particular,
+Corollary~\ref{cor:height} identifies the optimal power \(\lambda\)
+for every fixed \(J\). A family for \(c=1\) shows that for \(J\ge2\)
+the pure power bound \(O(n^\lambda)\) fails.
+
+For \(c=1\), Brox compressed a cycle into groups of rising steps
+and proved finiteness with fewer than twice the logarithm of the
+period many descents \cite{Brox}. Weaver later gave a fixed-descent
+height bound for the odd-to-odd map and derived superlogarithmic
+descent counts \cite{Weaver}. To compare the conventions, an odd run
+of length \(a\) in the shortcut map comprises \(a-1\) odd-to-odd
+steps with division exponent one, followed by one with exponent
+at least two. Its even peak is at most twice the last odd input.
+Thus Weaver's height estimate gives the same power for fixed
+\(J\) when \(c=1\). Weaver also reports a stronger effective
+\(\Omega(\ln s\ln\ln s)\) cycle bound \cite{Weaver}.
+The proof here gives the odd-step budget directly from a forward
+identity and applies to every positive odd \(c\).
+
+To obtain an explicit cycle bound, we return to the same run
+identities at two consecutive runs. Hercher proved \(M\ge92\)
+\cite{Hercher}, and Wang's preprint gives \(M\ge96\) \cite{Wang}.
+Alick's public Lean development combines Hercher's reduction with
+two-rise bounds to prove \(M\ge102\) \cite{Alick}. We prove
+\(M\ge108\) from the verification threshold \(2^{71}\) and Rhin's
+bound \cite{Barina,SimonsWeger} by combining six unimodular brackets
+with seventeen certified two-run height bounds. The logarithmic
+excess in Remark~\ref{rem:excess} explains why the height caps
+require more than a uniformly bounded additive margin in the
+logarithmic scale. Section~\ref{sec:caps} gives a precise
+finite-scale example and the congruence test that certifies the
+chosen margins. Appendix~\ref{app:code} contains the complete code.
+
+\section{An odd-step budget}\label{sec:budget}
+
+\subsection{Run identities}
+
+Let \(x_i\) be the start of run \(i\) and factor
+\(x_i+c=2^{a_i}u_i\) with \(u_i\) odd. During this run,
+\[
+ S_c^j(x_i)+c=3^j2^{a_i-j}u_i \qquad(0\le j\le a_i).
+\]
+The state is odd for \(j<a_i\) and even for \(j=a_i\).
+The even peak \(3^{a_i}u_i-c>0\) is followed by exactly \(v_i\ge1\)
+even steps before \(x_{i+1}\). Consequently
+\begin{equation}\label{eq:transition}
+ 2^{a_{i+1}+v_i}u_{i+1}=3^{a_i}u_i+c(2^{v_i}-1).
+\end{equation}
+Since \(a_i\le\log_2(x_i+c)\) and even steps decrease \(x+c\),
+\begin{equation}\label{eq:elementary}
+ \log_2(x_i+c)\le\lambda^{i-1}\log_2(n+c),\qquad
+ A_{i,c}(n)\le G_i(\lambda)\log_2(n+c),
+ \qquad G_i(z)=\sum_{j=0}^{i-1}z^j.
+\end{equation}
+In fact the shifted peak grows by at most the factor \((3/2)^{a_i}\)
+through run \(i\). Hence
+\begin{equation}\label{eq:peak-budget}
+ H_{J,c}(n)+c\le(n+c)(3/2)^{A_{J,c}(n)} .
+\end{equation}
+
+For a fixed \(J\ge2\), abbreviate \(A_i=A_{i,c}(n)\) and write
+\(V_i=v_1+\dots+v_i\) with \(V_0=A_0=0\). Set
+\begin{align*}
+ P&=3^{A_{J-1}}u_1, &
+ Q&=2^{A_J-a_1+V_{J-1}}u_J,\\
+ T_i&=c\,3^{A_{J-1}-A_i}2^{A_i-a_1+V_{i-1}}(2^{v_i}-1)
+       && (1\le i<J).
+\end{align*}
+Multiplying \eqref{eq:transition} by
+\(3^{A_{J-1}-A_i}2^{A_i-a_1+V_{i-1}}\) and telescoping gives
+\begin{equation}\label{eq:telescope}
+ Q=P+\sum_{i=1}^{J-1}T_i,\qquad
+ P+\sum_{h<i}T_h
+   =3^{A_{J-1}-A_{i-1}}2^{A_i-a_1+V_{i-1}}u_i .
+\end{equation}
+Since \(3^{a_i}u_i=2^{v_i}x_{i+1}+c\), the summands satisfy
+\begin{equation}\label{eq:ratio}
+ 0<\frac{T_i}{P+\sum_{h<i}T_h}
+   =\frac{c(2^{v_i}-1)}{3^{a_i}u_i}
+   <\frac{c}{x_{i+1}}.
+\end{equation}
+In particular \(Q\le (1+c)^{J-1}P\).
+
+Normalize the \(p\)-adic absolute values by \(|p|_p=p^{-1}\)
+and use the ordinary absolute value at infinity. The local product is
+\begin{equation}\label{eq:product}
+ P|P|_3|Q|_2
+ \prod_{i=1}^{J-1}\bigl(T_i|T_i|_2|T_i|_3\bigr)
+ \le c^{J-1}(n+c)2^{-A_J}.
+\end{equation}
+Indeed \(P|P|_3\le u_1\), \(|Q|_2=2^{-A_J+a_1-V_{J-1}}\), and
+each factor \(T_i|T_i|_2|T_i|_3\) is the part of \(c(2^{v_i}-1)\)
+coprime to \(6\). It is a positive integer at most \(c2^{v_i}\).
+The factors \(2^{v_i}\) cancel \(2^{-V_{J-1}}\), leaving
+\(2^{a_1}u_1=n+c\).
+
+\subsection{Projection on a minimal subspace}
+
+We use the \(S\)-adic Subspace Theorem over \(\Q\)
+\cite{Schlickewei}\cite[Theorem~2.3]{Bilu}.
+In the integral-vector formulation, take
+\(S=\{\infty,2,3\}\), and at each \(v\in S\) fix \(d\) independent
+linear forms in \(d\) variables with rational coefficients.
+For any \(\delta>0\), the nonzero \(y\in\Z^d\) with
+\[
+ \prod_{v\in S}\prod_{j=1}^{d}|L_{v,j}(y)|_v
+       <\|y\|_\infty^{-\delta}
+\]
+lie in finitely many proper rational linear subspaces. Here
+\(\|y\|_\infty\) is the maximum of the ordinary absolute coordinates.
+
+\begin{lemma}\label{lem:projection}
+Fix \(\ell\ge1\). Suppose \(P,T_1,\ldots,T_\ell\) are positive
+integers along a sequence, \(P\to\infty\), and \(T_i/P\to0\) for
+each \(i\). Put \(Q=P+\sum_iT_i\). For every \(\delta>0\) there
+are only finitely many terms of the sequence satisfying
+\[
+ P|P|_3|Q|_2\prod_{i=1}^{\ell}\bigl(T_i|T_i|_2|T_i|_3\bigr)
+     < P^{-\delta}.
+\]
+\end{lemma}
+
+\begin{proof}
+Suppose there are infinitely many such terms. Choose a rational subspace
+\(W\) of least dimension containing infinitely many of them, and pass
+to those terms. Dividing the vectors by \(P\) and taking the limit
+shows that \(W\) contains \(e_P=(1,0,\ldots,0)\). Thus
+\(W=\Q e_P\oplus W_T\), where \(W_T\) is the subspace of \(W\)
+with \(P\)-coordinate zero. Choose indices \(I\) for which the
+coordinate projection onto \((T_i)_{i\in I}\) is an isomorphism on
+\(W_T\). Since all \(T_i>0\) on the sequence, \(I\) is nonempty.
+
+On \(W\), work in the integral coordinates \(y=(P,(T_i)_{i\in I})\)
+of the projected points. At infinity and at \(3\), take the coordinate
+forms. At \(2\), take \(Q,(T_i)_{i\in I}\); they are independent since
+the coefficient of \(P\) in \(Q\) on \(W\) is one. The new local
+product is obtained by dropping the full factors
+\(T_i|T_i|_2|T_i|_3\) for \(i\notin I\), each a positive integer.
+Thus it remains less than \(P^{-\delta}\). For all sufficiently large
+terms, \(\|y\|_\infty=P\). The Subspace Theorem puts the projections in
+finitely many proper rational subspaces. Pulling these back under
+the isomorphism gives a proper rational subspace of \(W\) containing
+infinitely many of the original vectors, a contradiction.
+\end{proof}
+
+\begin{theorem}[Fixed-run odd-step budget]\label{thm:budget}
+For every positive odd integer \(c\), integer \(J\ge1\), and real
+\(\eta>0\), there is a constant \(C_{c,J,\eta}\) such that for every
+positive odd \(n\),
+\[
+ A_{J,c}(n)\le(1+\eta)\log_2(n+c)+C_{c,J,\eta}.
+\]
+\end{theorem}
+
+\begin{proof}
+The case \(J=1\) follows from \(a_1=v_2(n+c)\). Induct on \(J\);
+if the bound fails, there is a sequence \(n\to\infty\) with
+\(A_J>(1+\eta)\log_2(n+c)\). For each \(2\le i\le J\), apply
+the induction hypothesis with \(\eta/2\) to the first \(i-1\)
+runs. The remaining odd-step count \(A_J-A_{i-1}\) then tends to
+infinity. By \eqref{eq:elementary}, applied from \(x_i\) with
+\(J-i+1\) runs, it is at most
+\(G_{J-i+1}(\lambda)\log_2(x_i+c)\). It follows that every
+\(x_i\) for \(2\le i\le J\) tends to infinity.
+By \eqref{eq:ratio} and \(Q\le(1+c)^{J-1}P\), this gives
+\(T_i/P\to0\). Also \(P\ge2^{a_1}u_1=n+c\), and
+\eqref{eq:elementary} gives \(P\le(n+c)^{1+\lambda G_{J-1}(\lambda)}\).
+By \eqref{eq:product} the local product is at most
+\(c^{J-1}(n+c)^{-\eta}\). With
+\(\delta=\eta/[2(1+\lambda G_{J-1}(\lambda))]\), it is less than
+\(P^{-\delta}\) for all sufficiently large terms. Lemma~\ref{lem:projection}
+gives the required contradiction.
+\end{proof}
+
+The argument fixes both the dimension and the exponent \(\eta\)
+before applying the Subspace Theorem. No effective value of
+\(C_{c,J,\eta}\) is extracted.
+
+\begin{corollary}[Optimal fixed-run power]\label{cor:height}
+For fixed \(c,J\) and every \(\varepsilon>0\), all positive odd \(n\)
+satisfy \(H_{J,c}(n)+c\ll_{c,J,\varepsilon}(n+c)^{\lambda+\varepsilon}\).
+Moreover
+\[
+ \lim_{R\to\infty}
+ \frac{\ln\bigl(\max_{1\le n\le R,\ n\ {\rm odd}}(H_{J,c}(n)+c)\bigr)}
+      {\ln R}=\lambda.
+\]
+\end{corollary}
+
+\begin{proof}
+Use Theorem~\ref{thm:budget} in \eqref{eq:peak-budget} with
+\(\eta=\varepsilon/(\lambda-1)\). For the lower bound take
+\(n=2^k-c\) with \(k=\lfloor\log_2(R+c)\rfloor\), so that \(n\) is
+positive odd for sufficiently large \(R\). Its first shifted peak
+is \(3^k\ge((R+c)/2)^\lambda\).
+\end{proof}
+
+\begin{remark}[A logarithmic excess over the pure power]\label{rem:excess}
+For \(c=1\) let \(a\ge2\), \(b=2\cdot3^{a-1}-1\),
+\(u=(2^{b+1}-1)/3^a\), and \(n=2^a u-1\).
+The identity \(v_3(4^j-1)=1+v_3(j)\), by lifting the exponent,
+shows that \(u\) is an odd integer. The first peak is \(2^{b+1}-2\);
+one even step reaches \(2^b-1\), giving \(H_{2,1}(n)+1=3^b\).
+Since \((n+1)(3/2)^a=2^{b+1}-1\) and \(b\asymp\ln(n+1)\),
+\[
+ H_{2,1}(n)+1\asymp (n+1)^\lambda(\ln(n+1))^{\lambda-1}.
+\]
+Thus the exponent limit in Corollary~\ref{cor:height} does not
+give a bound with \(\varepsilon=0\) for \(J\ge2\).
+\end{remark}
+
+\section{Long trajectories and cycles}\label{sec:asymptotic}
+
+Write \(\tau_{J,c}(n)\) for the number of shortcut steps from \(n\)
+through the even steps after its \(J\)-th odd run, ending at the
+start of run \(J+1\). We can let \(J\) vary by iterating a height
+bound for a single fixed block size.
+
+\begin{corollary}[Block bound]\label{cor:blocks}
+For every positive odd \(c\) and fixed \(h\ge1\) there exists
+a constant \(D_{c,h}\) such that for every odd \(n\ge1\) and \(J\ge1\),
+\[
+ \tau_{J,c}(n)+\log_2(H_{J,c}(n)+c)
+ \le D_{c,h}\,2^{J/h}\bigl(1+\log_2(n+c)\bigr).
+\]
+\end{corollary}
+
+\begin{proof}
+Partition the runs into blocks of length \(h\) and a possible shorter
+final block. If \(L_j=\log_2(x_{1+jh}+c)\) is the starting logarithm
+of block \(j\), Corollary~\ref{cor:height} with
+\(\lambda+\varepsilon=2\) bounds the logarithm of every shifted state
+in that block by \(2L_j+C_{c,h}\), for a nonnegative constant.
+The recurrence \(L_{j+1}\le2L_j+C_{c,h}\) implies
+\(L_j\le2^j(L_0+C_{c,h})\).
+
+For any run within the block, both its start and its even peak lie
+below the block's height bound. If its start is \(x\) and its peak is
+\(y\), it takes \(a\le\log_2(x+c)\) odd steps followed by
+\(v_2(y)\le\log_2(y+c)\) even steps. Thus the block has at most
+\(2h(2L_j+C_{c,h})\) steps. Sum over \(\lceil J/h\rceil\) blocks,
+and bound the largest shifted logarithm by the largest block bound.
+\end{proof}
+
+In particular, for each \(\theta>0\), choose \(h\) so large that
+\((\ln 2)/h<\theta\). The elapsed time and the logarithm of the
+height after \(J\) runs are then both
+\(O_{c,\theta}(e^{\theta J}(1+\log_2(n+c)))\). This estimate is
+uniform over the starting integer.
+
+For a positive cycle of \(S\), let \(t\) be its least period, \(s\)
+its number of odd inputs, \(M\) its number of maximal odd runs, and
+\(m\) its smallest state. The \(M\) run starts are exactly the local
+minima. Start at \(m\), which must be odd. The product of successive
+ratios around the cycle gives
+\begin{equation}\label{eq:cycle-gap}
+ \Lambda=t\ln2-s\ln3=\sum_{x\ {\rm odd\ in\ cycle}}
+             \ln\!\left(1+\frac1{3x}\right)>0.
+\end{equation}
+Within a run from \(x_i\), the \(j\)-th odd input is at least
+\((3/2)^j x_i\). Thus the run contributes strictly less than
+\(\frac1{3x_i}\sum_{j\ge0}(2/3)^j=1/x_i\). This yields
+\begin{equation}\label{eq:sum-min}
+ \Lambda<\sum_{i=1}^M\frac1{x_i}\le M/m .
+\end{equation}
+In the form of Simons and de Weger \cite[Lemma~12]{SimonsWeger},
+Rhin's inequality for a nontrivial positive cycle reads
+\begin{equation}\label{eq:rhin}
+ \Lambda>\exp\bigl(-13.3(0.46057+\ln s)\bigr).
+\end{equation}
+In particular \(m<2^9 M s^{13.3}\) and, since \(M\le s\),
+\(\log_2(m+1)=O(1+\ln s)\).
+
+\begin{corollary}\label{cor:superlog}
+For every \(D>0\) there exists \(s_D\) such that every nontrivial
+positive cycle with \(s\ge s_D\) satisfies \(M\ge D\ln s\).
+\end{corollary}
+
+\begin{proof}
+Start at the minimum \(m\), so that \(\tau_{M,1}(m)=t\ge s\).
+For every fixed \(h\ge1\), Corollary~\ref{cor:blocks} gives
+\[
+ s\ll_h 2^{M/h}(1+\log_2(m+1)).
+\]
+Use \eqref{eq:rhin} and take logarithms to get
+\(
+ M\ge (h/\ln 2)\bigl(\ln s-\ln\ln s-O_h(1)\bigr)
+\)
+for \(s\ge 2\). Choosing \(h>D\ln 2\) before letting \(s\) grow
+proves the claim.
+\end{proof}
+
+\section{An exact certificate for \texorpdfstring{\(M\ge108\)}{M >= 108}}
+\label{sec:certificate}
+
+\begin{theorem}\label{thm:108}
+Every nontrivial positive cycle of \(S\) has at least \(108\)
+local minima.
+\end{theorem}
+
+This section uses Ba\v{r}ina's verification for \(n<2^{71}\)
+\cite{Barina} and \eqref{eq:rhin}. Write \(A=2^{71}\);
+since \(A\) itself is a power of two, a nontrivial cycle has \(m>A\).
+Assume \(M\le107\). The argument covers all \(s\ge1\) by a tail
+inequality, six unimodular brackets, and bounds on successive runs.
+
+\subsection{The tail and the unimodular brackets}
+
+Put \(U=1584962501/10^9>\lambda\), \(\mu=133/10\), and
+\(Q_0=5225419486637257521420827\). By \eqref{eq:elementary}, \eqref{eq:sum-min},
+and \eqref{eq:rhin},
+\begin{equation}\label{eq:tail}
+ s<G_M(U)\bigl(\log_2 M+10+\mu\log_2 s\bigr).
+\end{equation}
+The verifier checks the reverse inequality at \(Q_0\) with
+\(M=107\), using binary lengths as upper bounds for logarithms.
+The function \((\log_2 107+10+\mu\log_2 s)/s\) is decreasing for
+\(s\ge Q_0\) by differentiation. Hence \(s<Q_0\).
+
+\begin{lemma}\label{lem:bracket}
+Let \(u=(p,q)\), \(v=(r,w)\) have positive integer entries, with
+\(pw-qr=1\) and \(\Lambda(u)>0>\Lambda(v)\), where
+\(\Lambda(t,s)=t\ln2-s\ln3\).
+Every integer pair \((t,s)\) with \(0<s<q+w\) and \(\Lambda(t,s)>0\)
+satisfies \(\Lambda(t,s)\ge\Lambda(u)\).
+\end{lemma}
+
+\begin{proof}
+Write \((t,s)=\alpha u+\beta v\) with \(\alpha,\beta\in\Z\).
+If \(\alpha\le0\), positivity of \(\Lambda(t,s)\) forces
+\(\beta<0\), contradicting \(s>0\). Thus \(\alpha\ge1\).
+Then \(\beta\ge1\) would give \(s\ge q+w\).
+Therefore \(\beta\le0\), proving the bound.
+\end{proof}
+
+The six pairs in Table~\ref{tab:brackets} give the indicated
+strict lower bounds \(g\) on \(A\Lambda(t,s)\) when \(0<s<q+w\).
+The verifier checks determinants and signs by rational enclosures
+of \(\ln2\) and \(\ln3\). For \(X=2,3\) and \(z=(X-1)/(X+1)\)
+it sums \(2z^{2j+1}/(2j+1)\) for \(0\le j<120\), with positive
+remainder at most \(2z^{241}/(241(1-z^2))\).
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{@{}c r r l@{}}
+\toprule
+Bracket & \multicolumn{1}{c}{\(u=(p,q)\)} &
+ \multicolumn{1}{c}{\(v=(r,w)\)} & \(g\)\\
+\midrule
+1 & \(630118245525664765\) & \(6724555128221608268\) & \(358\)\\
+  & \(397560349370386783\) & \(4242721909926539673\) &\\[2pt]
+2 & \(7354673373747273033\) & \(36143248623210700400\) & \(63\)\\
+  & \(4640282259296926456\) & \(22803850947114245497\) &\\[2pt]
+3 & \(43497921996957973433\) & \(79641170620168673833\) & \(239/10\)\\
+  & \(27444133206411171953\) & \(50247984153525417450\) &\\[2pt]
+4 & \(123139092617126647266\) & \(202780263237295321099\) & \(803/100\)\\
+  & \(77692117359936589403\) & \(127940101513462006853\) &\\[2pt]
+5 & \(49373105075258054570781\) & \(2727782575569043909543559\) &
+  \(9/10000\)\\
+  & \(31150961018190238869556\) & \(1721039188200292347893905\) &\\[2pt]
+6 & \(2777155680644301964114340\) & \(5504938256213345873657899\) &
+  \(46/100000\)\\
+  & \(1752190149218482586763461\) & \(3473229337418774934657366\) &\\
+\bottomrule
+\end{tabular}
+\caption{For each pair, the numerator coordinate is on the first row
+and the denominator coordinate on the second.}
+\label{tab:brackets}
+\end{table}
+
+Let \(q_{37},q_{39},q_{41},q_{43},q_{47},Q_0\) be the successive
+values \(q+w\) in the six rows. Bracket 1 excludes \(s<q_{37}\),
+since \(A\Lambda<M\le107\). For the two highest intervals,
+brackets 5 and 6 give \(m<107A/g\) by \eqref{eq:sum-min}, hence
+\(m<2^{88}\) and \(m<2^{89}\), respectively.
+
+\subsection{Low minima and odd-step bounds}
+
+For a threshold \(B=2^h A\), let \(L_B\) be the number of run starts
+at most \(B\). By \eqref{eq:sum-min},
+\begin{equation}\label{eq:low}
+ g<A\Lambda<L_B+(M-L_B)2^{-h}.
+\end{equation}
+For the first three intervals in Table~\ref{tab:bands}, this implies
+the listed bound \(L_B\ge b\). The verifier checks
+\((b-1)+(107-b+1)2^{-h}\le g\) in each case.
+
+\begin{lemma}\label{lem:split}
+Suppose at least \(b\ge1\) run starts in a cycle are at most \(B\).
+Let \(F_d\) bound the number of odd steps in \(d\) successive runs
+from any start at most \(B\), with \(F_0=0\) and nonnegative,
+nondecreasing increments \(F_d-F_{d-1}\). If \(M\le107\), then
+\[
+ s\le F_{108-b}+(b-1)F_1 .
+\]
+\end{lemma}
+
+\begin{proof}
+Choose \(b\) of the starts at most \(B\). They partition the cycle
+into \(b\) arcs of positive run lengths \(d_i\) with sum \(M\).
+Moving one run from an arc of length at least two to a longest arc
+can only increase \(\sum_i F_{d_i}\), by the increment assumption.
+Iterate until all but one length equal one. Then replace \(M\) by
+\(107\) in the resulting bound.
+\end{proof}
+
+For the first two intervals, use \(F_d=(71+h)G_d(U)\) by
+\eqref{eq:elementary}, since an odd start \(x\le B\) has \(x+1\le B\).
+The next two intervals use the shared two-run budget in
+Section~\ref{sec:caps}. For the final interval, use the elementary
+budget from the global minimum \(m<2^{89}\).
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{@{}l r c r ll@{}}
+\toprule
+Interval for \(s\) & \(g\) & \(B\) & \(b\) &
+Budget from \(B\) & Tested upper bound\\
+\midrule
+\([q_{37},q_{39})\) & \(63\) & \(8A\) & 57 & elementary &
+  \(F_{51}+56F_1<q_{37}\)\\
+\([q_{39},q_{41})\) & \(239/10\) & \(128A\) & 24 & elementary &
+  \(F_{84}+23F_1<q_{39}\)\\
+\([q_{41},q_{43})\) & \(803/100\) & \(4096A\) & 9 & two-run &
+  \(F_{99}+8F_1<q_{41}\)\\
+\([q_{43},q_{47})\) & \(9/10000\) & \(2^{88}\) & 1 & two-run &
+  \(F_{107}<q_{43}\)\\
+\([q_{47},Q_0)\) & \(46/100000\) & \(2^{89}\) & 1 & elementary &
+  \(F_{107}<q_{47}\)\\
+\bottomrule
+\end{tabular}
+\caption{Each tested upper bound contradicts the left endpoint.}
+\label{tab:bands}
+\end{table}
+
+\subsection{Two-run caps and the logarithmic margin}\label{sec:caps}
+
+Consider odd \(x<2^k\) and write \(x+1=2^a u\) with \(u\)
+positive odd. The first peak is \(y=3^a u-1\).
+Let \(v=v_2(y)\) and \(z=y/2^v\); set \(b=v_2(z+1)\).
+The second shifted peak is \(3^b(z+1)/2^b\).
+For a target \(K>k\), the first shifted peak is smaller than
+\(2^K\) if \(3^k<2^K\), which the verifier checks.
+If the second shifted peak reaches \(2^K\), then
+\[
+ 2^K\le(3/2)^b(z+1)\le 2^{k+1-v}(3/2)^{a+b}.
+\]
+The last inequality follows from \(z\ge1\) and \(y+1\le2^k(3/2)^a\).
+Since \(\lambda<U\), any such \(b\) is at least
+\[
+ b_0=\left\lceil\frac{K-k-1+v}{U-1}\right\rceil-a .
+\]
+Since \(y<2^{\,k+(U-1)a}\), put \(\ell=k+\lceil(U-1)a\rceil\).
+We have \(1\le v<\ell\) and \(b\le\ell-v\). The condition
+\(b_0\le\ell-v\) yields the integer upper cutoff
+\[
+ v\le
+ \left\lfloor\frac{(U-1)(a+\ell)-(K-k-1)}{U}\right\rfloor .
+\]
+Since \(\ell\le k+(U-1)a+1\), feasibility with \(v\ge1\)
+also requires \(a\ge (K-Uk)/(U(U-1))\). This allows the
+verifier to start the search at a positive integer lower bound
+on \(a\) when the target has a large margin.
+Put \(d=\max(1,k-a)\). Because \(u\) is odd, the size condition
+\(u\le2^{k-a}\) is equivalent to \(0<u<2^d\). The verifier
+checks \(b_0>0\) and \(w=v+b_0\ge d\) at \(v=1\).
+Both inequalities persist for larger \(v\).
+By \eqref{eq:transition}, a qualifying \(u\) satisfies
+\begin{equation}\label{eq:tworun-congruence}
+ u\equiv I-I2^v\pmod{2^w},\qquad I\equiv 3^{-a}\pmod{2^w}.
+\end{equation}
+Conversely this congruence implies \(v_2(3^a u-1)=v\)
+and \(v_2(z+1)\ge b_0\). Since \(w\ge d\), there is at most
+one qualifying \(u\) per \(a,v\). It is the positive odd
+representative in \([0,2^w)\) if it lies below \(2^d\).
+
+\paragraph{A binary window test.}
+Use a common inverse \(I=3^{-a}\bmod 2^L\) with \(L\) an odd integer
+at least \(\max(\lceil Uk\rceil,k+32)\). This suffices since
+\(w\le\ell\le\lceil Uk\rceil\). The lowest \(v\) bits of
+\(I-I2^v\) equal those of \(I\). Thus, if the first set bit
+of \(I\) at or above position \(d\) is at position \(j\),
+we must have \(v\le j\). Positions are numbered from zero.
+
+When \(v\le d\) and \(w-d\ge32\), the 32 bits of \(u\) starting
+at position \(d\) must vanish. Let \(T\) be the 32 bits of \(I\)
+starting at \(d\), read as an integer, and \(R\) the 32 bits
+starting at \(d-v\). Binary subtraction gives
+\[
+ T-R-\beta\equiv0\pmod{2^{32}},\qquad \beta\in\{0,1\},
+\]
+where \(\beta\) is the borrow from lower positions. Therefore
+\(R\) must equal \(T\) or \(T-1\) modulo \(2^{32}\). To screen
+many \(v\) together, the verifier looks for the first three
+whole bytes of these candidate windows, allowing all eight
+bit alignments. More explicitly, if the window start has bit
+offset \(r\) within a byte, the three bytes begin
+\((-r)\bmod8\) positions inside the window, so all 24 tested
+bits lie among the 32 required bits. Surviving candidates are
+tested by the full congruence \eqref{eq:tworun-congruence}.
+Small \(v\) with insufficient window width and larger \(v>d\)
+are tested directly. All operations in this filter are exact.
+
+\paragraph{The required margin.}
+Writing \(k=\lceil\log_2(x+1)\rceil\) along the family of
+Remark~\ref{rem:excess} gives
+\[
+ \log_2(H_{2,1}(x)+1)=\lambda k+(\lambda-1)\log_2 k+O(1).
+\]
+Thus a fixed additive allowance cannot cover all scales.
+For the finite scale \(k=15416\), take
+\(a=2884\), \(v=1\), and \(u=-3^{-a}\bmod 2^{12549}\)
+with the least nonnegative representative. The appendix
+checks \(x=2^a u-1<2^{15416}\), \(b=12548\), and
+\(H_{2,1}(x)+1\ge2^{24441}\). Here
+\(\lceil Uk\rceil=24434\), so the allowance \(5\) (and even
+\(7\)) fails. The logarithmic term has size approximately
+\(8.14\) at this scale. The full residue test certifies the
+target \(24442\), so \(8\) is the least integer allowance for
+this \(k\). The iteration below uses the certified allowance \(10\).
+
+\paragraph{Iteration.}
+Starting at \(k_0=88\), take the seventeen successive caps
+in Table~\ref{tab:caps}. For \(0\le j<17\) the verifier confirms
+\(H_{2,1}(x)+1<2^{k_{j+1}}\) for all positive odd \(x<2^{k_j}\).
+The next start after the two runs is therefore below \(2^{k_{j+1}}\).
+The lengths of the two runs are bounded by \(k_j\) and \(Uk_j\),
+respectively, by \eqref{eq:elementary}. After these seventeen pairs,
+bound individual run lengths by \(k_{17},Uk_{17},U^2 k_{17},\ldots\).
+The combined list is nondecreasing because \(k_{j+1}>Uk_j\).
+Taking \(F_d\) as the sum of its first \(d\) entries proves the
+budget needed for the third and fourth rows of Table~\ref{tab:bands}.
+The verifier confirms both inequalities. In the final cap the
+available slack in \(F_{107}<q_{43}\) permits a larger target,
+which raises the lower cutoff on \(a\) and speeds this check.
+Table~\ref{tab:caps}
+gives the cap chain and the number of residues retained after
+the size restriction on \(u\). This exhausts all \(s\) and proves
+Theorem~\ref{thm:108}.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{@{}r rr r@{}}
+\toprule
+\(j\) & \(k_j\) & \(k_{j+1}\) & Residues tested\\
+\midrule
+0 & 88 & 145 & 0\\
+1 & 145 & 235 & 0\\
+2 & 235 & 378 & 0\\
+3 & 378 & 605 & 0\\
+4 & 605 & 964 & 1\\
+5 & 964 & 1533 & 1\\
+6 & 1533 & 2435 & 0\\
+7 & 2435 & 3865 & 5\\
+8 & 3865 & 6131 & 9\\
+9 & 6131 & 9723 & 0\\
+10 & 9723 & 15416 & 5\\
+11 & 15416 & 24444 & 0\\
+12 & 24444 & 38753 & 0\\
+13 & 38753 & 61428 & 6\\
+14 & 61428 & 97372 & 0\\
+15 & 97372 & 154343 & 0\\
+16 & 154343 & 301000 & 0\\
+\bottomrule
+\end{tabular}
+\caption{For each row, odd seeds below \(2^{k_j}\) have shifted
+two-run peak less than \(2^{k_{j+1}}\).}
+\label{tab:caps}
+\end{table}
+
+\section{Scope of the bounds}
+
+The odd-step budget controls every prescribed finite number of runs.
+Its constants are obtained after fixing the number of runs, so the
+estimate does not control an entire infinite trajectory. The
+superlogarithmic consequence follows by fixing a block length first.
+The finite cycle bound uses a separate effective argument, and its
+arithmetic checks do not invoke any constants from the Subspace Theorem.
+
+\appendix
+\section{Complete arithmetic verifier}\label{app:code}
+
+Save the listing as \texttt{certificate.py} and run it with Python
+3.8 or later, with assertions enabled. The standard-library verifier
+uses up to twelve worker processes by default. Pass \texttt{1} as the
+first argument to use one process. The final line confirms that the
+six brackets, the tail, the logarithmic-margin example, and all
+seventeen two-run caps passed. The external inputs are
+Ba\v{r}ina's verification threshold and the explicit Rhin bound
+in \eqref{eq:rhin}.
+
+\lstset{language=Python,basicstyle=\small\ttfamily,
+  columns=fullflexible,keepspaces=true,showstringspaces=false,
+  breaklines=true,aboveskip=0.7\baselineskip}
+\begin{lstlisting}
+from concurrent.futures import ProcessPoolExecutor
+from fractions import Fraction as F
+from itertools import chain
+from os import cpu_count
+from sys import argv
+from time import perf_counter
+
+
+A = 2**71
+M0 = 107
+P, D = 1584962501, 10**9
+N = P - D
+U = F(P, D)
+MU = F(133, 10)
+WIDTH = 32
+
+CAPS = (88, 145, 235, 378, 605, 964, 1533, 2435, 3865, 6131, 9723,
+        15416, 24444, 38753, 61428, 97372, 154343, 301000)
+
+BRACKETS = (
+    ((630118245525664765, 397560349370386783),
+     (6724555128221608268, 4242721909926539673), F(358)),
+    ((7354673373747273033, 4640282259296926456),
+     (36143248623210700400, 22803850947114245497), F(63)),
+    ((43497921996957973433, 27444133206411171953),
+     (79641170620168673833, 50247984153525417450), F(239, 10)),
+    ((123139092617126647266, 77692117359936589403),
+     (202780263237295321099, 127940101513462006853), F(803, 100)),
+    ((49373105075258054570781, 31150961018190238869556),
+     (2727782575569043909543559, 1721039188200292347893905), F(9, 10000)),
+    ((2777155680644301964114340, 1752190149218482586763461),
+     (5504938256213345873657899, 3473229337418774934657366), F(46, 100000)),
+)
+
+
+def ceil_div(x, y):
+    return (x + y - 1)//y
+
+
+def log_box(x, terms=120):
+    z = F(x-1, x+1)
+    lo = sum(2*z**(2*j+1)/(2*j+1) for j in range(terms))
+    tail = 2*z**(2*terms+1)/((2*terms+1)*(1-z*z))
+    return lo, lo+tail
+
+
+def geom(j):
+    return (U**j-1)/(U-1)
+
+
+def odd_budget(j):
+    entries = list(chain.from_iterable((k,U*k) for k in CAPS[:-1]))
+    assert all(x <= y for x,y in zip(entries, entries[1:]+[CAPS[-1]]))
+    excess = max(0,j-len(entries))
+    return sum(entries[:j]) + CAPS[-1]*geom(excess)
+
+
+def cycle_arithmetic():
+    lo2, hi2 = log_box(2)
+    lo3, hi3 = log_box(3)
+    assert hi3/lo2 < U and MU*F(46057,100000) < 9*lo2
+    stops = []
+    for (p,q),(r,w),g in BRACKETS:
+        assert p*w-q*r == 1
+        assert A*(p*lo2-q*hi3) > g and A*(r*hi2-w*lo3) < 0
+        stops.append(q+w)
+    q37,q39,q41,q43,q47,end = stops
+    assert stops == sorted(stops) and BRACKETS[0][2] > M0
+    assert end > geom(M0)*(M0.bit_length()+10+MU*end.bit_length())
+
+    for i,(h,b,left) in enumerate(
+        ((3,57,q37),(7,24,q39),(12,9,q41)), start=1
+    ):
+        length = M0-b+1
+        assert b-1+F(length,2**h) <= BRACKETS[i][2]
+        if i < 3:
+            assert (71+h)*(geom(length)+b-1) < left
+        else:
+            assert 71+h < CAPS[0]
+            assert odd_budget(length)+(b-1)*CAPS[0] < left
+    assert M0 < BRACKETS[4][2]*2**(88-71)
+    assert odd_budget(M0) < q43
+    assert M0 < BRACKETS[5][2]*2**(89-71)
+    assert 89*geom(M0) < q47
+
+
+def window_candidates(inverse, d, low, high):
+    span = high-low+WIDTH
+    band = (inverse >> (d-high)) & ((1 << span)-1)
+    word = band.to_bytes(ceil_div(span,8),"little")
+    target = (inverse >> d) & ((1 << WIDTH)-1)
+    for residue in range(min(8,high-low+1)):
+        shift = (-residue)%8
+        start = (residue+shift)//8
+        end = start+(high-low-residue)//8+3
+        patterns = {((target-borrow) >> shift) & 0xffffff
+                    for borrow in (0,1)}
+        for value in patterns:
+            pattern = value.to_bytes(3,"little")
+            at = word.find(pattern,start,end)
+            while at >= 0:
+                yield high+shift-8*at
+                at = word.find(pattern,at+1,end)
+
+
+def check_interval(job):
+    k, target, begin, end = job
+    bits = max(ceil_div(P*k,D),k+WIDTH) | 1
+    modulus = 1 << bits
+    one = (modulus+1)//3
+    offsets = (0,one,2*one)
+    inverse = pow(3,1-begin,modulus)
+    need = [ceil_div(D*(target-k-1+v),N) for v in range(bits+1)]
+    full = 1
+    while need[full]+full-k-1 < WIDTH:
+        full += 1
+    checked = 0
+    for a in range(begin,end):
+        inverse, remainder = divmod(inverse,3)
+        inverse += offsets[remainder]
+        d = max(1,k-a)
+        l = k+ceil_div(N*a,D)
+        hi = min(l-1,(N*(a+l)-D*(target-k-1))//P)
+        if hi < 1:
+            continue
+        assert need[1]-a > 0 and need[1]-a+1 >= d
+        high_bits = inverse >> d
+        if high_bits:
+            first = (high_bits & -high_bits).bit_length()-1
+            hi = min(hi,d+first)
+        middle = min(d,hi)
+        windows = (window_candidates(inverse,d,full,middle)
+                   if full <= middle else ())
+        small = range(1,min(full-1,hi)+1)
+        large = range(max(full,d+1),hi+1)
+        for v in chain(small,windows,large):
+            w = v+need[v]-a
+            u = (inverse-(inverse << v)) & ((1 << w)-1)
+            if u.bit_length() > d:
+                continue
+            checked += 1
+            z1 = ((3**a*u-1) >> v)+1
+            assert z1 % 2 == 0
+            b = (z1 & -z1).bit_length()-1
+            assert 3**b*(z1 >> b) < 1 << target, (k,target,a,v,b)
+    return checked
+
+
+def witness():
+    a,v,b = 2884,1,12548
+    mod = 1 << (v+b)
+    u = (-pow(3,-a,mod)) % mod
+    z1 = ((3**a*u-1) >> v)+1
+    assert z1 % (1 << (b+1)) == 1 << b
+    assert 0 < ((u << a)-1) < 1 << 15416
+    assert 3**b*(z1 >> b) >= 1 << 24441
+    assert 3**15416 < 1 << 24442
+    assert check_interval((15416,24442,1,15417)) == 2
+
+
+def check_caps(pool, workers):
+    for k,target in zip(CAPS,CAPS[1:]):
+        assert 3**k < 1 << target and target > U*k
+        start = max(1,ceil_div((target*D-P*k)*D,P*N))
+        if pool is None or k < 2000:
+            count = check_interval((k,target,start,k+1))
+        else:
+            chunk = max(1,ceil_div(k-start+1,3*workers))
+            jobs = ((k,target,a,min(a+chunk,k+1))
+                    for a in range(start,k+1,chunk))
+            count = sum(pool.map(check_interval,jobs))
+        print("Two-run cap",k,target,"residues tested",count,flush=True)
+
+
+if __name__ == "__main__":
+    start = perf_counter()
+    cycle_arithmetic()
+    witness()
+    workers = int(argv[1]) if len(argv) > 1 else min(12,cpu_count() or 1)
+    assert workers > 0
+    if workers == 1:
+        check_caps(None,1)
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as pool:
+            check_caps(pool,workers)
+    print(f"All s covered for M <= {M0} in {perf_counter()-start:.2f} s.")
+\end{lstlisting}
+
+\begin{thebibliography}{99}
+
+\bibitem{Alick}
+J. Alick, \emph{Collatz cycles with at most 101 local minima:
+a Lean 4 formalization}, public code repository,
+\url{https://github.com/justinalick/collatz-m-cycles-101-lean}.
+
+\bibitem{Barina}
+D. Ba\v{r}ina, \emph{Improved verification limit for the
+convergence of the Collatz conjecture},
+J. Supercomput. \textbf{81} (2025), article 810.
+\href{https://doi.org/10.1007/s11227-025-07337-0}{doi:10.1007/s11227-025-07337-0}.
+
+\bibitem{Bilu}
+Y. Bilu, \emph{The many faces of the Subspace Theorem
+(after Adamczewski, Bugeaud, Corvaja, Zannier\ldots)},
+Ast\'erisque \textbf{317} (2008), Exp. No. 967, 1--38.
+\url{https://www.numdam.org/item/AST_2008__317__1_0/}.
+
+\bibitem{Brox}
+T. Brox, \emph{Collatz cycles with few descents},
+Acta Arith. \textbf{92} (2000), 181--188.
+\href{https://doi.org/10.4064/aa-92-2-181-188}{doi:10.4064/aa-92-2-181-188}.
+
+\bibitem{Hercher}
+C. Hercher, \emph{There are no Collatz \(m\)-cycles with \(m\le91\)},
+J. Integer Seq. \textbf{26} (2023), Article 23.3.5.
+\url{https://cs.uwaterloo.ca/journals/JIS/VOL26/Hercher/hercher5.html}.
+
+\bibitem{Schlickewei}
+H. P. Schlickewei, \emph{On linear forms with algebraic coefficients
+and diophantine equations}, J. Number Theory \textbf{9} (1977),
+381--392.
+\href{https://doi.org/10.1016/0022-314X(77)90073-7}{doi:10.1016/0022-314X(77)90073-7}.
+
+\bibitem{SimonsWeger}
+J. Simons and B. de Weger, \emph{Theoretical and computational bounds
+for \(m\)-cycles of the \(3n+1\) problem}, Acta Arith. \textbf{117}
+(2005), 51--70.
+\href{https://doi.org/10.4064/aa117-1-3}{doi:10.4064/aa117-1-3}.
+
+\bibitem{Weaver}
+L. Weaver, \emph{Fixed-descent excursion bounds and
+superlogarithmic non-one counts}, public research note, 21 October
+2026, \url{https://rstation.ai/r/collatz/posts/23}.
+
+\bibitem{Wang}
+X. Wang, \emph{Non-existence of Collatz \(m\)-cycles for \(m\le95\)},
+preprint, 2026. \href{https://doi.org/10.5281/zenodo.21017296}{Zenodo 21017296}.
+
+\end{thebibliography}
+\end{document}

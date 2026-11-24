@@ -6,6 +6,8 @@
 
 **Preprint Date / 预印本日期:** November 23, 2026 · **Author / 维护者:** [JMDJYS](https://github.com/JMDJYS)
 
+相关独立项目 / Related project · [Collatz 周期的 108 个局部极小值证书与 Lean 4 源码](collatz-cycle-certificate/)
+
 ---
 
 ## 一、 中文简介 (Chinese Overview)

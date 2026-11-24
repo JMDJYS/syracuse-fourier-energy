@@ -1,0 +1,10 @@
+Lean (version 4.24.0, x86_64-w64-windows-gnu, commit 797c613eb9b6d4ec95db23e3e00af9ac6657f24b, Release)
+Checking Cycle108Computed
+Cycle108.no_107_cycle_computed (hX : ∀ (n : ℕ), 0 < n → n < 2 ^ 71 → Reaches T n 1) (hR : RhinBound) {x t : ℕ}
+  (hx : 0 < x) (ht : 0 < t) (hcycle : T^[t] x = x) (hx1 : x ≠ 1) (hx2 : x ≠ 2) : 108 ≤ numLocalMin x t
+'Cycle108.no_107_cycle_computed' depends on axioms: [propext,
+ Classical.choice,
+ Lean.ofReduceBool,
+ Lean.trustCompiler,
+ Quot.sound]
+End-to-end build and axiom audit passed.
